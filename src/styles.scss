@@ -1,1 +1,175 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+
+$my-primary-palette: (
+    50: #d3f2ff,
+    100: #6dd2ff,
+    200: #50c1ff,
+    300: #50c1ff,
+    400: #50c1ff,
+    500: #50c1ff,
+    600: #50c1ff,
+    700: #50c1ff,
+    800: #50c1ff,
+    900: #50c1ff,
+    A100: #50c1ff,
+    A200: #50c1ff,
+    A400: #50c1ff,
+    A700: #50c1ff,
+    contrast: (
+      50: white,
+      100: white,
+      200: white,
+      300: white,
+      400: white,
+      500: white,
+      600: white,
+      700: white,
+      800: white,
+      900: white,
+      A100: white,
+      A200: white,
+      A400: white,
+      A700: white,
+    )
+);
+
+$my-accent-palette: (50: #b3d1db,
+  100: #ffeabe,
+  200: #ffba27,
+  300: #ffa317,
+  400: #ffa317,
+  500: #ffa317,
+  600: #ffa317,
+  700: #ffa317,
+  800: #ffa317,
+  900: #ffa317,
+  A100: #ffa317,
+  A200: #ffa317,
+  A400: #ffa317,
+  A700: #ffa317,
+  contrast: (50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$my-warn-palette: (
+  50: #ffe9e6,
+  100: #ffb4ab,
+  200: #ff9c91,
+  300: #a30f0f,
+  400: #a30f0f,
+  500: #a30f0f,
+  600: #a30f0f,
+  700: #a30f0f,
+  800: #a30f0f,
+  900: #a30f0f,
+  A100: #a30f0f,
+  A200: #a30f0f,
+  A400: #a30f0f,
+  A700: #a30f0f,
+  contrast: (50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$my-neutral-palette: (
+  50: #191C1E,
+  100: #e1e2e5,
+  200: #ff9c91,
+  300: #a30f0f,
+  400: #a30f0f,
+  500: #a30f0f,
+  600: #a30f0f,
+  700: #a30f0f,
+  800: #a30f0f,
+  900: #a30f0f,
+  A100: #a30f0f,
+  A200: #a30f0f,
+  A400: #a30f0f,
+  A700: #a30f0f,
+  contrast: (50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$Angular-Standalone-M2-primary: mat.define-palette($my-primary-palette, 50, 100, 200);
+$Angular-Standalone-M2-accent: mat.define-palette($my-accent-palette, 50, 100, 200);
+
+// The warn palette is optional (defaults to red).
+$Angular-Standalone-M2-warn: mat.define-palette($my-warn-palette, 50, 100, 200);
+
+
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$Angular-Standalone-M2-theme: mat.define-dark-theme((
+  color: (
+    primary: $Angular-Standalone-M2-primary,
+    accent: $Angular-Standalone-M2-accent,
+    warn: $Angular-Standalone-M2-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($Angular-Standalone-M2-theme);
 /* You can add global styles to this file, and also import other style files */
+
+
+
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
