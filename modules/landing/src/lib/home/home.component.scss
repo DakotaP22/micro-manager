@@ -1,0 +1,27 @@
+:host {
+    display: grid;
+    height: 100%;
+    place-content: center;
+    text-align: center;
+}
+
+.title {
+    color: #6DD2FF;
+    font-weight: bold;
+}
+
+.subtitle {
+    font-weight: bold;
+}
+
+.actions {
+
+    display: flex;
+    justify-content: space-between;
+    padding-inline: 16px;
+
+    a {
+        width: 250px;
+        height: 75px;
+    }
+}

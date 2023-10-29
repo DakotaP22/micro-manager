@@ -43,7 +43,7 @@ $my-primary-palette: (
     )
 );
 
-$my-accent-palette: (50: #b3d1db,
+$my-accent-palette: (50: #ffeabe,
   100: #ffeabe,
   200: #ffba27,
   300: #ffa317,
@@ -165,7 +165,8 @@ $Angular-Standalone-M2-theme: mat.define-dark-theme((
 @include mat.all-component-themes($Angular-Standalone-M2-theme);
 /* You can add global styles to this file, and also import other style files */
 
-
+$my-typography: mat.define-typography-config();
+@include mat.typography-hierarchy($my-typography);
 
 
 html, body { height: 100%; }
