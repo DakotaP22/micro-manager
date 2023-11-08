@@ -1,17 +1,17 @@
 {
   "name": "cloud-functions",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "modules/cloud-functions/src",
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "cloud-functions/src",
   "projectType": "library",
   "targets": {
     "build": {
       "executor": "@nx/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/modules/cloud-functions",
-        "main": "modules/cloud-functions/src/index.ts",
-        "tsConfig": "modules/cloud-functions/tsconfig.lib.json",
-        "assets": ["modules/cloud-functions/*.md"]
+        "outputPath": "dist/cloud-functions",
+        "main": "cloud-functions/src/index.js",
+        "tsConfig": "cloud-functions/tsconfig.lib.json",
+        "assets": ["cloud-functions/*.md"]
       }
     },
     "lint": {
@@ -19,8 +19,8 @@
       "outputs": ["{options.outputFile}"],
       "options": {
         "lintFilePatterns": [
-          "modules/cloud-functions/**/*.ts",
-          "modules/cloud-functions/package.json"
+          "cloud-functions/**/*.js",
+          "cloud-functions/package.json"
         ]
       }
     },
@@ -28,7 +28,7 @@
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
       "options": {
-        "jestConfig": "modules/cloud-functions/jest.config.ts",
+        "jestConfig": "cloud-functions/jest.config.js",
         "passWithNoTests": true
       },
       "configurations": {

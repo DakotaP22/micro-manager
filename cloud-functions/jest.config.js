@@ -1,11 +1,11 @@
 /* eslint-disable */
-export default {
+module.exports = {
   displayName: 'cloud-functions',
-  preset: '../../jest.preset.js',
+  preset: '../jest.preset.js',
   testEnvironment: 'node',
   transform: {
     '^.+\\.[tj]s$': ['ts-jest', { tsconfig: '<rootDir>/tsconfig.spec.json' }],
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageDirectory: '../../coverage/modules/cloud-functions',
+  coverageDirectory: '../coverage/cloud-functions',
 };

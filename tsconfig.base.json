@@ -15,9 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@micro-manager/cloud-functions": [
-        "modules/cloud-functions/src/index.ts"
-      ],
+      "@micro-manager/cloud-functions": ["cloud-functions/src/index.js"],
       "@micro-manager/environments": ["environments/src/index.ts"],
       "@micromanager/landing": ["modules/landing/src/index.ts"]
     }
