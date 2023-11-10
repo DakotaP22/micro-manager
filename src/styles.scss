@@ -47,7 +47,7 @@ $my-accent-palette: (50: #ffeabe,
   100: #ffeabe,
   200: #ffba27,
   300: #ffa317,
-  400: #ffa317,
+  400: #5E4100,
   500: #ffa317,
   600: #ffa317,
   700: #ffa317,
@@ -141,8 +141,8 @@ $my-neutral-palette: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$Angular-Standalone-M2-primary: mat.define-palette($my-primary-palette, 50, 100, 200);
-$Angular-Standalone-M2-accent: mat.define-palette($my-accent-palette, 50, 100, 200);
+$Angular-Standalone-M2-primary: mat.define-palette($my-primary-palette, 100, 200);
+$Angular-Standalone-M2-accent: mat.define-palette($my-accent-palette, 400);
 
 // The warn palette is optional (defaults to red).
 $Angular-Standalone-M2-warn: mat.define-palette($my-warn-palette, 50, 100, 200);
@@ -169,8 +169,33 @@ $my-typography: mat.define-typography-config();
 @include mat.typography-hierarchy($my-typography);
 
 
+
 html, body { height: 100%; }
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.suface-1 {
+  @include mat.elevation(1);
+  background-color: color-mix(in srgb, #6DD2FF 5%, #191C1E);
+}
+.surface-2 {
+  @include mat.elevation(2);
+  background-color: color-mix(in srgb, #6DD2FF 8%, #191C1E);
+}
+.surface-3 {
+  @include mat.elevation(3);
+  background-color: color-mix(in srgb, #6DD2FF 11%, #191C1E);
+}
+.surface-4 {
+  @include mat.elevation(4);
+  background-color: color-mix(in srgb, #6DD2FF 12%, #191C1E);
+}
+.surface-5 {
+  @include mat.elevation(5);
+  background-color: color-mix(in srgb, #6DD2FF 14%, #191C1E);
+}
+.link-btn {
+  text-decoration: none;
 }

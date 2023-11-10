@@ -1,0 +1,73 @@
+:host {
+  display: grid;
+  height: 100%;
+  place-content: center;
+  justify-content: center;
+}
+
+.login-card {
+  width: 450px;
+  padding-inline: 32px;
+  padding-block: 24px 32px;
+  border-radius: 8px;
+}
+
+.title {
+  text-align: center;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.login-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(7, fit-content);
+}
+
+.title,
+.email,
+.password,
+.login-btn,
+.divider,
+.register-btn {
+  grid-column: 1 / 3;
+}
+
+.forgot-password {
+  margin-block: auto;
+  text-align: right;
+  height: fit-content;
+  text-decoration: underline;
+  color: #ffba27;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-block: 16px;
+  padding-inline: 32px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #fff;
+}
+
+.divider:not(:empty)::before {
+  margin-right: 0.75em;
+}
+
+.divider:not(:empty)::after {
+  margin-left: 0.75em;
+}
+
+.login-btn {
+  margin-top: 16px;
+}
+
+.login-btn, .register-btn {
+    height: 40px;
+}
