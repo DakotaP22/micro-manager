@@ -15,8 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@micro-manager/app-config": ["src/app/app.config.ts"],
       "@micro-manager/cloud-functions": ["cloud-functions/src/index.js"],
       "@micro-manager/environments": ["environments/src/index.ts"],
+      "@micromanager/auth": ["modules/auth/src/index.ts"],
       "@micromanager/landing": ["modules/landing/src/index.ts"]
     }
   },
