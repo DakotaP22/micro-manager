@@ -8,7 +8,11 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from '@angular/fire/auth';
-import { browserLocalPersistence,browserSessionPersistence, setPersistence } from 'firebase/auth';
+import {
+  browserLocalPersistence,
+  browserSessionPersistence,
+  setPersistence,
+} from 'firebase/auth';
 
 export type AuthState = {
   user: User | null;
@@ -57,18 +61,17 @@ export class AuthService {
     }),
   });
 
-  login(email: string, password: string) {
-    setPersistence(this.auth, browserSessionPersistence)
-        .then(() => signInWithEmailAndPassword(this.auth, email, password));
+  async login(email: string, password: string) {
+    await setPersistence(this.auth, browserSessionPersistence);
+    return signInWithEmailAndPassword(this.auth, email, password);
   }
 
-  loginAndPersist(email: string, password: string) {
-    setPersistence(this.auth, browserLocalPersistence).then(() =>
-      signInWithEmailAndPassword(this.auth, email, password)
-    );
+  async loginAndPersist(email: string, password: string) {
+    await setPersistence(this.auth, browserLocalPersistence);
+    return signInWithEmailAndPassword(this.auth, email, password);
   }
 
-  logout() {
+  async logout() {
     return signOut(this.auth);
   }
 }

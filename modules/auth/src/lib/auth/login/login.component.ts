@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { ErrorNotificationService } from '@micro-manager/error-notification';
 
 
 @Component({
@@ -26,6 +27,7 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent {
   authSvc = inject(AuthService);
+  errorNotificationSvc = inject(ErrorNotificationService);
 
   loginForm = inject(FormBuilder).group({
     email: ['', Validators.required],
@@ -33,21 +35,26 @@ export class LoginComponent {
     rememberMe: [false]
   });
 
-  onLoginClick() {
+  async onLoginClick() {
     const { email, password, rememberMe } = this.loginForm.value;
-    console.table({ email, password, rememberMe })
+    // console.table({ email, password, rememberMe })
     if (!email || !password) {
       // emit error
       return;
     }
 
-    if (rememberMe) {
-      // login and persist
-      this.authSvc.loginAndPersist(email, password);
-    } else {
-      // login without persisting
-      this.authSvc.login(email, password);
+    try {
+      if (rememberMe) {
+        // login and persist
+        await this.authSvc.loginAndPersist(email, password);
+      } else {
+        // login without persisting
+        await this.authSvc.login(email, password);
+      }
+    } catch (err) {
+      this.errorNotificationSvc.notifyUser("Invalid Username/Password")
     }
+    
   }
 
 }
