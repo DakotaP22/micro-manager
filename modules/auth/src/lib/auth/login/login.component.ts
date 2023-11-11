@@ -5,10 +5,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { ErrorNotificationService } from '@micro-manager/error-notification';
-
 
 @Component({
   selector: 'auth-login',
@@ -20,7 +19,7 @@ import { ErrorNotificationService } from '@micro-manager/error-notification';
     MatInputModule,
     MatButtonModule,
     MatCheckboxModule,
-    RouterModule
+    RouterModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
@@ -28,11 +27,12 @@ import { ErrorNotificationService } from '@micro-manager/error-notification';
 export class LoginComponent {
   authSvc = inject(AuthService);
   errorNotificationSvc = inject(ErrorNotificationService);
+  router = inject(Router);
 
   loginForm = inject(FormBuilder).group({
     email: ['', Validators.required],
     password: ['', Validators.required],
-    rememberMe: [false]
+    rememberMe: [false],
   });
 
   async onLoginClick() {
@@ -40,6 +40,9 @@ export class LoginComponent {
     // console.table({ email, password, rememberMe })
     if (!email || !password) {
       // emit error
+      this.errorNotificationSvc.notifyUser(
+        'Invalid username/password combination'
+      );
       return;
     }
 
@@ -47,14 +50,16 @@ export class LoginComponent {
       if (rememberMe) {
         // login and persist
         await this.authSvc.loginAndPersist(email, password);
+        this.router.navigate(['/']);
       } else {
         // login without persisting
         await this.authSvc.login(email, password);
+        this.router.navigate(['/']);
       }
     } catch (err) {
-      this.errorNotificationSvc.notifyUser("Invalid Username/Password")
+      this.errorNotificationSvc.notifyUser(
+        'Invalid username/password combination'
+      );
     }
-    
   }
-
 }

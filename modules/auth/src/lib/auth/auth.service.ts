@@ -7,6 +7,7 @@ import {
   User,
   signInWithEmailAndPassword,
   signOut,
+  createUserWithEmailAndPassword,
 } from '@angular/fire/auth';
 import {
   browserLocalPersistence,
@@ -31,6 +32,10 @@ const intialState: AuthState = {
 })
 export class AuthService {
   private auth: Auth = inject(Auth);
+
+  constructor() {
+    // this.logout();
+  }
 
   auth$: Observable<AuthState> = user(this.auth).pipe(
     tap((user) => console.log(user)),
@@ -73,5 +78,9 @@ export class AuthService {
 
   async logout() {
     return signOut(this.auth);
+  }
+
+  async registerUser(email: string, password: string) {
+    return createUserWithEmailAndPassword(this.auth, email, password);
   }
 }
