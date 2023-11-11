@@ -1,21 +1,25 @@
 @if(bucketCount() > 0) {
 <main class="buckets-layout">
+	<div class="bucket-list">
+		<h1 class="mat-headline-2">Buckets</h1>
 
-  <div class="bucket-list">
-    <h1 class="mat-headline-2">Buckets</h1>
+		<ul class="buckets">
 
-    <ul class="buckets">
-      
+      @for(bucket of buckets(); track bucket.id) {
+        <workbucket-card 
+          [workbucket]="bucket" 
+          [class.active]="selectedWorkbucket()?.id === bucket.id"
+          (click)="onBucketClick(bucket)"  
+        />
+      }
+
     </ul>
 
-    <button mat-stroked-button color="primary">Add Bucket</button>
-  </div>
+		<button mat-stroked-button color="primary">Add Bucket</button>
+	</div>
 
-  <div class="bucket-details">
-    details
-  </div>
-
+	<div class="bucket-details">details</div>
 </main>
 } @else {
-  <no-buckets />
+<no-buckets />
 }

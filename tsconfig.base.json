@@ -1,29 +1,29 @@
 {
-  "compileOnSave": false,
-  "compilerOptions": {
-    "rootDir": ".",
-    "sourceMap": true,
-    "declaration": false,
-    "moduleResolution": "node",
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "importHelpers": true,
-    "target": "es2022",
-    "module": "esnext",
-    "lib": ["es2020", "dom"],
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@micro-manager/cloud-functions": ["cloud-functions/src/index.js"],
-      "@micro-manager/environments": ["environments/src/index.ts"],
-      "@micro-manager/error-notification": [
-        "modules/error-notification/src/index.ts"
-      ],
-      "@micromanager/auth": ["modules/auth/src/index.ts"],
-      "@micromanager/landing": ["modules/landing/src/index.ts"],
-      "@micromanager/task-manager": ["modules/task-manager/src/index.ts"]
-    }
-  },
-  "exclude": ["node_modules", "tmp"]
+	"compileOnSave": false,
+	"compilerOptions": {
+		"rootDir": ".",
+		"sourceMap": true,
+		"declaration": false,
+		"moduleResolution": "node",
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"importHelpers": true,
+		"target": "es2022",
+		"module": "esnext",
+		"lib": ["es2020", "dom"],
+		"skipLibCheck": true,
+		"skipDefaultLibCheck": true,
+		"baseUrl": ".",
+		"paths": {
+			"@micro-manager/cloud-functions": ["cloud-functions/src/index.js"],
+			"@micro-manager/environments": ["environments/src/index.ts"],
+			"@micro-manager/error-notification": [
+				"modules/error-notification/src/index.ts"
+			],
+			"@micromanager/auth": ["modules/auth/src/index.ts"],
+			"@micromanager/landing": ["modules/landing/src/index.ts"],
+			"@micromanager/task-manager": ["modules/task-manager/src/index.ts"]
+		}
+	},
+	"exclude": ["node_modules", "tmp"]
 }
