@@ -28,7 +28,7 @@
         [errorStateMatcher]="matcher"
       />
       @if(registerForm.get('password')?.hasError('required')) {
-        <mat-error>Password is <strong>required</strong></mat-error>
+        <mat-error>A password is <strong>required</strong></mat-error>
       }
     </mat-form-field>
 
@@ -46,6 +46,20 @@
       } @else if(registerForm.get('confirmPassword')?.hasError('Mismatch')) {
         <mat-error>Passwords do not match</mat-error>
       }
+    </mat-form-field>
+
+    <mat-form-field class="access-code">
+      <mat-label for="accessCode">Access Code</mat-label>
+      <input
+        id="accessCode"
+        matInput
+        type="text"
+        formControlName="accessCode"
+        [errorStateMatcher]="matcher"
+      />
+      @if(registerForm.get('accessCode')?.hasError('required')) {
+        <mat-error>An access code is <strong>required</strong></mat-error>
+      } 
     </mat-form-field>
 
     <button

@@ -34,7 +34,7 @@ export class AuthService {
   private auth: Auth = inject(Auth);
 
   constructor() {
-    // this.logout();
+    // this.logout(); 
   }
 
   auth$: Observable<AuthState> = user(this.auth).pipe(
@@ -68,19 +68,15 @@ export class AuthService {
 
   async login(email: string, password: string) {
     await setPersistence(this.auth, browserSessionPersistence);
-    return signInWithEmailAndPassword(this.auth, email, password);
+    return await signInWithEmailAndPassword(this.auth, email, password);
   }
 
   async loginAndPersist(email: string, password: string) {
     await setPersistence(this.auth, browserLocalPersistence);
-    return signInWithEmailAndPassword(this.auth, email, password);
+    return await signInWithEmailAndPassword(this.auth, email, password);
   }
 
   async logout() {
-    return signOut(this.auth);
-  }
-
-  async registerUser(email: string, password: string) {
-    return createUserWithEmailAndPassword(this.auth, email, password);
+    await signOut(this.auth);
   }
 }

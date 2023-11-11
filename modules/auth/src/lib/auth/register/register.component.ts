@@ -1,8 +1,5 @@
-import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, inject } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,10 +10,13 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 import { ErrorStateMatcher } from '@angular/material/core';
-import { AuthService } from '../auth.service';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { Router, RouterModule } from '@angular/router';
 import { ErrorNotificationService } from '@micro-manager/error-notification';
+import { RegisterService } from './register.service';
 
 @Component({
   selector: 'auth-register',
@@ -29,11 +29,12 @@ import { ErrorNotificationService } from '@micro-manager/error-notification';
     ReactiveFormsModule,
     RouterModule,
   ],
+  providers: [RegisterService],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
-  authSvc = inject(AuthService);
+  registerSvc = inject(RegisterService);
   errorNotificationSvc = inject(ErrorNotificationService);
   router = inject(Router);
 
@@ -41,6 +42,7 @@ export class RegisterComponent {
     email: ['', [Validators.email, Validators.required]],
     password: ['', Validators.required],
     confirmPassword: ['', [Validators.required, this.matchesPassword()]],
+    accessCode: ['', Validators.required]
   });
 
   matcher = new MyErrorStateMatcher();
@@ -53,8 +55,8 @@ export class RegisterComponent {
   }
 
   async onRegisterClick() {
-    const { email, password, confirmPassword } = this.registerForm.value;
-    if (!email || !password || !confirmPassword) {
+    const { email, password, confirmPassword, accessCode } = this.registerForm.value;
+    if (!email || !password || !confirmPassword || !accessCode) {
       this.errorNotificationSvc.notifyUser('Please fill out all fields');
       return;
     }
@@ -64,10 +66,14 @@ export class RegisterComponent {
     }
 
     try {
-      await this.authSvc.registerUser(email, password);
+      await this.registerSvc.registerUser(
+        email,
+        password,
+        accessCode
+      );
       this.router.navigate(['/']);
     } catch (e) {
-      this.errorNotificationSvc.notifyUser('Registration failed');
+      this.errorNotificationSvc.notifyUser(e as string);
     }
   }
 }
