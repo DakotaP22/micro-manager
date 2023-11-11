@@ -1,0 +1,23 @@
+<mat-sidenav-container class="example-container">
+	<mat-sidenav
+		opened
+		disableClose
+		mode="side"
+		[fixedInViewport]="true"
+		class="sidenav"
+	>
+		<div class="menu">
+			<div class class="user-controls">
+        <button class="account-button" (click)="onAccountClick()">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+				<a>
+					<mat-icon>settings</mat-icon>
+				</a>
+			</div>
+		</div>
+	</mat-sidenav>
+	<mat-sidenav-content>
+		<router-outlet></router-outlet>
+	</mat-sidenav-content>
+</mat-sidenav-container>

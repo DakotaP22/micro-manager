@@ -21,7 +21,8 @@
         "modules/error-notification/src/index.ts"
       ],
       "@micromanager/auth": ["modules/auth/src/index.ts"],
-      "@micromanager/landing": ["modules/landing/src/index.ts"]
+      "@micromanager/landing": ["modules/landing/src/index.ts"],
+      "@micromanager/task-manager": ["modules/task-manager/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

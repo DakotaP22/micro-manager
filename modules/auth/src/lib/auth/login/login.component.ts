@@ -50,12 +50,11 @@ export class LoginComponent {
       if (rememberMe) {
         // login and persist
         await this.authSvc.loginAndPersist(email, password);
-        this.router.navigate(['/']);
       } else {
         // login without persisting
         await this.authSvc.login(email, password);
-        this.router.navigate(['/']);
       }
+      this.router.navigate(['/buckets']);
     } catch (err) {
       this.errorNotificationSvc.notifyUser(
         'Invalid username/password combination'

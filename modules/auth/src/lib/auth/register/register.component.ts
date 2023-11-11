@@ -71,7 +71,7 @@ export class RegisterComponent {
         password,
         accessCode
       );
-      this.router.navigate(['/']);
+      this.router.navigate(['/buckets']);
     } catch (e) {
       this.errorNotificationSvc.notifyUser(e as string);
     }
