@@ -1,40 +1,65 @@
 <main class="register-card surface-2">
-    <h1 class="title mat-headline-3">Register</h1>
-  
-    <form class="register-form" [formGroup]="registerForm">
-      <mat-form-field class="email">
-        <mat-label for="email">Email</mat-label>
-        <input id="email" matInput type="email" formControlName="email" [errorStateMatcher]="matcher"/>
-        @if(registerForm.get('email')?.hasError('required')) {
-          <mat-error>Email is <strong>required</strong></mat-error>
-        } @else if (registerForm.get('email')?.hasError('email')) {
-          <mat-error>Invalid email address</mat-error>
-        } 
-      </mat-form-field>
-  
-      <mat-form-field class="password">
-        <mat-label for="password">Password</mat-label>
-        <input id="password" matInput type="password" formControlName="password"  [errorStateMatcher]="matcher"/>
-        @if(registerForm.get('password')?.hasError('required')) {
-          <mat-error>Password is <strong>required</strong></mat-error>
-        }
-      </mat-form-field>
-  
-      <mat-form-field class="password">
-        <mat-label for="confirm-password">Confirm Password</mat-label>
-        <input id="confirm-password" matInput type="password" formControlName="confirmPassword"  [errorStateMatcher]="matcher"/>
-        @if(registerForm.get('confirmPassword')?.hasError('required')) {
-          <mat-error>Password confirmation is <strong>required</strong></mat-error>
-        } @else if(registerForm.get('confirmPassword')?.hasError('PasswordMismatch')) {
-          <mat-error>Passwords do not match</mat-error>
-        }
-      </mat-form-field>
-  
-      <button mat-raised-button color="primary" class="register-btn" (click)="onRegisterClick()">Get Started</button>
-  
-      <p class="login-link">Already have an account? <a [routerLink]="['/login']">Sign In</a></p>
-  
-      
-    </form>
-  </main>
-  
+  <h1 class="title mat-headline-3">Register</h1>
+
+  <form class="register-form" [formGroup]="registerForm">
+    <mat-form-field class="email">
+      <mat-label for="email">Email</mat-label>
+      <input
+        id="email"
+        matInput
+        type="email"
+        formControlName="email"
+        [errorStateMatcher]="matcher"
+      />
+      @if(registerForm.get('email')?.hasError('required')) {
+        <mat-error>Email is <strong>required</strong></mat-error>
+      } @else if (registerForm.get('email')?.hasError('email')) {
+        <mat-error>Invalid email address</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="password">
+      <mat-label for="password">Password</mat-label>
+      <input
+        id="password"
+        matInput
+        type="password"
+        formControlName="password"
+        [errorStateMatcher]="matcher"
+      />
+      @if(registerForm.get('password')?.hasError('required')) {
+        <mat-error>Password is <strong>required</strong></mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field class="password">
+      <mat-label for="confirm-password">Confirm Password</mat-label>
+      <input
+        id="confirm-password"
+        matInput
+        type="password"
+        formControlName="confirmPassword"
+        [errorStateMatcher]="matcher"
+      />
+      @if(registerForm.get('confirmPassword')?.hasError('required')) {
+        <mat-error>Password confirmation is <strong>required</strong></mat-error>
+      } @else if(registerForm.get('confirmPassword')?.hasError('Mismatch')) {
+        <mat-error>Passwords do not match</mat-error>
+      }
+    </mat-form-field>
+
+    <button
+      mat-raised-button
+      color="primary"
+      class="register-btn"
+      (click)="onRegisterClick()"
+      [disabled]="registerForm.invalid"
+    >
+      Get Started
+    </button>
+
+    <p class="login-link">
+      Already have an account? <a [routerLink]="['/login']">Sign In</a>
+    </p>
+  </form>
+</main>

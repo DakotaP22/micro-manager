@@ -40,18 +40,15 @@ export class RegisterComponent {
   registerForm = inject(FormBuilder).group({
     email: ['', [Validators.email, Validators.required]],
     password: ['', Validators.required],
-    confirmPassword: [
-      '',
-      [Validators.required, this.validateAreEqual()]
-    ],
+    confirmPassword: ['', [Validators.required, this.matchesPassword()]],
   });
 
   matcher = new MyErrorStateMatcher();
 
-  private validateAreEqual(): ValidatorFn {
+  private matchesPassword(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       const password = this.registerForm?.get('password')?.value ?? '';
-      return control.value === password ? null : { PasswordMismatch: true };
+      return control.value === password ? null : { Mismatch: true };
     };
   }
 
@@ -59,21 +56,20 @@ export class RegisterComponent {
     const { email, password, confirmPassword } = this.registerForm.value;
     if (!email || !password || !confirmPassword) {
       this.errorNotificationSvc.notifyUser('Please fill out all fields');
-      return; 
+      return;
     }
 
     if (password !== confirmPassword) {
-     this.errorNotificationSvc.notifyUser('Passwords do not match'); 
+      this.errorNotificationSvc.notifyUser('Passwords do not match');
     }
+
     try {
       await this.authSvc.registerUser(email, password);
       this.router.navigate(['/']);
     } catch (e) {
-      this.errorNotificationSvc.notifyUser("Registration failed");
+      this.errorNotificationSvc.notifyUser('Registration failed');
     }
   }
-
-
 }
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
