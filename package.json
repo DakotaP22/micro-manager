@@ -12,7 +12,7 @@
   "dependencies": {
     "@angular/animations": "17.0.2",
     "@angular/cdk": "17.0.0",
-    "@angular/common": "17.0.2",
+"@angular/common": "17.0.2",
     "@angular/compiler": "17.0.2",
     "@angular/core": "17.0.2",
     "@angular/fire": "^16.0.0",
@@ -64,7 +64,7 @@
     "prettier": "^2.6.2",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",
-    "typescript": "~5.2.0||~5.3.0"
+    "typescript": "~5.2.0"
   }
 }
 
