@@ -1,3 +1,5 @@
-
-
+@defer (when !authSvc.state().loading) {
 <router-outlet></router-outlet>
+} @placeholder (minimum 10ms){
+  <!-- App Loading Animation Component? -->
+}

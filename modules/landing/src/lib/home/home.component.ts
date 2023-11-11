@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
 @Component({
-  selector: 'micro-manager-home',
+  selector: 'landing-home',
   standalone: true,
   imports: [CommonModule, MatButtonModule, RouterModule],
   templateUrl: './home.component.html',
