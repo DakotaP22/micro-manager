@@ -1,4 +1,13 @@
 {
-  "indexes": [],
+  "indexes": [
+    {
+      "collectionId": "workbuckets",
+      "fields": [
+        {
+          "fieldId": "archived"
+        }
+      ]
+    }
+  ],
   "fieldOverrides": []
 }
