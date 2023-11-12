@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, QuerySnapshot, collection, getDocs, query, where } from '@angular/fire/firestore';
-import { Observable, from, map, tap } from 'rxjs';
+import { Observable, from, map } from 'rxjs';
 import { Workbucket } from '../models/Workbucket';
 
 @Injectable({providedIn: 'root'})

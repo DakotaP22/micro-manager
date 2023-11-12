@@ -1,5 +1,5 @@
 import { Route } from '@angular/router';
-import { WorkbucketsPageComponent } from './task-manager/pages/workbucket-page/workbuckets-page.component';
+import { WorkbucketsPageComponent } from './pages/workbucket-page/workbuckets-page.component';
 
 export const taskManagerRoutes: Route[] = [
 	{
