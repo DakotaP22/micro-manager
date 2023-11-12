@@ -6,7 +6,7 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
-    "emulators": "firebase emulators:start --only firestore,functions,auth,ui --import ./.emulator_data --export-on-exit ./.emulator_data"
+    "emulators": "firebase emulators:start --only firestore,functions,auth,ui --import=./.emulator_data --export-on-exit=./.emulator_data --project=demo-micro-manager-dp01"
   },
   "private": true,
   "dependencies": {
