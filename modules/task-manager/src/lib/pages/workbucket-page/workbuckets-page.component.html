@@ -11,7 +11,9 @@
             <workbucket-card 
               [workbucket]="bucket" 
               [class.active]="pageSvc.state().selectedWorkbucketId === bucket.id"
-              (click)="onBucketClick(bucket)"  
+              (click)="onBucketClick(bucket)"
+              (delete)="onDeleteBucket(bucket.id)"
+              (archive)="onArchiveBucket(bucket.id)" 
             />
           }
     

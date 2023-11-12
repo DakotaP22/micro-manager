@@ -23,9 +23,11 @@ import {
   UserTrackingService,
 } from '@angular/fire/analytics';
 import { environment } from '@micro-manager/environments';
+import { MatMenuModule } from '@angular/material/menu';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    importProvidersFrom(MatMenuModule),
     provideRouter(appRoutes, withEnabledBlockingInitialNavigation(), withComponentInputBinding()),
     provideAnimations(),
     importProvidersFrom(
@@ -63,4 +65,5 @@ export const appConfig: ApplicationConfig = {
     ScreenTrackingService,
     UserTrackingService,
   ],
+
 };
