@@ -67,11 +67,6 @@ export class AuthService {
 	state = signalSlice({
 		initialState: intialState,
 		sources: [this.auth$],
-		effects: (state) => ({
-			stateChanged: () => {
-				console.table(state());
-			},
-		}),
 	});
 
 	async login(email: string, password: string) {

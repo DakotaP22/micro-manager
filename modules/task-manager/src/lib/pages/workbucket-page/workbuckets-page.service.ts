@@ -99,11 +99,6 @@ export class WorkbucketsPageService {
 				}
 			}
 		},
-		effects: (state) => ({
-			logEffect: () => {
-				console.log(state())
-			}
-		})
 	});
 
 }
