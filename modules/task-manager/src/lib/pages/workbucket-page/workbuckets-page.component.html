@@ -10,7 +10,7 @@
           @for(bucket of pageSvc.state().workbuckets; track bucket.id) {
             <workbucket-card 
               [workbucket]="bucket" 
-              [class.active]="this.pageSvc.state.selectedWorkbucket().id === bucket.id"
+              [class.active]="pageSvc.state.selectedWorkbucketId() === bucket.id"
               [routerLink]="['/buckets', bucket.id]"
               (delete)="onDeleteBucket(bucket.id)"
               (archive)="onArchiveBucket(bucket.id)" 

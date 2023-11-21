@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
 	Component,
+	effect,
 	inject
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +13,9 @@ import { WorkbucketCardComponent } from './components/workbucket-card/workbucket
 import { WorkbucketsPageService } from './workbuckets-page.service';
 import { WorkbucketsService } from '../../services/workbuckets.service';
 import { AuthService } from '@micromanager/auth';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
+import { combineLatest } from 'rxjs';
+import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 
 @Component({
 	standalone: true,
@@ -33,6 +36,17 @@ export class WorkbucketsPageComponent {
 	workbucketSvc = inject(WorkbucketsService);
 	authSvc = inject(AuthService);
 	dialogController = inject(MatDialog);
+	router = inject(Router);
+
+	bucketCount = this.pageSvc.state.bucketCount;
+	selectedBucketId = this.pageSvc.state.selectedWorkbucketId;
+	buckets = this.pageSvc.state.workbuckets;
+
+	routeToFirstBucketEffect = effect(() => {
+		if (this.bucketCount() > 0 && !this.selectedBucketId()) {
+			this.router.navigateByUrl(`/buckets/${this.buckets()[0].id}`);
+		}
+	});
 
 	onCreateBucketClick() {
 		console.log('TODO: Create Bucket!');
@@ -61,7 +75,7 @@ export class WorkbucketsPageComponent {
 			}
 
 			this.workbucketSvc.deleteBucket(userId, bucketId).then(() => {
-				this.pageSvc.state.getBuckets();
+				this.router.navigateByUrl('/buckets');
 			});	
 		})
 	}
@@ -87,7 +101,7 @@ export class WorkbucketsPageComponent {
 			}
 
 			this.workbucketSvc.archiveBucket(userId, bucketId).then(() => {
-				this.pageSvc.state.getBuckets();
+				this.router.navigateByUrl('/buckets');
 			});
 		})
 	}

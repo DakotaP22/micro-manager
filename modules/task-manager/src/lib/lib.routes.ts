@@ -7,11 +7,12 @@ export const taskManagerRoutes: Route[] = [
 		loadComponent: () => WorkbucketsPageComponent,
 	},
 	{
-		path: ':bucket-id',
-		loadComponent: () => WorkbucketsPageComponent,
-	},
-	{
 		path: ':bucket-id/item/:item-id',
 		loadComponent: () => WorkbucketsPageComponent,
 	},
+	{
+		path: ':bucket-id',
+		loadComponent: () => WorkbucketsPageComponent,
+	},
+
 ];
