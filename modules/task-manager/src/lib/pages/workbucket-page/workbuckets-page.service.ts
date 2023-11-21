@@ -8,12 +8,14 @@ import {
 	combineLatest,
 	map,
 	of,
+	pipe,
 	startWith,
 	switchMap,
-	tap,
+	tap
 } from 'rxjs';
 import { Workbucket } from '../../models/Workbucket';
 import { WorkbucketsService } from '../../services/workbuckets.service';
+import { ActivatedRoute } from '@angular/router';
 
 export type WorkbucketsPageState = {
 	workbuckets: Workbucket[];
@@ -35,6 +37,7 @@ type PartialWorkbucketsPageState = Partial<WorkbucketsPageState>;
 export class WorkbucketsPageService {
 	private authSvc: AuthService = inject(AuthService);
 	private workbucketSvc: WorkbucketsService = inject(WorkbucketsService);
+	private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
 	private getBuckets$ = new Subject<void>();
 
@@ -58,7 +61,6 @@ export class WorkbucketsPageService {
 				return this.workbucketSvc.getWorkbucketsForUser$(userId).pipe(
 					map((workbuckets) => ({
 						workbuckets: workbuckets ?? [],
-						selectedWorkbucketId: workbuckets[0]?.id ?? null,
 						loading: false,
 						error: false,
 					}))
@@ -68,21 +70,26 @@ export class WorkbucketsPageService {
 		catchError((err) => of({ workbuckets: [], loading: false, error: err }))
 	);
 
+	selectedBucketId$ = this.activatedRoute.paramMap.pipe(
+		map((params) => params?.get('bucket-id') ?? null),
+		map(id => ({ selectedWorkbucketId: id })),
+		tap(id => (console.log(id)))
+	);
+
 	state = signalSlice({
 		initialState,
-		sources: [this.buckets$],
+		sources: [this.buckets$, this.selectedBucketId$],
 		selectors: (state) => ({
-			selectedWorkbucket: () =>
-				state().workbuckets.find(
+			selectedWorkbucket: () => {
+				const buckets = state().workbuckets;
+				const selectedBucket = buckets.find(
 					(bucket) => bucket.id === state().selectedWorkbucketId
-				),
+				);
+				return selectedBucket ?? buckets[0];
+			},
 			bucketCount: () => state().workbuckets.length,
 		}),
 		reducers: {
-			selectWorkbucket: (state, selectedWorkbucketId: string) => ({
-				...state,
-				selectedWorkbucketId,
-			}),
 			getBuckets: (state) => {
 				this.getBuckets$.next();
 				return {
@@ -92,6 +99,11 @@ export class WorkbucketsPageService {
 				}
 			}
 		},
+		effects: (state) => ({
+			logEffect: () => {
+				console.log(state())
+			}
+		})
 	});
 
 }

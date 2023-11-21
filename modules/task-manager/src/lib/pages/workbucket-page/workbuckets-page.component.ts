@@ -12,6 +12,7 @@ import { WorkbucketCardComponent } from './components/workbucket-card/workbucket
 import { WorkbucketsPageService } from './workbuckets-page.service';
 import { WorkbucketsService } from '../../services/workbuckets.service';
 import { AuthService } from '@micromanager/auth';
+import { RouterModule } from '@angular/router';
 
 @Component({
 	standalone: true,
@@ -20,7 +21,8 @@ import { AuthService } from '@micromanager/auth';
 		MatButtonModule,
 		NoBucketsComponent,
 		WorkbucketCardComponent,
-		ConfirmationDialogComponent
+		ConfirmationDialogComponent,
+	RouterModule
 	],
 	providers: [WorkbucketsPageService],
 	templateUrl: './workbuckets-page.component.html',
@@ -34,10 +36,6 @@ export class WorkbucketsPageComponent {
 
 	onCreateBucketClick() {
 		console.log('TODO: Create Bucket!');
-	}
-
-	onBucketClick(bucket: Workbucket) {
-		this.pageSvc.state.selectWorkbucket(bucket.id);
 	}
 
 	onDeleteBucket(bucketId: string) {
