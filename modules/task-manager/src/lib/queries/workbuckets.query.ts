@@ -61,28 +61,4 @@ export class WorkbucketQueryService {
 			},
 		});
 	}
-
-	deleteBucketAndNavigate() {
-		return this.mutation({
-			mutationFn: (bucketId: string) => this.bucketSvc.deleteBucket(bucketId),
-			onSuccess: async (_, bucketId) => {
-				this.queryClient.invalidateQueries({ queryKey: ['buckets'] });
-				this.queryClient.invalidateQueries({ queryKey: ['bucket', bucketId] });
-				this.router.navigate(['/buckets']);
-			},
-		});
-	}
-
-	archiveBucketAndNavigate() {
-		return this.mutation({
-			mutationFn: (bucketId: string) => this.bucketSvc.archiveBucket(bucketId),
-			onSuccess: async (_, bucketId) => {
-				await this.queryClient.invalidateQueries({ queryKey: ['buckets'] });
-				await this.queryClient.invalidateQueries({
-					queryKey: ['bucket', bucketId],
-				});
-				this.router.navigate(['/buckets']);
-			},
-		});
-	}
 }

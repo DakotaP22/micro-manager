@@ -48,12 +48,13 @@ export class WorkbucketCardListComponent {
 				autoFocus: 'dialog',
 			})
 			.afterClosed()
-			.subscribe((result) => {
+			.subscribe(async (result) => {
 				if (!result) {
 					return;
 				}
 
-				this.bucketsQuery.deleteBucketAndNavigate().mutate(bucketId);
+				await this.bucketsQuery.deleteBucket().mutateAsync(bucketId);
+				this.router.navigate(['/buckets']);
 			});
 	}
 
@@ -71,12 +72,13 @@ export class WorkbucketCardListComponent {
 				autoFocus: 'dialog',
 			})
 			.afterClosed()
-			.subscribe((result) => {
+			.subscribe(async (result) => {
 				if (!result) {
 					return;
 				}
 
-				this.bucketsQuery.archiveBucketAndNavigate().mutate(bucketId);
+				await this.bucketsQuery.archiveBucket().mutateAsync(bucketId);
+				this.router.navigate(['/buckets']);
 			});
 	}
 
