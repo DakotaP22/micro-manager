@@ -5,7 +5,7 @@
 	</p>
 </div>
 
-<mat-icon class="menu-icon" [matMenuTriggerFor]="menu">more_vert</mat-icon>
+<mat-icon class="menu-icon" [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()" >more_vert</mat-icon>
 <mat-menu #menu="matMenu">
 	<button mat-menu-item (click)="edit.next()">Edit Bucket</button>
 	<button mat-menu-item (click)="archive.next()">Archive Bucket</button>
