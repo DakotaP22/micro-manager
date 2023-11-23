@@ -41,8 +41,6 @@ export class WorkbucketsPageComponent {
 	selectedBucket = computed(() => this.buckets().find((b) => b.id === this.selectedBucketId()));
 	isLoading = computed(() => this.bucketsResult().isLoading);
 
-	logBucketCount = effect(() => console.log(this.bucketCount()))
-
 	routeToFirstBucketEffect = effect(() => {
 		if (this.bucketCount() > 0 && !this.selectedBucketId()) {
 			this.router.navigateByUrl(`/buckets/${this.buckets()[0].id}`);
