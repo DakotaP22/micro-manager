@@ -1,4 +1,5 @@
 import { Injectable, inject } from '@angular/core';
+import { Auth, User, user } from '@angular/fire/auth';
 import {
 	Firestore,
 	QuerySnapshot,
@@ -10,14 +11,26 @@ import {
 	updateDoc,
 	where,
 } from '@angular/fire/firestore';
-import { Observable, from, map } from 'rxjs';
+import { Observable, from, map, of, switchMap } from 'rxjs';
 import { Workbucket } from '../models/Workbucket';
 
 @Injectable({ providedIn: 'root' })
 export class WorkbucketsService {
 	firestore = inject(Firestore);
+	auth = inject(Auth);
 
-	getWorkbucketsForUser$(userId: string): Observable<Workbucket[]> {
+	buckets$: Observable<Workbucket[]> = user(this.auth).pipe(
+		map((user: User | null) => user?.uid),
+		switchMap((userId: string | undefined) => {
+			if (!userId) {
+				return of([]);
+			}
+
+			return this.getWorkbucketsForUser$(userId);
+		})
+	);
+
+	private getWorkbucketsForUser$(userId: string): Observable<Workbucket[]> {
 		const collectionRef = collection(
 			this.firestore,
 			'users',
@@ -54,10 +67,10 @@ export class WorkbucketsService {
 		return await updateDoc(collectionRef, {
 			archived: true,
 		});
-    }
-    
-    async deleteBucket(userId: string, bucketId: string) {
-        const collectionRef = doc(
+	}
+
+	async deleteBucket(userId: string, bucketId: string) {
+		const collectionRef = doc(
 			this.firestore,
 			'users',
 			userId,
@@ -65,5 +78,5 @@ export class WorkbucketsService {
 			bucketId
 		);
 		return await deleteDoc(collectionRef);
-    }
+	}
 }

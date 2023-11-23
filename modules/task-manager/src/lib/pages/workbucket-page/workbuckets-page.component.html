@@ -1,33 +1,27 @@
-
-@defer(when !pageSvc.state().loading) {
-  @if(pageSvc.state.bucketCount() > 0) {
+@defer(when !pageData.state.loading()) { 
+  @if(pageData.state.bucketCount() > 0) {
     <main class="buckets-layout">
       <div class="bucket-list">
         <h1 class="mat-headline-2">Buckets</h1>
-    
+
         <ul class="buckets">
-    
-          @for(bucket of pageSvc.state().workbuckets; track bucket.id) {
-            <workbucket-card 
-              [workbucket]="bucket" 
-              [class.active]="pageSvc.state.selectedWorkbucketId() === bucket.id"
+          @for(bucket of pageData.state.workbuckets(); track bucket.id) {
+            <workbucket-card
+              [workbucket]="bucket"
+              [class.active]="pageData.state.selectedWorkbucketId() === bucket.id"
               [routerLink]="['/buckets', bucket.id]"
               (delete)="onDeleteBucket(bucket.id)"
-              (archive)="onArchiveBucket(bucket.id)" 
+              (archive)="onArchiveBucket(bucket.id)"
             />
           }
-    
         </ul>
-    
+
         <button mat-stroked-button color="primary">Add Bucket</button>
       </div>
-    
+
       <div class="bucket-details">details</div>
     </main>
     } @else {
     <no-buckets />
-    }
-} @placeholder {
-
-}
-
+    } 
+} @placeholder {}

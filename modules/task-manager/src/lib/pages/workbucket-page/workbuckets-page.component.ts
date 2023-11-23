@@ -6,16 +6,13 @@ import {
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
-import { Workbucket } from '../../models/Workbucket';
+import { Router, RouterModule } from '@angular/router';
+import { AuthService } from '@micromanager/auth';
+import { WorkbucketsService } from '../../data/workbuckets.service';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { NoBucketsComponent } from './components/no-buckets/no-buckets.component';
 import { WorkbucketCardComponent } from './components/workbucket-card/workbucket-card.component';
-import { WorkbucketsPageService } from './workbuckets-page.service';
-import { WorkbucketsService } from '../../services/workbuckets.service';
-import { AuthService } from '@micromanager/auth';
-import { Router, RouterModule } from '@angular/router';
-import { combineLatest } from 'rxjs';
-import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
+import { WorkbucketsPageDataStore } from './workbuckets-page.data';
 
 @Component({
 	standalone: true,
@@ -27,20 +24,20 @@ import { takeUntilDestroyed, toObservable } from '@angular/core/rxjs-interop';
 		ConfirmationDialogComponent,
 	RouterModule
 	],
-	providers: [WorkbucketsPageService],
+	providers: [WorkbucketsService, WorkbucketsPageDataStore],
 	templateUrl: './workbuckets-page.component.html',
 	styleUrls: ['./workbuckets-page.component.scss'],
 })
 export class WorkbucketsPageComponent {
-	pageSvc = inject(WorkbucketsPageService);
+	pageData = inject(WorkbucketsPageDataStore);
 	workbucketSvc = inject(WorkbucketsService);
 	authSvc = inject(AuthService);
 	dialogController = inject(MatDialog);
 	router = inject(Router);
 
-	bucketCount = this.pageSvc.state.bucketCount;
-	selectedBucketId = this.pageSvc.state.selectedWorkbucketId;
-	buckets = this.pageSvc.state.workbuckets;
+	bucketCount = this.pageData.state.bucketCount;
+	selectedBucketId = this.pageData.state.selectedWorkbucketId;
+	buckets = this.pageData.state.workbuckets;
 
 	routeToFirstBucketEffect = effect(() => {
 		if (this.bucketCount() > 0 && !this.selectedBucketId()) {
