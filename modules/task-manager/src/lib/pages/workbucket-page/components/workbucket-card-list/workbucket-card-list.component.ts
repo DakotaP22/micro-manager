@@ -53,8 +53,7 @@ export class WorkbucketCardListComponent {
 					return;
 				}
 
-				this.bucketsQuery.deleteBucket().mutate(bucketId);
-				this.router.navigate(['/buckets']);
+				this.bucketsQuery.deleteBucketAndNavigate().mutate(bucketId);
 			});
 	}
 
@@ -77,8 +76,7 @@ export class WorkbucketCardListComponent {
 					return;
 				}
 
-				this.bucketsQuery.archiveBucket().mutate(bucketId);
-				this.router.navigate(['/buckets']);
+				this.bucketsQuery.archiveBucketAndNavigate().mutate(bucketId);
 			});
 	}
 
