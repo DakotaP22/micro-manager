@@ -5,17 +5,7 @@
       <div class="bucket-list">
         <h1 class="mat-headline-2">Buckets</h1>
 
-        <ul class="buckets">
-          @for(bucket of buckets(); track bucket.id) {
-            <workbucket-card
-              [workbucket]="bucket"
-              [class.active]="bucket.id === selectedBucketId()"
-              [routerLink]="['/buckets', bucket.id]"
-              (delete)="onDeleteBucket(bucket.id)"
-              (archive)="onArchiveBucket(bucket.id)"
-            />
-          }
-        </ul>
+        <workbucket-card-list />
 
         <button mat-stroked-button color="primary" (click)="onCreateBucketClick()">Add Bucket</button>
       </div>

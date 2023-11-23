@@ -1,0 +1,12 @@
+<ul class="buckets">
+    @for(bucket of buckets(); track bucket.id) {
+      <workbucket-card
+        class="bucket-card"
+        [workbucket]="bucket"
+        [class.active]="bucket.id === selectedBucketId()"
+        [routerLink]="['/buckets', bucket.id]"
+        (delete)="onDeleteBucket(bucket.id)"
+        (archive)="onArchiveBucket(bucket.id)"
+      />
+    }
+  </ul>
