@@ -3,15 +3,16 @@ import { Auth, User, user } from '@angular/fire/auth';
 import {
 	Firestore,
 	QuerySnapshot,
+	addDoc,
 	collection,
 	deleteDoc,
 	doc,
 	getDocs,
 	query,
 	updateDoc,
-	where,
+	where
 } from '@angular/fire/firestore';
-import { Observable, from, map, of, switchMap } from 'rxjs';
+import { EMPTY, Observable, from, map, of, switchMap } from 'rxjs';
 import { Workbucket } from '../models/Workbucket';
 
 @Injectable({ providedIn: 'root' })
@@ -52,31 +53,67 @@ export class WorkbucketsService {
 						...doc.data(),
 					} as Workbucket;
 				});
+			}),
+			map((buckets: Workbucket[]) => buckets.sort((a, b) => a.title.localeCompare(b.title)))
+		);
+	}
+
+	archiveBucket(bucketId: string): Observable<void> {
+		return user(this.auth).pipe(
+			switchMap((user: User | null) => {
+				if (!user) {
+					return EMPTY;
+				}
+
+				const collectionRef = doc(
+					this.firestore,
+					'users',
+					user.uid,
+					'workbuckets',
+					bucketId
+				);
+				return from(updateDoc(collectionRef, { archived: true }))
 			})
-		);
+		)
 	}
 
-	async archiveBucket(userId: string, bucketId: string) {
-		const collectionRef = doc(
-			this.firestore,
-			'users',
-			userId,
-			'workbuckets',
-			bucketId
-		);
-		return await updateDoc(collectionRef, {
-			archived: true,
-		});
+	deleteBucket(bucketId: string) {
+		return user(this.auth).pipe(
+			switchMap((user: User | null) => {
+				if (!user) {
+					return EMPTY;
+				}
+
+				const collectionRef = doc(
+					this.firestore,
+					'users',
+					user.uid,
+					'workbuckets',
+					bucketId
+				);
+				return from(deleteDoc(collectionRef))
+			})
+		)
 	}
 
-	async deleteBucket(userId: string, bucketId: string) {
-		const collectionRef = doc(
-			this.firestore,
-			'users',
-			userId,
-			'workbuckets',
-			bucketId
-		);
-		return await deleteDoc(collectionRef);
+	addBucket(title: string, description: string) {
+		return user(this.auth).pipe(
+			switchMap((user: User | null) => {
+				if (!user) {
+					return EMPTY;
+				}
+
+				const collectionRef = collection(
+					this.firestore,
+					'users',
+					user.uid,
+					'workbuckets'
+				);
+
+
+				const bucket: Partial<Workbucket> = { title, description, archived: false };
+				return from(addDoc(collectionRef, bucket));
+			})
+		)
 	}
 }
