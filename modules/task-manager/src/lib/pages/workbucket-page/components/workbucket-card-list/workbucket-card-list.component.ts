@@ -56,7 +56,6 @@ export class WorkbucketCardListComponent {
 
 				this.deleteBucket.mutate({ bucketId }, {
 					onSuccess: (_, { bucketId }) => {
-						console.log(bucketId)
 						if(this.selectedBucketId() === bucketId) {
 							for (const bucket of this.buckets()) {
 								if (bucket.id !== bucketId) {
