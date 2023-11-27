@@ -49,7 +49,7 @@ export class WorkbucketCardListComponent {
 				autoFocus: 'dialog',
 			})
 			.afterClosed()
-			.subscribe(async (result) => {
+			.subscribe((result) => {
 				if (!result) {
 					return;
 				}
