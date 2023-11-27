@@ -10,7 +10,12 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 @Component({
 	selector: 'workbucket-card-list',
 	standalone: true,
-	imports: [CommonModule, WorkbucketCardComponent, RouterModule, ConfirmationDialogComponent],
+	imports: [
+		CommonModule,
+		WorkbucketCardComponent,
+		RouterModule,
+		ConfirmationDialogComponent,
+	],
 	templateUrl: './workbucket-card-list.component.html',
 	styleUrls: ['./workbucket-card-list.component.scss'],
 })
@@ -18,21 +23,17 @@ export class WorkbucketCardListComponent {
 	dialogController = inject(MatDialog);
 	router = inject(Router);
 
-
-	
 	bucketsQuery = inject(WorkbucketQueryService);
 	bucketsResult = this.bucketsQuery.getBuckets().result;
-	
+	archiveBucket = this.bucketsQuery.archiveBucket();
+	archiveBucketResult = this.archiveBucket.result;
+	deleteBucket = this.bucketsQuery.deleteBucket();
+	deleteBucketResult = this.deleteBucket.result;
+
 	buckets = computed(() => this.bucketsResult().data ?? []);
 	selectedBucketId = injectParams('bucket-id');
 
-
-	// bucketDeleted = this.bucketsQuery.deleteBucket().result;
-	// bucketArchived = this.bucketsQuery.archiveBucket().result;
-
-
-
-	onDeleteBucket(bucketId: string) {
+	onDeleteBucket(bucketId: string, bucketName: string) {
 		console.log('Test!');
 		this.dialogController
 			.open(ConfirmationDialogComponent, {
@@ -40,7 +41,7 @@ export class WorkbucketCardListComponent {
 				data: {
 					action: 'Delete',
 					description:
-						'Deleting buckets is irreversible. Do you want to delete this bucket?',
+						`Deleting buckets is irreversible. Do you want to delete ${bucketName}?`,
 					warn: true,
 				},
 				enterAnimationDuration: '250ms',
@@ -53,33 +54,55 @@ export class WorkbucketCardListComponent {
 					return;
 				}
 
-				await this.bucketsQuery.deleteBucket().mutateAsync(bucketId);
-				this.router.navigate(['/buckets']);
+				this.deleteBucket.mutate({ bucketId }, {
+					onSuccess: (_, { bucketId }) => {
+						console.log(bucketId)
+						if(this.selectedBucketId() === bucketId) {
+							for (const bucket of this.buckets()) {
+								if (bucket.id !== bucketId) {
+									this.router.navigate(['/buckets', bucket.id]);
+									return;
+								}
+							}
+							this.router.navigate(['/buckets']);
+						}
+					}
+				});
 			});
 	}
 
-	onArchiveBucket(bucketId: string) {
+	onArchiveBucket(bucketId: string, bucketName: string) {
 		this.dialogController
 			.open(ConfirmationDialogComponent, {
 				width: '400px',
 				data: {
 					action: 'Archive',
 					description:
-						'Archiving buckets will hide them from most views. Do you want to archive this bucket?',
+						`Archiving buckets will hide them from most views. Do you want to archive ${bucketName}?`,
 				},
 				enterAnimationDuration: '250ms',
 				exitAnimationDuration: '100ms',
 				autoFocus: 'dialog',
 			})
 			.afterClosed()
-			.subscribe(async (result) => {
+			.subscribe((result) => {
 				if (!result) {
 					return;
 				}
 
-				await this.bucketsQuery.archiveBucket().mutateAsync(bucketId);
-				this.router.navigate(['/buckets']);
+				this.archiveBucket.mutate({bucketId}, {
+					onSuccess: (_, {bucketId}) => {
+						if(this.selectedBucketId() === bucketId) {
+							for (const bucket of this.buckets()) {
+								if (bucket.id !== bucketId) {
+									this.router.navigate(['/buckets', bucket.id]);
+									return;
+								}
+							}
+							this.router.navigate(['/buckets']);
+						}
+					}
+				});
 			});
 	}
-
 }

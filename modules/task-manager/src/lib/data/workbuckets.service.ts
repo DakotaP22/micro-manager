@@ -73,7 +73,7 @@ export class WorkbucketsService {
 					bucketId
 				);
 				return from(updateDoc(collectionRef, { archived: true }))
-			})
+			}),
 		)
 	}
 

@@ -5,8 +5,8 @@
         [workbucket]="bucket"
         [class.active]="bucket.id === selectedBucketId()"
         [routerLink]="['/buckets', bucket.id]"
-        (delete)="onDeleteBucket(bucket.id)"
-        (archive)="onArchiveBucket(bucket.id)"
+        (delete)="onDeleteBucket(bucket.id, bucket.title)"
+        (archive)="onArchiveBucket(bucket.id, bucket.title)"
       />
     }
   </ul>

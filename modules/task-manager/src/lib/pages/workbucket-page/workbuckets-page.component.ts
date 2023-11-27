@@ -29,22 +29,31 @@ import { WorkbucketCardListComponent } from './components/workbucket-card-list/w
 export class WorkbucketsPageComponent {
 	dialogController = inject(MatDialog);
 	router = inject(Router);
-
-	selectedBucketId = injectParams('bucket-id');
-
 	bucketsQuery = inject(WorkbucketQueryService);
 	bucketsResult = this.bucketsQuery.getBuckets().result;
 
+	selectedBucketId = injectParams('bucket-id');
 	buckets = computed(() => this.bucketsResult().data ?? []);
 	bucketCount = computed(() => this.buckets().length);
 	selectedBucket = computed(() =>
 		this.buckets().find((b) => b.id === this.selectedBucketId())
 	);
 	isLoading = computed(() => this.bucketsResult().isLoading);
+	isSettled = computed(() => !this.bucketsResult().isFetching);
 
 	routeToFirstBucketEffect = effect(() => {
-		if (this.bucketCount() > 0 && !this.selectedBucketId()) {
+		if (
+			this.isSettled() &&
+			this.bucketCount() > 0 &&
+			!this.selectedBucketId()
+		) {
 			this.router.navigate(['/buckets', this.buckets()[0].id]);
+		} else if (
+			this.isSettled() &&
+			this.bucketCount() === 0 &&
+			this.selectedBucketId()
+		) {
+			this.router.navigate(['/buckets']);
 		}
 	});
 
