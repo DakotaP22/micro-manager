@@ -1,8 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, User, user } from '@angular/fire/auth';
+import { Auth } from '@angular/fire/auth';
 import {
 	Firestore,
-	QuerySnapshot,
 	addDoc,
 	collection,
 	deleteDoc,
@@ -12,7 +11,7 @@ import {
 	updateDoc,
 	where
 } from '@angular/fire/firestore';
-import { EMPTY, Observable, from, map, of, switchMap } from 'rxjs';
+import { firstValueFrom } from 'rxjs';
 import { Workbucket } from '../models/Workbucket';
 
 @Injectable({ providedIn: 'root' })
@@ -20,100 +19,80 @@ export class WorkbucketsService {
 	firestore = inject(Firestore);
 	auth = inject(Auth);
 
-	buckets$: Observable<Workbucket[]> = user(this.auth).pipe(
-		map((user: User | null) => user?.uid),
-		switchMap((userId: string | undefined) => {
-			if (!userId) {
-				return of([]);
-			}
+	async getWorkbucketsForSignedInUser(): Promise<Workbucket[]> {
+		// const user = await firstValueFrom(user(this.auth));
+		const user = this.auth.currentUser
+		if (!user) {
+			return [];
+		}
 
-			return this.getWorkbucketsForUser$(userId);
-		})
-	);
-
-	private getWorkbucketsForUser$(userId: string): Observable<Workbucket[]> {
 		const collectionRef = collection(
 			this.firestore,
 			'users',
-			userId,
+			user.uid,
 			'workbuckets'
 		);
 		const q = query(collectionRef, where('archived', '==', false));
-		const querySnapshot = getDocs(q);
+		const querySnapshot = await getDocs(q);
 
-		return from(querySnapshot).pipe(
-			map((querySnapshot: QuerySnapshot) => {
-				if (querySnapshot.empty) {
-					return [];
-				}
+		if (querySnapshot.empty) {
+			return [];
+		}
 
-				return querySnapshot.docs.map((doc) => {
-					return {
-						id: doc.id,
-						...doc.data(),
-					} as Workbucket;
-				});
-			}),
-			map((buckets: Workbucket[]) => buckets.sort((a, b) => a.title.localeCompare(b.title)))
+		return querySnapshot.docs.map((doc) => {
+			return {
+				id: doc.id,
+				...doc.data(),
+			} as Workbucket;
+		});
+	}
+
+	async archiveBucket(bucketId: string): Promise<void> {
+		const user = this.auth.currentUser
+		if (!user) {
+			return;
+		}
+
+		const collectionRef = doc(
+			this.firestore,
+			'users',
+			user.uid,
+			'workbuckets',
+			bucketId
 		);
+		await updateDoc(collectionRef, { archived: true });
 	}
 
-	archiveBucket(bucketId: string): Observable<void> {
-		return user(this.auth).pipe(
-			switchMap((user: User | null) => {
-				if (!user) {
-					return EMPTY;
-				}
+	async deleteBucket(bucketId: string): Promise<void> {
+		const user = this.auth.currentUser
+		if (!user) {
+			return;
+		}
 
-				const collectionRef = doc(
-					this.firestore,
-					'users',
-					user.uid,
-					'workbuckets',
-					bucketId
-				);
-				return from(updateDoc(collectionRef, { archived: true }))
-			}),
-		)
+		const collectionRef = doc(
+			this.firestore,
+			'users',
+			user.uid,
+			'workbuckets',
+			bucketId
+		);
+		await deleteDoc(collectionRef);
 	}
 
-	deleteBucket(bucketId: string) {
-		return user(this.auth).pipe(
-			switchMap((user: User | null) => {
-				if (!user) {
-					return EMPTY;
-				}
+	async addBucket(title: string, description: string): Promise<void> {
+		const user = this.auth.currentUser
+		if (!user) {
+			return;
+		}
 
-				const collectionRef = doc(
-					this.firestore,
-					'users',
-					user.uid,
-					'workbuckets',
-					bucketId
-				);
-				return from(deleteDoc(collectionRef))
-			})
-		)
-	}
+		const collectionRef = collection(
+			this.firestore,
+			'users',
+			user.uid,
+			'workbuckets'
+		);
 
-	addBucket(title: string, description: string) {
-		return user(this.auth).pipe(
-			switchMap((user: User | null) => {
-				if (!user) {
-					return EMPTY;
-				}
-
-				const collectionRef = collection(
-					this.firestore,
-					'users',
-					user.uid,
-					'workbuckets'
-				);
-
-
-				const bucket: Partial<Workbucket> = { title, description, archived: false };
-				return from(addDoc(collectionRef, bucket));
-			})
-		)
+		const bucket: Partial<Workbucket> = { title, description, archived: false };
+		await addDoc(collectionRef, bucket);
 	}
 }

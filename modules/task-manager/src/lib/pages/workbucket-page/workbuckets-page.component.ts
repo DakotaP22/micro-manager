@@ -1,15 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { injectParams } from 'ngxtension/inject-params';
+import { signalSlice } from 'ngxtension/signal-slice';
+import { map } from 'rxjs';
 import { WorkbucketsService } from '../../data/workbuckets.service';
+import { Workbucket } from '../../models/Workbucket';
 import { WorkbucketQueryService } from '../../queries/workbuckets.query';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { NoBucketsComponent } from './components/no-buckets/no-buckets.component';
-import { WorkbucketCardComponent } from './components/workbucket-card/workbucket-card.component';
 import { WorkbucketCardListComponent } from './components/workbucket-card-list/workbucket-card-list.component';
+import { WorkbucketCardComponent } from './components/workbucket-card/workbucket-card.component';
+
+type PageState = {
+	data: Workbucket[];
+	selectedBucketId: string | null;
+	isLoading: boolean;
+	isFetching: boolean;
+	isError: boolean;
+}
 
 @Component({
 	standalone: true,
@@ -29,37 +41,51 @@ import { WorkbucketCardListComponent } from './components/workbucket-card-list/w
 export class WorkbucketsPageComponent {
 	dialogController = inject(MatDialog);
 	router = inject(Router);
-	bucketsQuery = inject(WorkbucketQueryService);
-	bucketsResult = this.bucketsQuery.getBuckets().result;
+	bucketsQuerySvc = inject(WorkbucketQueryService);
+	// bucketsResult = this.bucketsQuery.getBuckets().result;
 
-	selectedBucketId = injectParams('bucket-id');
-	buckets = computed(() => this.bucketsResult().data ?? []);
-	bucketCount = computed(() => this.buckets().length);
-	selectedBucket = computed(() =>
-		this.buckets().find((b) => b.id === this.selectedBucketId())
-	);
-	isLoading = computed(() => this.bucketsResult().isLoading);
-	isSettled = computed(() => !this.bucketsResult().isFetching);
+	selectedBucketId$ = toObservable(injectParams('bucket-id')).pipe(map((bucketId) => ({ selectedBucketId: bucketId })));
+	buckets$ = toObservable(this.bucketsQuerySvc.bucketsQuery.data).pipe(map((data) => ({ data: data ?? [] })));
+	isLoading$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isLoading).pipe(map((isLoading) => ({ isLoading })));
+	isFetching$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isFetching).pipe(map((isFetching) => ({ isFetching })));
+	isError$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isError).pipe(map((isError) => ({ isError })));
 
-	routeToFirstBucketEffect = effect(() => {
-		if (
-			this.isSettled() &&
-			this.bucketCount() > 0 &&
-			!this.selectedBucketId()
-		) {
-			this.router.navigate(['/buckets', this.buckets()[0].id]);
-		} else if (
-			this.isSettled() &&
-			this.bucketCount() === 0 &&
-			this.selectedBucketId()
-		) {
-			this.router.navigate(['/buckets']);
-		}
-	});
+	state = signalSlice({
+		initialState: {
+			data: [],
+			selectedBucketId: null,
+			isLoading: false,
+			isFetching: false,
+			isError: false,
+		} as PageState,
+		sources: [this.selectedBucketId$, this.buckets$, this.isLoading$, this.isFetching$, this.isError$],
+		selectors: (state) => ({
+			bucketCount: () => state().data.length,
+			selectedBucket: () => state().data.find((b) => b.id === state().selectedBucketId),
+			isSettled: () => !state().isFetching,
+		}),
+		effects: (state) => ({
+			routetoFirstBucket: () => {
+				if (
+					state.isSettled() &&
+					state.bucketCount() > 0 &&
+					!state.selectedBucketId()
+				) {
+					this.router.navigate(['/buckets', state.data()[0].id]);
+				} else if (
+					state.isSettled() &&
+					state.bucketCount() === 0 &&
+					state.selectedBucketId()
+				) {
+					this.router.navigate(['/buckets']);
+				}
+			}
+		})
+	})
 
 	onCreateBucketClick() {
 		const title = 'Test Bucket';
 		const description = 'Test Description';
-		this.bucketsQuery.addBucket().mutate({ title, description });
+		this.bucketsQuerySvc.addBucket().mutate({ title, description });
 	}
 }

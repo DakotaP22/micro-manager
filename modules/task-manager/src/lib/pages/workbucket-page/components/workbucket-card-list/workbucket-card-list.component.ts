@@ -1,11 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
-import { WorkbucketQueryService } from '../../../../queries/workbuckets.query';
-import { injectParams } from 'ngxtension/inject-params';
-import { WorkbucketCardComponent } from '../workbucket-card/workbucket-card.component';
-import { Router, RouterModule } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
+import { Router, RouterModule } from '@angular/router';
+import { injectParams } from 'ngxtension/inject-params';
+import { signalSlice } from 'ngxtension/signal-slice';
+import { map } from 'rxjs';
+import { Workbucket } from '../../../../models/Workbucket';
+import { WorkbucketQueryService } from '../../../../queries/workbuckets.query';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { WorkbucketCardComponent } from '../workbucket-card/workbucket-card.component';
+
+type ComponentState = {
+	data: Workbucket[];
+	selectedBucketId: string | null;
+	isLoading: boolean;
+	isFetching: boolean;
+	isError: boolean;
+};
 
 @Component({
 	selector: 'workbucket-card-list',
@@ -22,26 +34,48 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 export class WorkbucketCardListComponent {
 	dialogController = inject(MatDialog);
 	router = inject(Router);
+	bucketsQuerySvc = inject(WorkbucketQueryService);
 
-	bucketsQuery = inject(WorkbucketQueryService);
-	bucketsResult = this.bucketsQuery.getBuckets().result;
-	archiveBucket = this.bucketsQuery.archiveBucket();
-	archiveBucketResult = this.archiveBucket.result;
-	deleteBucket = this.bucketsQuery.deleteBucket();
-	deleteBucketResult = this.deleteBucket.result;
+	buckets$ = toObservable(this.bucketsQuerySvc.bucketsQuery.data).pipe(
+		map((data) => ({ data: data ?? [] }))
+	);
+	selectedBucketId$ = toObservable(injectParams('bucket-id')).pipe(
+		map((bucketId) => ({ selectedBucketId: bucketId }))
+	);
+	isLoading$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isLoading).pipe(
+		map((isLoading) => ({ isLoading }))
+	);
+	isFetching$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isFetching).pipe(
+		map((isFetching) => ({ isFetching }))
+	);
+	isError$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isError).pipe(
+		map((isError) => ({ isError }))
+	);
 
-	buckets = computed(() => this.bucketsResult().data ?? []);
-	selectedBucketId = injectParams('bucket-id');
+	state = signalSlice({
+		initialState: {
+			data: [],
+			selectedBucketId: null,
+			isLoading: false,
+			isFetching: false,
+			isError: false,
+		} as ComponentState,
+		sources: [
+			this.selectedBucketId$,
+			this.buckets$,
+			this.isLoading$,
+			this.isFetching$,
+			this.isError$,
+		],
+	});
 
 	onDeleteBucket(bucketId: string, bucketName: string) {
-		console.log('Test!');
 		this.dialogController
 			.open(ConfirmationDialogComponent, {
 				width: '400px',
 				data: {
 					action: 'Delete',
-					description:
-						`Deleting buckets is irreversible. Do you want to delete ${bucketName}?`,
+					description: `Deleting buckets is irreversible. Do you want to delete ${bucketName}?`,
 					warn: true,
 				},
 				enterAnimationDuration: '250ms',
@@ -54,18 +88,9 @@ export class WorkbucketCardListComponent {
 					return;
 				}
 
-				this.deleteBucket.mutate({ bucketId }, {
-					onSuccess: (_, { bucketId }) => {
-						if(this.selectedBucketId() === bucketId) {
-							for (const bucket of this.buckets()) {
-								if (bucket.id !== bucketId) {
-									this.router.navigate(['/buckets', bucket.id]);
-									return;
-								}
-							}
-							this.router.navigate(['/buckets']);
-						}
-					}
+				this.bucketsQuerySvc.deleteBucket().mutate(bucketId, {
+					onSuccess: (_, bucketId) =>
+						this.navigateAfterDeleteOrArchive(bucketId),
 				});
 			});
 	}
@@ -76,8 +101,7 @@ export class WorkbucketCardListComponent {
 				width: '400px',
 				data: {
 					action: 'Archive',
-					description:
-						`Archiving buckets will hide them from most views. Do you want to archive ${bucketName}?`,
+					description: `Archiving buckets will hide them from most views. Do you want to archive ${bucketName}?`,
 				},
 				enterAnimationDuration: '250ms',
 				exitAnimationDuration: '100ms',
@@ -89,19 +113,22 @@ export class WorkbucketCardListComponent {
 					return;
 				}
 
-				this.archiveBucket.mutate({bucketId}, {
-					onSuccess: (_, {bucketId}) => {
-						if(this.selectedBucketId() === bucketId) {
-							for (const bucket of this.buckets()) {
-								if (bucket.id !== bucketId) {
-									this.router.navigate(['/buckets', bucket.id]);
-									return;
-								}
-							}
-							this.router.navigate(['/buckets']);
-						}
-					}
+				this.bucketsQuerySvc.archiveBucket().mutate(bucketId, {
+					onSuccess: (_, bucketId) =>
+						this.navigateAfterDeleteOrArchive(bucketId),
 				});
 			});
+	}
+
+	private navigateAfterDeleteOrArchive(bucketId: string) {
+		if (this.state.selectedBucketId() === bucketId) {
+			for (const bucket of this.state.data()) {
+				if (bucket.id !== bucketId) {
+					this.router.navigate(['/buckets', bucket.id]);
+					return;
+				}
+			}
+			this.router.navigate(['/buckets']);
+		}
 	}
 }

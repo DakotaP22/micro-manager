@@ -1,68 +1,34 @@
 import { Injectable, inject } from '@angular/core';
-import { injectMutation, injectQuery, injectQueryClient } from '@ngneat/query';
 import { WorkbucketsService } from '../data/workbuckets.service';
-import { EMPTY } from 'rxjs';
 import { Router } from '@angular/router';
+import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 
 @Injectable()
 export class WorkbucketQueryService {
-	private queryClient = injectQueryClient();
-	private query = injectQuery();
-	private mutation = injectMutation();
 	private bucketSvc = inject(WorkbucketsService);
-	private router = inject(Router);
 
 	// Queries
-	getBuckets() {
-		return this.query({
-			queryKey: ['buckets'] as const,
-			queryFn: () => this.bucketSvc.buckets$,
-		});
-	}
+	bucketsQuery = injectQuery(() => ({
+		queryKey: ['buckets'] as const,
+		queryFn: () => this.bucketSvc.getWorkbucketsForSignedInUser(),
+	}));
 
-	getBucket(id: string) {
-		return this.query({
-			queryKey: ['bucket', id] as const,
-			queryFn: () => EMPTY,
-		});
-	}
+	addBucket = injectMutation((client) => ({
+		mutationKey: ['addBucket'] as const,
+		mutationFn: ({title, description}: {title: string, description: string}) => this.bucketSvc.addBucket(title, description),
+		onSuccess: () => client.invalidateQueries({ queryKey: ['buckets'] }),
+	}));
 
-	// Mutations
-	addBucket() {
-		return this.mutation({
-			mutationFn: ({
-				title,
-				description,
-			}: {
-				title: string;
-				description: string;
-			}) => this.bucketSvc.addBucket(title, description),
-			onSuccess: () =>
-				this.queryClient.invalidateQueries({ queryKey: ['buckets'] }),
-		});
-	}
+	archiveBucket = injectMutation((client) => ({
+		mutationKey: ['archiveBucket'] as const,
+		mutationFn: (bucketId: string) => this.bucketSvc.archiveBucket(bucketId),
+		onSuccess: () => client.invalidateQueries({ queryKey: ['buckets'] }),
+	}));
 
-	archiveBucket() {
-		return this.mutation({
-			mutationFn: ({bucketId}: {bucketId: string}) => this.bucketSvc.archiveBucket(bucketId),
-			onSuccess: (_, bucketId) => {
-				this.queryClient.invalidateQueries({ queryKey: ['buckets'] });
-				this.queryClient.invalidateQueries({
-					queryKey: ['bucket', bucketId],
-				});
-			},
-		});
-	}
-
-	deleteBucket() {
-		return this.mutation({
-			mutationFn: ({bucketId}: {bucketId: string}) => this.bucketSvc.deleteBucket(bucketId),
-			onSuccess: (_, bucketId) => {
-				this.queryClient.invalidateQueries({ queryKey: ['buckets'] });
-			 	this.queryClient.invalidateQueries({
-					queryKey: ['bucket', bucketId],
-				});
-			},
-		});
-	}
+	deleteBucket = injectMutation((client) => ({
+		mutationKey: ['deleteBucket'] as const,
+		mutationFn: (bucketId: string) => this.bucketSvc.deleteBucket(bucketId),
+		onSuccess: () => client.invalidateQueries({ queryKey: ['buckets'] }),
+	}));
+	
 }

@@ -1,6 +1,6 @@
 
-@defer(when !isLoading()) { 
-  @if(bucketCount() > 0) {
+@defer(when state.isSettled()) { 
+  @if(state.bucketCount() > 0) {
     <main class="buckets-layout">
       <div class="bucket-list">
         <h1 class="mat-headline-2">Buckets</h1>
@@ -10,7 +10,7 @@
         <button mat-stroked-button color="primary" (click)="onCreateBucketClick()">Add Bucket</button>
       </div>
 
-      <div class="bucket-details">{{selectedBucket() | json}}</div>
+      <div class="bucket-details">{{state.selectedBucket() | json}}</div>
     </main>
     } @else {
     <no-buckets />
