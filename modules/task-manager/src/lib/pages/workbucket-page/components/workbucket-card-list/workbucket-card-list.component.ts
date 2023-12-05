@@ -35,20 +35,21 @@ export class WorkbucketCardListComponent {
 	dialogController = inject(MatDialog);
 	router = inject(Router);
 	bucketsQuerySvc = inject(WorkbucketQueryService);
+	bucketsQuery = this.bucketsQuerySvc.getBucketsQuery();
 
-	buckets$ = toObservable(this.bucketsQuerySvc.bucketsQuery.data).pipe(
+	buckets$ = toObservable(this.bucketsQuery.data).pipe(
 		map((data) => ({ data: data ?? [] }))
 	);
 	selectedBucketId$ = toObservable(injectParams('bucket-id')).pipe(
 		map((bucketId) => ({ selectedBucketId: bucketId }))
 	);
-	isLoading$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isLoading).pipe(
+	isLoading$ = toObservable(this.bucketsQuery.isLoading).pipe(
 		map((isLoading) => ({ isLoading }))
 	);
-	isFetching$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isFetching).pipe(
+	isFetching$ = toObservable(this.bucketsQuery.isFetching).pipe(
 		map((isFetching) => ({ isFetching }))
 	);
-	isError$ = toObservable(this.bucketsQuerySvc.bucketsQuery.isError).pipe(
+	isError$ = toObservable(this.bucketsQuery.isError).pipe(
 		map((isError) => ({ isError }))
 	);
 

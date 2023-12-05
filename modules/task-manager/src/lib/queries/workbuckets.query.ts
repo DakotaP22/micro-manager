@@ -8,11 +8,21 @@ export class WorkbucketQueryService {
 	private bucketSvc = inject(WorkbucketsService);
 
 	// Queries
-	bucketsQuery = injectQuery(() => ({
-		queryKey: ['buckets'] as const,
-		queryFn: () => this.bucketSvc.getWorkbucketsForSignedInUser(),
-	}));
+	getBucketsQuery() {
+		return injectQuery(() => ({
+			queryKey: ['buckets'] as const,
+			queryFn: () => this.bucketSvc.getWorkbucketsForSignedInUser(),
+		}));
+	}
 
+	getBucketQuery(bucketId: string) {
+		return injectQuery(() => ({
+			queryKey: ['buckets', bucketId] as const,
+			queryFn: () => this.bucketSvc.getWorkbucketsForSignedInUser(),
+		}));
+	}
+
+	// Mutations
 	addBucket = injectMutation((client) => ({
 		mutationKey: ['addBucket'] as const,
 		mutationFn: ({title, description}: {title: string, description: string}) => this.bucketSvc.addBucket(title, description),

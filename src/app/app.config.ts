@@ -24,6 +24,7 @@ import {
 } from '@angular/fire/analytics';
 import { environment } from '@micro-manager/environments';
 import { MatMenuModule } from '@angular/material/menu';
+import { QueryClient, provideAngularQuery } from '@tanstack/angular-query-experimental';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -64,6 +65,7 @@ export const appConfig: ApplicationConfig = {
     importProvidersFrom(provideAnalytics(() => getAnalytics())),
     ScreenTrackingService,
     UserTrackingService,
+    provideAngularQuery(new QueryClient()),
   ],
 
 };
