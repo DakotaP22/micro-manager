@@ -1,7 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { WorkbucketsService } from '../data/workbuckets.service';
-import { Router } from '@angular/router';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
+import { WorkbucketsService } from '../data/workbuckets.service';
 
 @Injectable()
 export class WorkbucketQueryService {
