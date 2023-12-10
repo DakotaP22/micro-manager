@@ -62,7 +62,7 @@ export const appConfig: ApplicationConfig = {
       }
       return functions;
     })),
-    importProvidersFrom(provideAnalytics(() => getAnalytics())),
+    //importProvidersFrom(provideAnalytics(() => getAnalytics())),
     ScreenTrackingService,
     UserTrackingService,
     provideAngularQuery(new QueryClient()),

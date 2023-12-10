@@ -4,4 +4,6 @@ export type Workbucket = {
     archived: boolean,
     description?: string,
     openItems?: number,
+    priority: number,
+    allocation: number,
 }

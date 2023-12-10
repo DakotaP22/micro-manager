@@ -8,12 +8,12 @@
     width: 100%;
     height: 100%;
     padding-block: 64px;
-    padding-inline: 128px;
+    padding-inline: clamp(128px, 10%, 256px);
     box-sizing: border-box;
     column-gap: 32px;
 
     .bucket-list {
-        width: 350px;
+        width: max(350px, 35%);
         box-sizing: border-box;
         display: flex;
         flex-direction: column;

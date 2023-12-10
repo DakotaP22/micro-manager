@@ -1,0 +1,32 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    padding-block: 64px 128px;
+    box-sizing: border-box;
+}
+
+.page-title {
+    color: #6DD2FF;
+    font-weight: 500;
+}
+
+form {
+    flex-grow: 1;
+    width: 60%;
+    height: 60%;
+    display: grid;
+    grid-template-columns: [full-start] 1fr 1fr 1fr 1fr [full-end];
+    grid-template-rows: min-content min-content 1fr;
+    column-gap: 32px;
+}
+
+.full-width {
+    grid-column: full;
+}
+
+.name > input {
+    font-size: 64px;
+}

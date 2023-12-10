@@ -14,6 +14,7 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { Workbucket } from '../../models/Workbucket';
 import { map } from 'rxjs';
 import { signalSlice } from 'ngxtension/signal-slice';
+import { WorkbucketDetailsComponent } from './components/workbucket-details/workbucket-details.component';
 
 type PageState = {
 	data: Workbucket[];
@@ -32,6 +33,7 @@ type PageState = {
 		WorkbucketCardComponent,
 		WorkbucketCardListComponent,
 		ConfirmationDialogComponent,
+		WorkbucketDetailsComponent,
 		RouterModule,
 	],
 	providers: [WorkbucketsService, WorkbucketQueryService],
@@ -62,7 +64,7 @@ export class WorkbucketsPageComponent {
 		selectors: (state) => ({
 			bucketCount: () => state().data.length,
 			selectedBucket: () => state().data.find((b) => b.id === state().selectedBucketId),
-			isSettled: () => !state().isFetching,
+			isSettled: () => !state().isLoading,
 		}),
 		effects: (state) => ({
 			routetoFirstBucket: () => {
@@ -83,9 +85,7 @@ export class WorkbucketsPageComponent {
 		})
 	})
 
-	onCreateBucketClick() {
-		const title = 'Test Bucket';
-		const description = 'Test Description';
-		this.bucketsQuerySvc.addBucket().mutate({ title, description });
+	navigateToCreateBucketPage() {
+		this.router.navigate(['/buckets', 'create']);
 	}
 }

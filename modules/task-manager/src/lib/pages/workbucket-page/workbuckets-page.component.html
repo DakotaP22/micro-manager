@@ -7,12 +7,13 @@
 
         <workbucket-card-list />
 
-        <button mat-stroked-button color="primary" (click)="onCreateBucketClick()">Add Bucket</button>
+        <button mat-stroked-button color="primary" (click)="navigateToCreateBucketPage()">Add Bucket</button>
       </div>
 
-      <div class="bucket-details">{{state.selectedBucket() | json}}</div>
+      <!-- <div class="bucket-details">{{state.selectedBucket() | json}}</div> -->
+      <workbucket-details [bucketId]="state.selectedBucketId()"/>
     </main>
     } @else {
-    <no-buckets />
+    <no-buckets (createBucket)="navigateToCreateBucketPage()"/>
     } 
-} @placeholder {}
+} 

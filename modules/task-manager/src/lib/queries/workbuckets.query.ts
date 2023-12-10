@@ -1,5 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
+import { Injectable, Signal, inject } from '@angular/core';
+import {
+	injectMutation,
+	injectQuery,
+} from '@tanstack/angular-query-experimental';
 import { WorkbucketsService } from '../data/workbuckets.service';
 
 @Injectable()
@@ -14,17 +17,29 @@ export class WorkbucketQueryService {
 		}));
 	}
 
-	getBucketQuery(bucketId: string) {
+	getBucketDetailsQuery(bucketId: Signal<string | null>) {
 		return injectQuery(() => ({
-			queryKey: ['buckets', bucketId] as const,
-			queryFn: () => this.bucketSvc.getWorkbucketsForSignedInUser(),
+			enabled: !!bucketId(),
+			queryKey: ['buckets', bucketId()] as const,
+			queryFn: () =>
+				this.bucketSvc.getWorkbucketDetailsForSignedInUser(bucketId() ?? ''),
 		}));
 	}
 
 	// Mutations
 	addBucket = injectMutation((client) => ({
 		mutationKey: ['addBucket'] as const,
-		mutationFn: ({title, description}: {title: string, description: string}) => this.bucketSvc.addBucket(title, description),
+		mutationFn: ({
+			title,
+			description,
+			priority,
+			allocation,
+		}: {
+			title: string;
+			description?: string | null;
+			priority?: number | null;
+			allocation?: number | null;
+		}) => this.bucketSvc.addBucket(title, description, priority, allocation),
 		onSuccess: () => client.invalidateQueries({ queryKey: ['buckets'] }),
 	}));
 
@@ -39,5 +54,29 @@ export class WorkbucketQueryService {
 		mutationFn: (bucketId: string) => this.bucketSvc.deleteBucket(bucketId),
 		onSuccess: () => client.invalidateQueries({ queryKey: ['buckets'] }),
 	}));
-	
+
+	updateBucket = injectMutation((client) => ({
+		mutationKey: ['updateBucket'] as const,
+		mutationFn: ({
+			bucketId,
+			title,
+			description,
+			priority,
+			allocation,
+		}: {
+			bucketId: string;
+			title: string;
+			description?: string | null;
+			priority?: number | null;
+			allocation?: number | null;
+		}) =>
+			this.bucketSvc.updateBucket(
+				bucketId,
+				title,
+				description,
+				priority,
+				allocation
+			),
+		onSuccess: () => client.invalidateQueries({ queryKey: ['buckets'] }),
+	}));
 }

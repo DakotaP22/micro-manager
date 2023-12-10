@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,4 +10,11 @@ import { MatIconModule } from '@angular/material/icon';
   templateUrl: './no-buckets.component.html',
   styleUrls: ['./no-buckets.component.scss'],
 })
-export class NoBucketsComponent {}
+export class NoBucketsComponent {
+  @Output() createBucket = new EventEmitter<void>();
+
+  onCreateBucketClick() {
+    this.createBucket.emit();
+  }
+
+}

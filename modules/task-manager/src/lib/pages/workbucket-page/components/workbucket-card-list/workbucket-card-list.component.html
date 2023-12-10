@@ -7,6 +7,7 @@
         [routerLink]="['/buckets', bucket.id]"
         (delete)="onDeleteBucket(bucket.id, bucket.title)"
         (archive)="onArchiveBucket(bucket.id, bucket.title)"
+        (edit)="onEditBucket(bucket.id)"
       />
     }
   </ul>

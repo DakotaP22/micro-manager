@@ -1,0 +1,31 @@
+<h1 class="mat-headline-1 page-title">Create Workbucket</h1>
+
+<form [formGroup]="createBucketForm" (ngSubmit)="onSubmit()">
+	<mat-form-field class="full-width" appearance="outline">
+		<input matInput placeholder="Workbucket Name..." formControlName="title" class="name" />
+	</mat-form-field>
+
+	<mat-form-field appearance="outline">
+		<mat-label>Priority</mat-label>
+		<input matInput type="number" formControlName="priority" />
+	</mat-form-field>
+
+	<mat-form-field appearance="outline">
+		<mat-label>Allocation</mat-label>
+		<input matInput type="number" label="Allocation" formControlName="allocation" />
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="full-width">
+		<mat-label>Description</mat-label>
+		<textarea
+			matInput
+			formControlName="description"
+			cdkTextareaAutosize
+			#autosize="cdkTextareaAutosize"
+			cdkAutosizeMinRows="1"
+			cdkAutosizeMaxRows="1"
+		></textarea>
+	</mat-form-field>
+	<button mat-raised-button color="primary" type="submit" [disabled]="!createBucketForm.valid">Create</button>
+	<button mat-raised-button color="accent" (click)="onCancel()" type="button">Cancel</button>
+</form>

@@ -120,6 +120,10 @@ export class WorkbucketCardListComponent {
 				});
 			});
 	}
+	
+	onEditBucket(bucketId: string) {
+		this.router.navigate(['/buckets', bucketId, 'edit']);
+	}
 
 	private navigateAfterDeleteOrArchive(bucketId: string) {
 		if (this.state.selectedBucketId() === bucketId) {

@@ -1,0 +1,23 @@
+<section class="surface-3 layout">
+	@defer(when bucketQuery.isFetched() && workItemsQuery.isFetched()) {
+	<h2 class="mat-headline-2 title">{{ bucketQuery.data()?.title }}</h2>
+
+	@if(bucketQuery.data()?.description; as description) {
+	<p class="mat-headline-6 description">{{ description }}</p>
+	}
+
+	<section class="work-item-list">
+		<ul>
+			@for(item of workItemsQuery.data(); track item.id) {
+			<li>
+				<work-item-card [workItem]="item" />
+			</li>
+			}
+		</ul>
+	</section>
+
+	<button mat-raised-button color="primary" class="action-btn">Add Work Item</button>
+	} @placeholder {
+	<p>Loading Details...</p>
+	}
+</section>
