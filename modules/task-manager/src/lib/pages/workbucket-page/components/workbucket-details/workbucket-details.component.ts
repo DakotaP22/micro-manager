@@ -1,38 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, inject, signal } from '@angular/core';
-import { WorkbucketQueryService } from '../../../../queries/workbuckets.query';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { map, tap } from 'rxjs';
-import { Workbucket } from '../../../../models/Workbucket';
-import { signalSlice } from 'ngxtension/signal-slice';
 import { MatButtonModule } from '@angular/material/button';
-import { WorkItemCardComponent } from '../work-item-card/work-item-card.component';
-import { WorkItem } from '../../../../models/WorkItem';
-import { WorkItemsQueryService } from '../../../../queries/work-items.query';
-import { WorkbucketsService } from '../../../../data/workbuckets.service';
 import { WorkItemsService } from '../../../../data/work-items.service';
+import { WorkbucketsService } from '../../../../data/workbuckets.service';
+import { WorkItemsQueryService } from '../../../../queries/work-items.query';
+import { WorkbucketQueryService } from '../../../../queries/workbuckets.query';
+import { WorkItemCardComponent } from '../work-item-card/work-item-card.component';
+import { Router } from '@angular/router';
 
-type ComponentState = {
-	workbucket: Workbucket | null;
-	workbucketError: boolean;
-	workbucketFetching: boolean;
-	workbucketLoading: boolean;
-	workItems: WorkItem[] | null;
-	workItemsError: boolean;
-	workItemsFetching: boolean;
-	workItemsLoading: boolean;
-};
 
-const initialState: ComponentState = {
-	workbucket: null,
-	workItems: null,
-	workbucketError: false,
-	workbucketFetching: false,
-	workbucketLoading: false,
-	workItemsError: false,
-	workItemsFetching: false,
-	workItemsLoading: false,
-};
 
 @Component({
 	selector: 'workbucket-details',
@@ -49,10 +25,15 @@ export class WorkbucketDetailsComponent {
 	}
 	bucketIdSignal = signal<string | null>(null);
 
+	router = inject(Router);
+
 	bucketsQuerySvc = inject(WorkbucketQueryService);
 	workItemsQuerySvc = inject(WorkItemsQueryService);
 	bucketQuery = this.bucketsQuerySvc.getBucketDetailsQuery(this.bucketIdSignal);
 	workItemsQuery = this.workItemsQuerySvc.getWorkItemsQuery(this.bucketIdSignal);
 
+	routeToCreateWorkItem() {
+		this.router.navigate(['/buckets', this.bucketIdSignal(), 'work-items', 'create'])
+	}
 	
 }

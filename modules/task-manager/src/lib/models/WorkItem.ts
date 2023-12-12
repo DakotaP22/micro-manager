@@ -10,13 +10,23 @@ export type WorkItem = {
     tasks: Task[];
 }
 
-export type WorkItemFromFirebase = {
+export type FirebaseWorkItem = {
     title: string;
     complexity: Complexity;
     priority: Priority;
     dueDate: Timestamp;
+    externalTrackingId: string;
     tasks: Task[];
+}
 
+export type CreateFirebaseWorkItem = {
+    title: string;
+    priority: Priority;
+    complexity: Complexity;
+    dueDate: Timestamp;
+    externalTrackingId: string;
+    description?: string;
+    notes?: string;
 }
 
 export type Complexity = 'Low' | 'Medium' | 'High';

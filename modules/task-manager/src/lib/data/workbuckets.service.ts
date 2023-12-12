@@ -12,9 +12,7 @@ import {
 	updateDoc,
 	where,
 } from '@angular/fire/firestore';
-import { WorkItem, WorkItemFromFirebase } from '../models/WorkItem';
 import { Workbucket } from '../models/Workbucket';
-import { WorkbucketDetails } from '../models/WorkbucketDetails';
 
 @Injectable()
 export class WorkbucketsService {

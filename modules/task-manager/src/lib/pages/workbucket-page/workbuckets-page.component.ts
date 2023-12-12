@@ -1,19 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { Router, RouterModule } from '@angular/router';
 import { injectParams } from 'ngxtension/inject-params';
+import { signalSlice } from 'ngxtension/signal-slice';
+import { map } from 'rxjs';
 import { WorkbucketsService } from '../../data/workbuckets.service';
+import { Workbucket } from '../../models/Workbucket';
 import { WorkbucketQueryService } from '../../queries/workbuckets.query';
 import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 import { NoBucketsComponent } from './components/no-buckets/no-buckets.component';
-import { WorkbucketCardComponent } from './components/workbucket-card/workbucket-card.component';
 import { WorkbucketCardListComponent } from './components/workbucket-card-list/workbucket-card-list.component';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { Workbucket } from '../../models/Workbucket';
-import { map } from 'rxjs';
-import { signalSlice } from 'ngxtension/signal-slice';
+import { WorkbucketCardComponent } from './components/workbucket-card/workbucket-card.component';
 import { WorkbucketDetailsComponent } from './components/workbucket-details/workbucket-details.component';
 
 type PageState = {

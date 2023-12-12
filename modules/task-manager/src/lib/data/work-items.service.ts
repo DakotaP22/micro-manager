@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, collection, doc, getDocs } from '@angular/fire/firestore';
-import { WorkItem, WorkItemFromFirebase } from '../models/WorkItem';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDocs } from '@angular/fire/firestore';
+import { CreateFirebaseWorkItem, FirebaseWorkItem, WorkItem } from '../models/WorkItem';
 
 @Injectable()
 export class WorkItemsService {
@@ -25,7 +25,7 @@ export class WorkItemsService {
         const workItemsQuerySnapshot = await getDocs(workItemsCollectionRef);
         
         const workItems = workItemsQuerySnapshot.docs.map((doc) => {
-            const data = doc.data() as WorkItemFromFirebase;
+            const data = doc.data() as FirebaseWorkItem;
             return {
                 id: doc.id,
                 ...data,
@@ -34,5 +34,40 @@ export class WorkItemsService {
         });
     
         return workItems;
-	}
+    }
+    
+    async createWorkItemForBucket(bucketId: string, workItem: CreateFirebaseWorkItem) {
+        const user = await this.auth.currentUser;
+        if (!user || !bucketId) {
+            return;
+        }
+
+        const workItemsCollectionRef = collection(
+            this.firestore,
+            'users',
+            user.uid,
+            'workbuckets',
+            bucketId,
+            'workitems'
+        );
+        await addDoc(workItemsCollectionRef, workItem);
+    }
+
+    async deleteWorkItemFromBucket(bucketId: string, workItemId: string) {
+        const user = await this.auth.currentUser;
+        if (!user) {
+            return;
+        }
+
+        const workItemDoc = doc(
+            this.firestore,
+            'users',
+            user.uid,
+            'workbuckets',
+            bucketId,
+            'workitems',
+            workItemId
+        );
+        await deleteDoc(workItemDoc);
+    }
 }
