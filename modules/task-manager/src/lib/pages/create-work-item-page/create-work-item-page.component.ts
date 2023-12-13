@@ -42,7 +42,7 @@ export class CreateWorkItemPageComponent {
 		title: new FormControl<string>('', Validators.required),
 		priority: new FormControl<Priority | null>(null, Validators.required),
 		dueDate: new FormControl<Date | null>(null, Validators.required),
-		externalTrackingId: new FormControl<string | null>(null, Validators.required),
+		externalTrackingId: new FormControl<string | null>(null),
 		description: new FormControl<string | null>(null),
 		notes: new FormControl<string | null>(null),
 	});
@@ -57,7 +57,7 @@ export class CreateWorkItemPageComponent {
 			priority: formValues.priority ?? 'Low',
 			complexity: 'Low',
 			dueDate: formValues.dueDate ? Timestamp.fromDate(formValues.dueDate) : Timestamp.now(),
-			externalTrackingId: formValues.externalTrackingId ?? 'missing external reference!!',
+			externalTrackingId: formValues.externalTrackingId ?? '',
 			description: formValues.description ?? '',
 			notes: formValues.notes ?? '',
 		};
