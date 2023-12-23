@@ -11,8 +11,7 @@ export class WorkItemsQueryService {
 		return injectQuery(() => ({
 			enabled: !!bucketId(),
 			queryKey: ['workItems', bucketId()] as const,
-			queryFn: () => this.workItemsSvc.getWorkItemsForBucket(bucketId()),
-			initialData: [],
+			queryFn: () => this.workItemsSvc.getWorkItemsForBucket(bucketId())
 		}));
 	}
 

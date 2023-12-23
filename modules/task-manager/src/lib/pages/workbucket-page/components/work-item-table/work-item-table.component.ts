@@ -4,6 +4,7 @@ import { MatTable, MatTableModule } from '@angular/material/table';
 import { WorkItemsQueryService } from '../../../../queries/work-items.query';
 import { WorkItemsService } from '../../../../data/work-items.service';
 import { Sort, MatSortModule } from '@angular/material/sort';
+import { injectParams } from 'ngxtension/inject-params';
 
 @Component({
 	selector: 'work-item-table',
@@ -16,21 +17,14 @@ import { Sort, MatSortModule } from '@angular/material/sort';
 export class WorkItemTableComponent {
 	@ViewChild(MatTable) table!: MatTable<any>;
 
-	@Input()
-	set bucketId(value: string | null) {
-		this.bucketIdSignal.set(value);
-	}
-	bucketIdSignal = signal<string | null>(null);
+	bucketId = injectParams('bucket-id');
 	sortState = signal<Sort | null>(null);
 
 	workItemQuerySvc = inject(WorkItemsQueryService);
-	workItemQuery = this.workItemQuerySvc.getWorkItemsQuery(this.bucketIdSignal);
+	workItemQuery = this.workItemQuerySvc.getWorkItemsQuery(this.bucketId);
 
 	displayedColumns = ['title', 'complexity', 'priority', 'dueDate'];
 	workItems = computed(() => this.workItemQuery.data());
-
-	logWorkItems = effect(() => console.table(this.workItems()));
-	logData = effect(() => console.table(this.workItemQuery.data()));
 
 	sortedWorkItems = computed(() => {
 		const sort = this.sortState();

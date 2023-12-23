@@ -1,6 +1,6 @@
 
-@defer(when state.isSettled()) { 
-  @if(state.bucketCount() > 0) {
+@defer(when bucketQuery.isFetched()) { 
+  @if(bucketCount() > 0) {
     <main class="buckets-layout">
       <div class="bucket-list">
         <h1 class="mat-headline-2">Buckets</h1>
@@ -11,7 +11,7 @@
       </div>
 
       <!-- <div class="bucket-details">{{state.selectedBucket() | json}}</div> -->
-      <workbucket-details [bucketId]="state.selectedBucketId()"/>
+      <workbucket-details />
     </main>
     } @else {
     <no-buckets (createBucket)="navigateToCreateBucketPage()"/>

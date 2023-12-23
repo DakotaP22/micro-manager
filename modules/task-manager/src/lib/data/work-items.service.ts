@@ -33,8 +33,7 @@ export class WorkItemsService {
             } as WorkItem;
         });
 
-        console.table(workItems.toString());
-        return [...workItems];
+        return workItems?.length > 0 ? [...workItems] : [];
     }
     
     async createWorkItemForBucket(bucketId: string, workItem: CreateFirebaseWorkItem) {

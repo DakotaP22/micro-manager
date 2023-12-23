@@ -1,5 +1,5 @@
 <section class="surface-3 layout">
-	@defer(when bucketQuery.isFetched() && workItemsQuery.isFetched()) {
+	@defer(when bucketQuery.isFetched()) {
 	<h2 class="mat-headline-2 title">{{ bucketQuery.data()?.title }}</h2>
 
 	@if(bucketQuery.data()?.description; as description) {
@@ -7,7 +7,7 @@
 	}
 
 	<section class="work-item-list">
-		<work-item-table [bucketId]="bucketIdSignal()" />
+		<work-item-table />
 	</section>
 
 	<button mat-raised-button color="primary" class="action-btn" (click)="routeToCreateWorkItem()">Add Work Item</button>

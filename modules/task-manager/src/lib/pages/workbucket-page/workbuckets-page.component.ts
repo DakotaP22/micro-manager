@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +15,7 @@ import { NoBucketsComponent } from './components/no-buckets/no-buckets.component
 import { WorkbucketCardListComponent } from './components/workbucket-card-list/workbucket-card-list.component';
 import { WorkbucketCardComponent } from './components/workbucket-card/workbucket-card.component';
 import { WorkbucketDetailsComponent } from './components/workbucket-details/workbucket-details.component';
+import { WorkItemsService } from '../../data/work-items.service';
 
 type PageState = {
 	data: Workbucket[];
@@ -43,48 +44,12 @@ type PageState = {
 export class WorkbucketsPageComponent {
 	dialogController = inject(MatDialog);
 	router = inject(Router);
-	bucketsQuerySvc = inject(WorkbucketQueryService);
-	bucketsQuery = this.bucketsQuerySvc.getBucketsQuery();
+	bucketQuerySvc = inject(WorkbucketQueryService);
+	bucketQuery = this.bucketQuerySvc.getBucketsQuery();
+	bucketCount = computed(() => this.bucketQuery.data()?.length ?? 0);
 
-	selectedBucketId$ = toObservable(injectParams('bucket-id')).pipe(map((bucketId) => ({ selectedBucketId: bucketId })));
-	buckets$ = toObservable(this.bucketsQuery.data).pipe(map((data) => ({ data: data ?? [] })));
-	isLoading$ = toObservable(this.bucketsQuery.isLoading).pipe(map((isLoading) => ({ isLoading })));
-	isFetching$ = toObservable(this.bucketsQuery.isFetching).pipe(map((isFetching) => ({ isFetching })));
-	isError$ = toObservable(this.bucketsQuery.isError).pipe(map((isError) => ({ isError })));
 
-	state = signalSlice({
-		initialState: {
-			data: [],
-			selectedBucketId: null,
-			isLoading: false,
-			isFetching: false,
-			isError: false,
-		} as PageState,
-		sources: [this.selectedBucketId$, this.buckets$, this.isLoading$, this.isFetching$, this.isError$],
-		selectors: (state) => ({
-			bucketCount: () => state().data.length,
-			selectedBucket: () => state().data.find((b) => b.id === state().selectedBucketId),
-			isSettled: () => !state().isLoading,
-		}),
-		effects: (state) => ({
-			routetoFirstBucket: () => {
-				if (
-					state.isSettled() &&
-					state.bucketCount() > 0 &&
-					!state.selectedBucketId()
-				) {
-					this.router.navigate(['/buckets', state.data()[0].id]);
-				} else if (
-					state.isSettled() &&
-					state.bucketCount() === 0 &&
-					state.selectedBucketId()
-				) {
-					this.router.navigate(['/buckets']);
-				}
-			}
-		})
-	})
-
+	
 	navigateToCreateBucketPage() {
 		this.router.navigate(['/buckets', 'create']);
 	}
