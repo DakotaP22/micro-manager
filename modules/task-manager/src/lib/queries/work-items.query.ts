@@ -12,6 +12,7 @@ export class WorkItemsQueryService {
 			enabled: !!bucketId(),
 			queryKey: ['workItems', bucketId()] as const,
 			queryFn: () => this.workItemsSvc.getWorkItemsForBucket(bucketId()),
+			initialData: [],
 		}));
 	}
 
@@ -20,12 +21,12 @@ export class WorkItemsQueryService {
 		mutationFn: ({ workbucketId, workItem }: { workbucketId: string; workItem: CreateFirebaseWorkItem }) =>
 			this.workItemsSvc.createWorkItemForBucket(workbucketId, workItem),
 		onSuccess: () => client.invalidateQueries({ queryKey: ['workItems'] }),
-    }));
-    
-    deleteWorkItem = injectMutation((client) => ({
-        mutationKey: ['deleteWorkItem'] as const,
-        mutationFn: ({ workbucketId, workItemId }: { workbucketId: string; workItemId: string }) =>
-            this.workItemsSvc.deleteWorkItemFromBucket(workbucketId, workItemId),
-        onSuccess: () => client.invalidateQueries({ queryKey: ['workItems'] }),
-    }));
+	}));
+
+	deleteWorkItem = injectMutation((client) => ({
+		mutationKey: ['deleteWorkItem'] as const,
+		mutationFn: ({ workbucketId, workItemId }: { workbucketId: string; workItemId: string }) =>
+			this.workItemsSvc.deleteWorkItemFromBucket(workbucketId, workItemId),
+		onSuccess: () => client.invalidateQueries({ queryKey: ['workItems'] }),
+	}));
 }

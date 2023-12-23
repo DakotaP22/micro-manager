@@ -7,13 +7,7 @@
 	}
 
 	<section class="work-item-list">
-		<ul>
-			@for(item of workItemsQuery.data(); track item.id) {
-			<li>
-				<work-item-card [workItem]="item" />
-			</li>
-			}
-		</ul>
+		<work-item-table [bucketId]="bucketIdSignal()" />
 	</section>
 
 	<button mat-raised-button color="primary" class="action-btn" (click)="routeToCreateWorkItem()">Add Work Item</button>

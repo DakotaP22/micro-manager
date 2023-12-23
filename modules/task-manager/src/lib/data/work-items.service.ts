@@ -11,7 +11,7 @@ export class WorkItemsService {
     async getWorkItemsForBucket(bucketId: string | null) {
         const user = await this.auth.currentUser;
         if (!user || !bucketId) {
-            return null;
+            return [];
         }
 
         const workItemsCollectionRef = collection(
@@ -32,8 +32,9 @@ export class WorkItemsService {
                 dueDate: data.dueDate.toMillis()
             } as WorkItem;
         });
-    
-        return workItems;
+
+        console.table(workItems.toString());
+        return [...workItems];
     }
     
     async createWorkItemForBucket(bucketId: string, workItem: CreateFirebaseWorkItem) {

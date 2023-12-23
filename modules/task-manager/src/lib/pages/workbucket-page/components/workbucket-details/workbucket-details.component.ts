@@ -7,13 +7,14 @@ import { WorkItemsQueryService } from '../../../../queries/work-items.query';
 import { WorkbucketQueryService } from '../../../../queries/workbuckets.query';
 import { WorkItemCardComponent } from '../work-item-card/work-item-card.component';
 import { Router } from '@angular/router';
+import { WorkItemTableComponent } from '../work-item-table/work-item-table.component';
 
 
 
 @Component({
 	selector: 'workbucket-details',
 	standalone: true,
-	imports: [CommonModule, MatButtonModule, WorkItemCardComponent],
+	imports: [CommonModule, MatButtonModule, WorkItemCardComponent, WorkItemTableComponent],
 	providers: [WorkbucketQueryService, WorkItemsQueryService, WorkbucketsService, WorkItemsService],
 	templateUrl: './workbucket-details.component.html',
 	styleUrls: ['./workbucket-details.component.scss'],
