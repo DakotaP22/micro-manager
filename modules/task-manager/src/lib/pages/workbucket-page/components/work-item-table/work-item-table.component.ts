@@ -1,10 +1,11 @@
-import { Component, Input, ViewChild, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, Input, Output, ViewChild, computed, effect, inject, signal } from '@angular/core';
+import { MatSortModule, Sort } from '@angular/material/sort';
 import { MatTable, MatTableModule } from '@angular/material/table';
-import { WorkItemsQueryService } from '../../../../queries/work-items.query';
-import { WorkItemsService } from '../../../../data/work-items.service';
-import { Sort, MatSortModule } from '@angular/material/sort';
 import { injectParams } from 'ngxtension/inject-params';
+import { WorkItem } from '../../../../../lib/models/WorkItem';
+import { WorkItemsService } from '../../../../data/work-items.service';
+import { WorkItemsQueryService } from '../../../../queries/work-items.query';
 
 @Component({
 	selector: 'work-item-table',
@@ -16,19 +17,22 @@ import { injectParams } from 'ngxtension/inject-params';
 })
 export class WorkItemTableComponent {
 	@ViewChild(MatTable) table!: MatTable<any>;
+	@Output() workItemClicked = new EventEmitter<string>();
+
+	@Input()
+	set workItems(items: WorkItem[]) {
+		this._workItems.set(items);
+	}
+	_workItems = signal<WorkItem[]>([]);
 
 	bucketId = injectParams('bucket-id');
 	sortState = signal<Sort | null>(null);
 
-	workItemQuerySvc = inject(WorkItemsQueryService);
-	workItemQuery = this.workItemQuerySvc.getWorkItemsQuery(this.bucketId);
-
 	displayedColumns = ['title', 'complexity', 'priority', 'dueDate'];
-	workItems = computed(() => this.workItemQuery.data());
 
 	sortedWorkItems = computed(() => {
 		const sort = this.sortState();
-		const data = this.workItems();
+		const data = this._workItems();
 		if (!sort?.active || sort?.direction === '') {
 			return data ? [...data] : [];
 		}
@@ -101,5 +105,12 @@ export class WorkItemTableComponent {
 			this.sortedWorkItems();
 			this.table?.renderRows();
 		})
+	}
+
+	onWorkItemClick(data: WorkItem) {
+		if (!data) {
+			return;
+		}
+		this.workItemClicked.emit(data.id);
 	}
 }

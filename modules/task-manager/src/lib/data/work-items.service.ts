@@ -3,7 +3,7 @@ import { Auth } from '@angular/fire/auth';
 import { Firestore, addDoc, collection, deleteDoc, doc, getDocs } from '@angular/fire/firestore';
 import { CreateFirebaseWorkItem, FirebaseWorkItem, WorkItem } from '../models/WorkItem';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class WorkItemsService {
 	firestore = inject(Firestore);
 	auth = inject(Auth);

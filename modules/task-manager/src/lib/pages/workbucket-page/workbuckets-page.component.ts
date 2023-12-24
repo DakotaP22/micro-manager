@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
@@ -48,6 +48,16 @@ export class WorkbucketsPageComponent {
 	bucketQuery = this.bucketQuerySvc.getBucketsQuery();
 	bucketCount = computed(() => this.bucketQuery.data()?.length ?? 0);
 
+
+	bucketId = injectParams('bucket-id');
+
+	constructor() {
+		effect(() =>  {
+			if (!this.bucketId() && this.bucketCount() > 0) {
+				this.router.navigate(['/buckets', this.bucketQuery.data()[0].id]);
+			}
+		})
+	}
 
 	
 	navigateToCreateBucketPage() {

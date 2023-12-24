@@ -3,6 +3,7 @@ import { WorkbucketsPageComponent } from './pages/workbucket-page/workbuckets-pa
 import { CreateWorkbucketPageComponent } from './pages/create-workbucket-page/create-workbucket-page.component';
 import { EditWorkbucketPageComponent } from './pages/edit-workbucket-page/edit-workbucket-page.component';
 import { CreateWorkItemPageComponent } from './pages/create-work-item-page/create-work-item-page.component';
+import { WorkItemPageComponent } from './pages/work-item-page/work-item-page.component';
 
 export const taskManagerRoutes: Route[] = [
 	{
@@ -20,6 +21,10 @@ export const taskManagerRoutes: Route[] = [
 	{
 		path: ':bucket-id/work-items/create',
 		loadComponent: () => CreateWorkItemPageComponent,
+	},
+	{
+		path: ':bucket-id/work-items/:work-item-id',
+		loadComponent: () => WorkItemPageComponent,
 	},
 	{
 		path: ':bucket-id',

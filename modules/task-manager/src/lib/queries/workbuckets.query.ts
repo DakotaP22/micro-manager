@@ -14,6 +14,7 @@ export class WorkbucketQueryService {
 		return injectQuery(() => ({
 			queryKey: ['buckets'] as const,
 			queryFn: () => this.bucketSvc.getWorkbucketsForSignedInUser(),
+			initialData: [],
 		}));
 	}
 
