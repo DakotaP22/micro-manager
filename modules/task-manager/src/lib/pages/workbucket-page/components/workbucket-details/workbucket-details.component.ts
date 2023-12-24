@@ -31,5 +31,9 @@ export class WorkbucketDetailsComponent {
 	routeToCreateWorkItem() {
 		this.router.navigate(['/buckets', this.bucketId(), 'work-items', 'create'])
 	}
+
+	onWorkItemSelect(workItemId: string) {
+		this.router.navigate(['/buckets', this.bucketId(), 'work-items', workItemId])
+	}
 	
 }

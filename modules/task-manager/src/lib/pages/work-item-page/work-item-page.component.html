@@ -1,1 +1,14 @@
-<p>work-item-page works!</p>
+
+@if(workItem(); as workItem) {
+    <h1 class="mat-headline-2 title">{{workItem.title}}</h1>
+
+    <mat-tab-group class="tabs" mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab label="Summary">
+          <work-item-summary [data]="workItemSummary()" />
+        </mat-tab>
+        <mat-tab label="Tasks"></mat-tab>
+        <mat-tab label="Notes"></mat-tab>
+        <mat-tab label="Comments"></mat-tab>
+      </mat-tab-group> 
+}
+

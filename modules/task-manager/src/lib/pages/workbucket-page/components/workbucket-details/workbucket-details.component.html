@@ -7,7 +7,7 @@
 	}
 
 	<section class="work-item-list">
-		<work-item-table [workItems]="workItemsQuery.data()" />
+		<work-item-table [workItems]="workItemsQuery.data()" (workItemClicked)="onWorkItemSelect($event)" />
 	</section>
 
 	<button mat-raised-button color="primary" class="action-btn" (click)="routeToCreateWorkItem()">Add Work Item</button>

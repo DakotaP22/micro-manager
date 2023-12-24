@@ -1,7 +1,7 @@
 import { Injectable, Signal, inject } from '@angular/core';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 import { WorkItemsService } from '../data/work-items.service';
-import { CreateFirebaseWorkItem } from '../models/WorkItem';
+import { CreateWorkItemDTO } from '../models/dto/CreateWorkItemDTO';
 
 @Injectable()
 export class WorkItemsQueryService {
@@ -16,9 +16,18 @@ export class WorkItemsQueryService {
 		}));
 	}
 
+	getWorkItemQuery(workBucketId: Signal<string | null>, workItemId: Signal<string | null>) {
+		return injectQuery(() => ({
+			enabled: !!workBucketId() && !!workItemId(),
+			queryKey: ['workItems', workBucketId(), workItemId()] as const,
+			queryFn: () => this.workItemsSvc.getWorkItemForBucket(workBucketId(), workItemId()),
+			initialData: null,
+		}));
+	}
+
 	addWorkItem = injectMutation((client) => ({
 		mutationKey: ['addWorkItem'] as const,
-		mutationFn: ({ workbucketId, workItem }: { workbucketId: string; workItem: CreateFirebaseWorkItem }) =>
+		mutationFn: ({ workbucketId, workItem }: { workbucketId: string; workItem: CreateWorkItemDTO }) =>
 			this.workItemsSvc.createWorkItemForBucket(workbucketId, workItem),
 		onSuccess: () => client.invalidateQueries({ queryKey: ['workItems'] }),
 	}));

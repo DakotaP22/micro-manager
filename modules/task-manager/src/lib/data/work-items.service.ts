@@ -1,7 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, deleteDoc, doc, getDocs } from '@angular/fire/firestore';
-import { CreateFirebaseWorkItem, FirebaseWorkItem, WorkItem } from '../models/WorkItem';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs } from '@angular/fire/firestore';
+import { ReadWorkItemDTO } from '../models/dto/ReadWorkItemDTO';
+import { WorkItem } from '../models/WorkItem';
+import { CreateWorkItemDTO } from '../models/dto/CreateWorkItemDTO';
 
 @Injectable({providedIn: 'root'})
 export class WorkItemsService {
@@ -25,7 +27,7 @@ export class WorkItemsService {
         const workItemsQuerySnapshot = await getDocs(workItemsCollectionRef);
         
         const workItems = workItemsQuerySnapshot.docs.map((doc) => {
-            const data = doc.data() as FirebaseWorkItem;
+            const data = doc.data() as ReadWorkItemDTO;
             return {
                 id: doc.id,
                 ...data,
@@ -35,8 +37,40 @@ export class WorkItemsService {
 
         return workItems?.length > 0 ? [...workItems] : [];
     }
+
+    async getWorkItemForBucket(bucketId: string | null, workItemId: string | null) {
+        const user = await this.auth.currentUser;
+        if (!user || !bucketId || !workItemId) {
+            return null;
+        }
+
+        const workItemDocRef = doc(
+            this.firestore,
+            'users',
+            user.uid,
+            'workbuckets',
+            bucketId,
+            'workitems',
+            workItemId
+        );
+        const workItemsQuerySnapshot = await getDoc(workItemDocRef);
+        
+        const workItemFromFirebase = workItemsQuerySnapshot.data() as ReadWorkItemDTO;
+
+        if (!workItemFromFirebase) {
+            return null;
+        }
+
+        const workItem: WorkItem = {
+            id: workItemsQuerySnapshot.id,
+            ...workItemFromFirebase,
+            dueDate: workItemFromFirebase.dueDate.toMillis()
+        };
+
+        return workItem;
+    }
     
-    async createWorkItemForBucket(bucketId: string, workItem: CreateFirebaseWorkItem) {
+    async createWorkItemForBucket(bucketId: string, workItem: CreateWorkItemDTO) {
         const user = await this.auth.currentUser;
         if (!user || !bucketId) {
             return;

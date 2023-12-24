@@ -4,16 +4,17 @@ import { Timestamp } from '@angular/fire/firestore';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule } from '@angular/material/core';
-import {MatSelectModule} from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
-import { WorkItemsService } from '../../data/work-items.service';
-import { CreateFirebaseWorkItem, Priority } from '../../models/WorkItem';
-import { WorkItemsQueryService } from '../../queries/work-items.query';
 import { injectParams } from 'ngxtension/inject-params';
+import { WorkItemsService } from '../../data/work-items.service';
+import { Priority } from '../../models/WorkItem';
+import { CreateWorkItemDTO } from '../../models/dto/CreateWorkItemDTO';
+import { WorkItemsQueryService } from '../../queries/work-items.query';
 
 @Component({
 	selector: 'create-work-item-page',
@@ -52,7 +53,7 @@ export class CreateWorkItemPageComponent {
 		
 		const formValues = this.createBucketForm.value;
 
-		const workItem: CreateFirebaseWorkItem = {
+		const workItem: CreateWorkItemDTO = {
 			title: formValues.title ?? '',
 			priority: formValues.priority ?? 'Low',
 			complexity: 'Low',
