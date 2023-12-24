@@ -1,7 +1,7 @@
 import { Injectable, Signal, inject } from '@angular/core';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 import { WorkItemsService } from '../data/work-items.service';
-import { CreateWorkItemDTO } from '../models/dto/CreateWorkItemDTO';
+import { CreateWorkItemDTO } from '../models/dto/WorkItem/CreateWorkItemDTO';
 
 @Injectable()
 export class WorkItemsQueryService {

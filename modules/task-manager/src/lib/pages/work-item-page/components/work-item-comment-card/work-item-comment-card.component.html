@@ -1,0 +1,8 @@
+@if(comment?.timestamp) {
+    <p>{{comment?.timestamp | date : 'short'}}</p>
+} 
+
+
+@if(comment?.text) {
+    <p>{{comment?.text}}</p>
+}

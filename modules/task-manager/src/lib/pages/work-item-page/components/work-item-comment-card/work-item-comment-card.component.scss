@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+:host {
+	display: block;
+	@include mat.elevation(1);
+	background-color: color-mix(in srgb, #6dd2ff 5%, #191c1e);
+	border: 1px solid #40484C;
+    box-sizing: border-box;
+    padding: 16px;  
+    border-radius: 8px;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+p {
+    margin: 0;
+}

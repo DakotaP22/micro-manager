@@ -1,0 +1,29 @@
+.tab-content-wrapper {
+    padding-block: 48px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+form {
+    display: flex;
+    height: 150px;
+    flex-direction: column;
+    margin-bottom: 16px;
+
+    mat-form-field {
+        height: 150px;
+    }
+
+    button {
+        width: fit-content;
+        align-self: flex-end;
+    }
+}
+
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}

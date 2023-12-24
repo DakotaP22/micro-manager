@@ -1,12 +1,12 @@
 import { Timestamp } from "@angular/fire/firestore";
-import { Complexity, Priority } from "../WorkItem";
+import { Priority, Complexity } from "../../WorkItem";
 
-export type ReadWorkItemDTO = {
+export type CreateWorkItemDTO = {
     title: string;
-    complexity: Complexity;
     priority: Priority;
+    complexity: Complexity;
     dueDate: Timestamp;
+    externalTrackingId: string;
     description?: string;
-    externalTrackingId?: string;
     notes?: string;
 }

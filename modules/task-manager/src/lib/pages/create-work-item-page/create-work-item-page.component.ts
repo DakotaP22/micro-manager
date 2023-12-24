@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import { injectParams } from 'ngxtension/inject-params';
 import { WorkItemsService } from '../../data/work-items.service';
 import { Priority } from '../../models/WorkItem';
-import { CreateWorkItemDTO } from '../../models/dto/CreateWorkItemDTO';
+import { CreateWorkItemDTO } from '../../models/dto/WorkItem/CreateWorkItemDTO';
 import { WorkItemsQueryService } from '../../queries/work-items.query';
 
 @Component({

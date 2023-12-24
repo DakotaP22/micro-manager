@@ -4,12 +4,14 @@ import { WorkItemsQueryService } from '../../queries/work-items.query';
 import { injectParams } from 'ngxtension/inject-params';
 import {MatTabsModule} from '@angular/material/tabs';
 import { WorkItemSummary, WorkItemSummaryComponent } from './components/work-item-summary/work-item-summary.component';
+import { WorkItemCommentsQueryService } from '../../queries/work-item-comments.query';
+import { WorkItemCommentsComponent } from './components/work-item-comments/work-item-comments.component';
 
 @Component({
 	selector: 'workitem-page',
 	standalone: true,
-	imports: [CommonModule, MatTabsModule, WorkItemSummaryComponent],
-	providers: [WorkItemsQueryService],
+	imports: [CommonModule, MatTabsModule, WorkItemSummaryComponent, WorkItemCommentsComponent],
+	providers: [WorkItemsQueryService, WorkItemCommentsQueryService],
 	templateUrl: './work-item-page.component.html',
 	styleUrls: ['./work-item-page.component.scss'],
 })
@@ -19,7 +21,9 @@ export class WorkItemPageComponent {
 	workItemId = injectParams('work-item-id');
 
 	workItemQuerySvc = inject(WorkItemsQueryService);
+	workItemCommentsQuerySvc = inject(WorkItemCommentsQueryService);
 	workItemQuery = this.workItemQuerySvc.getWorkItemQuery(this.bucketId, this.workItemId);
+	workItemCommentsQuery = this.workItemCommentsQuerySvc.getWorkItemCommentsQuery(this.bucketId, this.workItemId);
 
 	workItem = computed(() => this.workItemQuery.data());
 	workItemSummary: Signal<WorkItemSummary> = computed(() => ({
@@ -29,6 +33,21 @@ export class WorkItemPageComponent {
 		complexity: this.workItem()?.complexity ?? 'Unknown',
 		dueDate: this.workItem()?.dueDate ?? undefined
 
-	}))
+	}));
+	workItemComments = computed(() => this.workItemCommentsQuery.data() ?? []);
+
+
+	onAddComment(comment: string) {
+		console.table({
+			bucketId: this.bucketId(),
+			workItemId: this.workItemId(),
+			comment
+		})
+		this.workItemCommentsQuerySvc.addComment().mutate({
+			workbucketId: this.bucketId(),
+			workItemId: this.workItemId(),
+			comment
+		});
+	}
 
 }

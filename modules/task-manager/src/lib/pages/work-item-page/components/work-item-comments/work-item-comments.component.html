@@ -1,0 +1,25 @@
+<div class="tab-content-wrapper">
+	<form [formGroup]="commentForm">
+		<mat-form-field appearance="outline" class="full-width">
+			<mat-label>Comment</mat-label>
+			<textarea
+				matInput
+				formControlName="comment"
+				cdkTextareaAutosize
+				#autosize="cdkTextareaAutosize"
+				cdkAutosizeMinRows="1"
+				cdkAutosizeMaxRows="3"
+			></textarea>
+		</mat-form-field>
+
+		<button mat-raised-button color="primary" (click)="onAddCommentClick()" [disabled]="commentForm.invalid">
+			Add Comment
+		</button>
+	</form>
+
+	<section class="comments-list">
+		@for(comment of commentList(); track comment.id) {
+		<work-item-comment-card [comment]="comment" />
+		}
+	</section>
+</div>

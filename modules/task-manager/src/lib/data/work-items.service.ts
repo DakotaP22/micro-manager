@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
 import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs } from '@angular/fire/firestore';
-import { ReadWorkItemDTO } from '../models/dto/ReadWorkItemDTO';
+import { ReadWorkItemDTO } from '../models/dto/WorkItem/ReadWorkItemDTO';
 import { WorkItem } from '../models/WorkItem';
-import { CreateWorkItemDTO } from '../models/dto/CreateWorkItemDTO';
+import { CreateWorkItemDTO } from '../models/dto/WorkItem/CreateWorkItemDTO';
 
 @Injectable({providedIn: 'root'})
 export class WorkItemsService {
