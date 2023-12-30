@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, Output, Signal, computed, effect, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Complexity, Priority, WorkItem } from '../../../../models/WorkItem';
-import { MatButtonModule } from '@angular/material/button';
+import { Component, EventEmitter, Input, Output, effect, inject, signal } from '@angular/core';
 import { FormBuilder, FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Timestamp } from '@angular/fire/firestore';
+import { MatSelectModule } from '@angular/material/select';
+import { Priority, WorkItem } from '../../../../models/WorkItem';
 
 export type WorkItemUpdate = {
 	title: string;
