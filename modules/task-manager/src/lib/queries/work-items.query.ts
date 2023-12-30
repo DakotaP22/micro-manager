@@ -2,6 +2,7 @@ import { Injectable, Signal, inject } from '@angular/core';
 import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 import { WorkItemsService } from '../data/work-items.service';
 import { CreateWorkItemDTO } from '../models/dto/WorkItem/CreateWorkItemDTO';
+import { UpdateWorkItemDTO } from '../models/dto/WorkItem/UpdateWorkItemDTO';
 
 @Injectable()
 export class WorkItemsQueryService {
@@ -36,6 +37,16 @@ export class WorkItemsQueryService {
 		mutationKey: ['deleteWorkItem'] as const,
 		mutationFn: ({ workbucketId, workItemId }: { workbucketId: string; workItemId: string }) =>
 			this.workItemsSvc.deleteWorkItemFromBucket(workbucketId, workItemId),
+		onSuccess: () => client.invalidateQueries({ queryKey: ['workItems'] }),
+	}));
+
+	updateWorkItem = injectMutation((client) => ({
+		mutationKey: ['updateWorkItem'] as const,
+		mutationFn: ({ workbucketId, workItemId, workItem }: {
+			workbucketId: string | null;
+			workItemId: string | null;
+			workItem: UpdateWorkItemDTO
+		}) => this.workItemsSvc.updateWorkItem(workbucketId, workItemId, workItem),
 		onSuccess: () => client.invalidateQueries({ queryKey: ['workItems'] }),
 	}));
 }

@@ -1,9 +1,11 @@
 import { Injectable, inject } from '@angular/core';
 import { Auth } from '@angular/fire/auth';
-import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, deleteDoc, doc, getDoc, getDocs, setDoc, updateDoc } from '@angular/fire/firestore';
 import { ReadWorkItemDTO } from '../models/dto/WorkItem/ReadWorkItemDTO';
 import { WorkItem } from '../models/WorkItem';
 import { CreateWorkItemDTO } from '../models/dto/WorkItem/CreateWorkItemDTO';
+import { UpdateWorkItemDTO } from '../models/dto/WorkItem/UpdateWorkItemDTO';
+import { UpdateWorkItemNotesDTO } from '../models/dto/WorkItem/UpdateWorkItemNotesDTO';
 
 @Injectable({providedIn: 'root'})
 export class WorkItemsService {
@@ -103,5 +105,47 @@ export class WorkItemsService {
             workItemId
         );
         await deleteDoc(workItemDoc);
+    }
+
+    async updateWorkItem(bucketId: string | null, workItemId: string | null, workItemUpdate: UpdateWorkItemDTO) {
+        const user = await this.auth.currentUser;
+        if (!user || !bucketId || !workItemId) {
+            return;
+        }
+
+        const workItemDoc = doc(
+            this.firestore,
+            'users',
+            user.uid,
+            'workbuckets',
+            bucketId,
+            'workitems',
+            workItemId
+        );        
+        await updateDoc(workItemDoc, workItemUpdate);
+    }
+
+    async updateNotesForWorkItem(bucketId: string | null, workItemId: string | null, notes: string) {
+        const user = await this.auth.currentUser;
+        if (!user || !bucketId || !workItemId) {
+            return;
+        }
+
+        const workItemDoc = doc(
+            this.firestore,
+            'users',
+            user.uid,
+            'workbuckets',
+            bucketId,
+            'workitems',
+            workItemId
+        );      
+        
+        const updateWorkItemNotesDTO = {
+            notes
+        } as UpdateWorkItemNotesDTO;
+
+        await updateDoc(workItemDoc, updateWorkItemNotesDTO);
+
     }
 }

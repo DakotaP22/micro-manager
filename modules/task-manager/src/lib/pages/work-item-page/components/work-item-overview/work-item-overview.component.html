@@ -1,0 +1,36 @@
+<div class="tab-content-wrapper">
+	<form [formGroup]="updateBucketForm" (ngSubmit)="onSubmit()">
+		<mat-form-field class="full-width" appearance="outline">
+			<mat-label>Work Item Name</mat-label>
+			<input matInput placeholder="Work Item Name..." formControlName="title" class="name" />
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Priority</mat-label>
+			<mat-select matNativeControl formControlName="priority">
+				<mat-option value="Low">Low</mat-option>
+				<mat-option value="Medium" selected>Medium</mat-option>
+				<mat-option value="High">High</mat-option>
+				<mat-option value="Critical">Critical</mat-option>
+			</mat-select>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline">
+			<mat-label>Choose a date</mat-label>
+			<input matInput [matDatepicker]="picker" formControlName="dueDate" placeholder="MM/dd/YYYY" />
+			<mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+			<mat-datepicker #picker></mat-datepicker>
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="right-side">
+			<mat-label>External Tracking Id</mat-label>
+			<input matInput type="text" formControlName="externalTrackingId" />
+		</mat-form-field>
+
+		<mat-form-field appearance="outline" class="full-width">
+			<mat-label>Description</mat-label>
+			<textarea matInput formControlName="description" cdkTextareaAutosize #autosize="cdkTextareaAutosize"></textarea>
+		</mat-form-field>
+		<button mat-raised-button color="primary" type="submit" [disabled]="!updateBucketForm.valid">Update</button>
+	</form>
+</div>

@@ -4,7 +4,7 @@
 
     <mat-tab-group class="tabs" mat-stretch-tabs="false" mat-align-tabs="start" animationDuration="150ms">
         <mat-tab label="Summary">
-          <work-item-summary [data]="workItemSummary()" />
+          <work-item-overview [data]="workItem" (updateItem)="updateWorkItem($event)" />
         </mat-tab>
         <mat-tab label="Tasks"></mat-tab>
         <mat-tab label="Notes"></mat-tab>
