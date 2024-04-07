@@ -1,0 +1,48 @@
+@use "@angular/material" as mat;
+@use "@angular/material-experimental" as matx;
+
+$light-theme: matx.define-theme(
+  (
+    color: (
+      theme-type: light,
+      primary: matx.$m3-cyan-palette,
+    ),
+    typography: (
+      brand-family: "Comic Sans",
+      bold-weight: 900,
+    ),
+    density: (
+      scale: -1,
+    ),
+  )
+);
+$dark-theme: matx.define-theme(
+  (
+    color: (
+      theme-type: dark,
+      primary: matx.$m3-cyan-palette,
+    ),
+    typography: (
+      brand-family: "Comic Sans",
+      bold-weight: 900,
+    ),
+    density: (
+      scale: -1,
+    ),
+  )
+);
+
+html {
+  @include mat.all-component-themes($light-theme);
+}
+
+// dark mode
+@media (prefers-color-scheme: dark) {
+  html {
+    @include mat.all-component-colors($dark-theme);
+
+    body {
+      background-color: mat.get-theme-color($dark-theme, surface-dim);
+    }
+  }
+}

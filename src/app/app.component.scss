@@ -1,0 +1,8 @@
+:host {
+  height: 100%;
+
+  display: grid;
+  place-content: center;
+  grid-template-rows: auto;
+  grid-template-columns: 500px;
+}
