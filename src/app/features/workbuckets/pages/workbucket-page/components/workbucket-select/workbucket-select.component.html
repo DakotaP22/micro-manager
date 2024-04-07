@@ -1,0 +1,17 @@
+<span class="workbucket-select" [matMenuTriggerFor]="menu">
+  <h1>{{ name() }}</h1>
+
+  @if(availableBuckets().length > 0) {
+    <mat-icon
+      aria-hidden="false"
+      aria-label="Workbucket selection dropdown"
+      fontIcon="expand_more"
+    ></mat-icon>
+  }
+</span>
+
+<mat-menu #menu="matMenu">
+  @for(bucket of availableBuckets(); track bucket) {
+  <button mat-menu-item>{{ bucket }}</button>
+  }
+</mat-menu>
