@@ -12,6 +12,6 @@
 
 <mat-menu #menu="matMenu">
   @for(bucket of availableBuckets(); track bucket) {
-  <button mat-menu-item (click)="onBucketClick(bucket)">{{ bucket }}</button>
+  <button mat-menu-item (click)="onBucketClick(bucket.id)">{{ bucket.name }}</button>
   }
 </mat-menu>

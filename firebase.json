@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "angular-template-m3",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "micro-manager-dp01": {
+      "hosting": {
+        "angular-template-m3": [
+          "micro-manager-dp01"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "micro-manager-dp01"
+  }
+}

@@ -1,5 +1,5 @@
 <workbucket-select
-  [name]="name() ?? sampleBuckets[0]"
-  [availableBuckets]="sampleBuckets"
+  [name]="name()"
+  [availableBuckets]="workbuckets()"
   (bucketSelected)="onBucketSelected($event)"
 />
