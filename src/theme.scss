@@ -34,6 +34,14 @@ $dark-theme: matx.define-theme(
 
 html {
   @include mat.all-component-themes($light-theme);
+
+  body,
+  mat-sidenav-content  {
+    background-color: mat.get-theme-color($light-theme, surface);
+  }
+
+  mat-sidenav {
+    background-color: mat.get-theme-color($light-theme, surface-dim) !important }
 }
 
 // dark mode
@@ -41,8 +49,13 @@ html {
   html {
     @include mat.all-component-colors($dark-theme);
 
-    body {
-      background-color: mat.get-theme-color($dark-theme, surface-dim);
+    body,
+    mat-sidenav-content {
+      background-color: mat.get-theme-color($dark-theme, surface);
+    }
+
+    mat-sidenav {
+      background-color: mat.get-theme-color($dark-theme, surface-dim) !important;
     }
   }
 }

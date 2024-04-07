@@ -1,8 +1,19 @@
 :host {
   height: 100%;
+  display: block;
+}
 
-  display: grid;
-  place-content: center;
-  grid-template-rows: auto;
-  grid-template-columns: 500px;
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  width: 80px;
+}
+
+mat-sidenav-content {
+  height: 100%;
+  overflow-y: auto;
+  padding-inline: 32px;
+  padding-block: 64px;
 }
