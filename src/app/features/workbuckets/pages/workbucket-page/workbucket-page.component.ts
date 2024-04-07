@@ -18,18 +18,15 @@ export class WorkbucketPageComponent {
   workbucketId = injectParams('id');
   workbucketSvc = inject(WorkbucketService);
 
-  workbucketQuery = injectQuery(() => ({
+  workbucket = injectQuery(() => ({
     queryKey: ['workbuckets', '1', this.workbucketId()],
     queryFn: ({ queryKey }) => this.workbucketSvc.getWorkbucket(queryKey[2]),
     enabled: !!this.workbucketId(),
   }));
-  workbucketsQuery = injectQuery(() => ({
+  workbuckets = injectQuery(() => ({
     queryKey: ['workbuckets', '1'],
     queryFn: ({ queryKey }) => this.workbucketSvc.getWorkbuckets(queryKey[1]),
   }));
-
-  name = computed(() => this.workbucketQuery.data()?.name ?? 'Loading...');
-  workbuckets = computed(() => this.workbucketsQuery.data() ?? []);
 
   onBucketSelected(bucket_id: string) {
     this.router.navigate(['/workbucket', bucket_id]);

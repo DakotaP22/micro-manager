@@ -11,7 +11,7 @@
 </span>
 
 <mat-menu #menu="matMenu">
-  @for(bucket of availableBuckets(); track bucket) {
+  @for(bucket of filteredBuckets(); track bucket) {
   <button mat-menu-item (click)="onBucketClick(bucket.id)">{{ bucket.name }}</button>
   }
 </mat-menu>
