@@ -1,0 +1,14 @@
+.workbucket-select {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+mat-icon {
+    $size: 32px;
+    font-size: $size;
+    width: $size;
+    height: $size;
+    font-weight: bold;
+}

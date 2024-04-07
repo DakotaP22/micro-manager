@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-workbucket-page',
   standalone: true,
-  imports: [],
+  imports: [MatIconModule],
   templateUrl: './workbucket-page.component.html',
-  styleUrl: './workbucket-page.component.scss'
+  styleUrl: './workbucket-page.component.scss',
 })
-export class WorkbucketPageComponent {
-
-}
+export class WorkbucketPageComponent {}
