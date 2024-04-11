@@ -19,8 +19,6 @@ export class WorkbucketService {
       return [];
     }
 
-    console.log('Getting Workbuckets for ' + user_id);
-
     const workbucketCollection = collection(this.firestore, 'workbuckets');
     const q = query(workbucketCollection, where('user_id', '==', user_id));
 
@@ -28,7 +26,6 @@ export class WorkbucketService {
     const workbuckets = workbucketDocs.docs.map(
       (doc) => ({ id: doc.id, ...doc.data() } as Workbucket)
     );
-    console.log(workbuckets);
     return workbuckets;
   }
 
@@ -46,7 +43,6 @@ export class WorkbucketService {
       id: workbucketSnapshot.id,
       ...workbucketSnapshot.data(),
     } as Workbucket;
-    console.log(workbucket);
     return workbucket;
   }
 }

@@ -1,0 +1,22 @@
+<section class="next-meeting-section">
+  <h2>Next Meeting</h2>
+
+  @if(!nextMeeting()) {
+  <p class="no-upcoming-meetings">No upcoming meetings.</p>
+  } @else {
+  <meetings-overview-card [meeting]="nextMeeting()"></meetings-overview-card>
+  }
+</section>
+<section class="meeting-history-section">
+  <h2>Meeting History</h2>
+
+  <ul class="meeting-history-card-list">
+    @for(meeting of meetingHistory(); track meeting.id) {
+    <li>
+      <meetings-overview-card [meeting]="meeting"></meetings-overview-card>
+    </li>
+    } @empty {
+    <p class="no-meeting-history">No meeting history.</p>
+    }
+  </ul>
+</section>

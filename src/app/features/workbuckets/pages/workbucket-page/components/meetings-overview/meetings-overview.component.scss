@@ -1,0 +1,13 @@
+.meeting-history-card-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.no-upcoming-meetings, .no-meeting-history {
+  padding-left: 8px;
+  margin: 0;
+}
