@@ -1,0 +1,14 @@
+:host {
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: min-content min-content 1fr;
+}
+
+#workbucket-select {
+  grid-column: 1 / 3;
+}
+
+#work-item-breakdown {
+  grid-column: 1 / 2;
+}

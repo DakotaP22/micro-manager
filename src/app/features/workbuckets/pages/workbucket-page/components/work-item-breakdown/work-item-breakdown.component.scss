@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+
+.breakdown-items {
+  // width: min-content;
+  padding: 0;
+
+  .breakdown-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 128px;
+      margin-block: 16px;
+
+      .label {
+        white-space: nowrap;
+      }
+
+      p {
+        margin: 0;
+      }
+    }
+}
+
+

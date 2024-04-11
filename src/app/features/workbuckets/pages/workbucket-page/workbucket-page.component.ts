@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { injectParams } from 'ngxtension/inject-params';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { WorkbucketService } from '../../services/workbucket.service';
+import { WorkItemBreakdownComponent } from './components/work-item-breakdown/work-item-breakdown.component';
 
 @Component({
   selector: 'app-workbucket-page',
   standalone: true,
-  imports: [WorkbucketSelectComponent],
+  imports: [WorkbucketSelectComponent, WorkItemBreakdownComponent],
   providers: [WorkbucketService],
   templateUrl: './workbucket-page.component.html',
   styleUrl: './workbucket-page.component.scss',
