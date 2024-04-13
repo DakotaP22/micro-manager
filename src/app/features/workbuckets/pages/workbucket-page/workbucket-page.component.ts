@@ -15,7 +15,14 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-workbucket-page',
   standalone: true,
-  imports: [WorkbucketSelectComponent, WorkItemBreakdownComponent, MeetingsComponent, WorkItemTableComponent, MatButtonModule, MatIconModule],
+  imports: [
+    WorkbucketSelectComponent,
+    WorkItemBreakdownComponent,
+    MeetingsComponent,
+    WorkItemTableComponent,
+    MatButtonModule,
+    MatIconModule,
+  ],
   providers: [WorkbucketService, MeetingService],
   templateUrl: './workbucket-page.component.html',
   styleUrl: './workbucket-page.component.scss',
@@ -44,20 +51,38 @@ export class WorkbucketPageComponent {
       ),
     enabled: !!this.workbucketId(),
   }));
-workItems = signal<WorkItem[]>([
-  {name: 'Work Item 1', status: 'Not Started', complexity: 'Low', priority: 'Low', dueDate: new Date()} as WorkItem,
-  {name: 'Work Item 2', status: 'Open', complexity: 'Medium', priority: 'Medium', dueDate: new Date()} as WorkItem,
-  {name: 'Work Item 3', status: 'In Progress', complexity: 'High', priority: 'High', dueDate: new Date()} as WorkItem,
-]);
-
-
+  workItems = signal<WorkItem[]>([
+    {
+      name: 'Work Item 1',
+      status: 'Not Started',
+      complexity: 'Low',
+      priority: 'Low',
+      dueDate: new Date(),
+    } as WorkItem,
+    {
+      name: 'Work Item 2',
+      status: 'In Progress',
+      complexity: 'Medium',
+      priority: 'Medium',
+      dueDate: new Date(),
+    } as WorkItem,
+    {
+      name: 'Work Item 3',
+      status: 'Blocked',
+      complexity: 'High',
+      priority: 'High',
+      dueDate: new Date(),
+    } as WorkItem,
+    {
+      name: 'Work Item 4',
+      status: 'Closed',
+      complexity: 'High',
+      priority: 'High',
+      dueDate: new Date(),
+    } as WorkItem,
+  ]);
 
   onBucketSelected(bucket_id: string) {
     this.router.navigate(['/workbucket', bucket_id]);
   }
-
-
-
-
-
 }

@@ -1,8 +1,8 @@
-import { Component, effect, input, viewChild } from '@angular/core';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { WorkItem, WorkItemComplexity, WorkItemComplexityValueMap, WorkItemPriorityValueMap, WorkItemStatusValueMap } from '../../../../models/WorkItem';
 import { DatePipe } from '@angular/common';
+import { Component, effect, input, viewChild } from '@angular/core';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { WorkItem, WorkItemComplexityValueMap, WorkItemPriorityValueMap, WorkItemStatusValueMap } from '../../../../models/WorkItem';
 
 @Component({
   selector: 'work-item-table',

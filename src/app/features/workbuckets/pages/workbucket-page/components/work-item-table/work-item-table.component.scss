@@ -1,7 +1,12 @@
-
+@use "@angular/material" as mat;
 
 th {
   font-weight: bold;
 }
 
-
+@mixin color($theme) {
+  table.work-item-table .mat-mdc-row:hover {
+    background-color: mat.get-theme-color($theme, surface-container);
+    cursor: pointer;
+  }
+}
