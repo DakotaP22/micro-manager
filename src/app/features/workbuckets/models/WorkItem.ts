@@ -25,9 +25,27 @@ export class WorkItem {
 
 export type WorkItemStatus =
   | 'Not Started'
-  | 'Open'
   | 'In Progress'
   | 'Blocked'
   | 'Closed';
+export const WorkItemStatusValueMap = {
+  'Not Started': 0,
+  'In Progress': 1,
+  'Blocked': 2,
+  'Closed': 3,
+};
+
 export type WorkItemPriority = 'Low' | 'Medium' | 'High' | 'Critical';
+export const WorkItemPriorityValueMap = {
+  'Low': 0,
+  'Medium': 1,
+  'High': 2,
+  'Critical': 3,
+};
+
 export type WorkItemComplexity = 'Low' | 'Medium' | 'High';
+export const WorkItemComplexityValueMap = {
+  'Low': 0,
+  'Medium': 1,
+  'High': 2,
+};
