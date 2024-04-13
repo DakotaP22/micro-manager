@@ -5,11 +5,25 @@
   (bucketSelected)="onBucketSelected($event)"
 />
 
-<work-item-breakdown
-  id="work-item-breakdown"
-/>
+<work-item-breakdown id="work-item-breakdown" />
 
 <workbucket-meetings-overview
   id="worbucket-meetings-overview"
   [meetings]="meetings.data()"
 />
+
+<section id="work-item-table">
+  <div class="work-item-table-header">
+    <button mat-stroked-button color="warn">
+      <mat-icon>add</mat-icon>
+      New Work Item
+    </button>
+
+
+      <button mat-button class="filter">
+        <mat-icon>filter_list</mat-icon>
+      </button>
+  </div>
+
+  <work-item-table [workItems]="workItems()" />
+</section>

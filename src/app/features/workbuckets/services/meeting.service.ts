@@ -14,9 +14,6 @@ export class MeetingService {
       return [];
     }
 
-    console.log('user_id', user_id);
-    console.log('workbucket_id', workbucket_id);
-
 
     const meetingCollection = collection(this.firestore, 'meetings');
     const q = query(meetingCollection, where('user_id', '==', user_id), where('workbucket_id', '==', workbucket_id));

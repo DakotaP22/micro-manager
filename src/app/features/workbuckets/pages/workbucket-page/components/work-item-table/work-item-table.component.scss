@@ -1,0 +1,22 @@
+.mat-column-dueDate,
+.mat-column-priority,
+.mat-column-complexity {
+  text-align: center;
+  justify-content: space-around;
+  width: min-content;
+}
+
+.mat-column-status {
+  text-align: right;
+  justify-content: flex-end;
+  width: min-content;
+}
+
+
+.mat-column-name {
+  flex-grow: 1;
+}
+
+th {
+  font-weight: bold;
+}
