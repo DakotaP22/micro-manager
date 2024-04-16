@@ -2,6 +2,11 @@
   cursor: pointer;
 }
 
-mat-card-title {
-  font-weight: bold;
+.card-title {
+  font-weight: bold !important;
 }
+
+p {
+  margin: 0 !important;
+}
+

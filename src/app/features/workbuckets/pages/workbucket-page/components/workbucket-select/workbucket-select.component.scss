@@ -1,3 +1,7 @@
+:host {
+  margin-bottom: 16px !important;
+}
+
 .workbucket-select {
     width: auto;
     display: inline-flex;
@@ -12,4 +16,8 @@
         height: $size;
         font-weight: bold;
     }
+}
+
+h1 {
+  margin: 0px !important;
 }

@@ -1,9 +1,6 @@
 <mat-card>
-
-  <mat-card-header>
-    <mat-card-title>{{meeting()?.title ?? 'Missing Title'}}</mat-card-title>
-    <mat-card-subtitle>{{meetingTime()}}</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content></mat-card-content>
-
+  <mat-card-content>
+    <p class="mat-headline-6 card-title">{{ meeting()?.title ?? "Missing Title" }}</p>
+    <p class="mat-subtitle">{{ meetingTime() }}</p>
+  </mat-card-content>
 </mat-card>

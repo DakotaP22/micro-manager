@@ -8,6 +8,10 @@
 }
 
 .no-upcoming-meetings, .no-meeting-history {
-  padding-left: 8px;
-  margin: 0;
+  padding-left: 8px !important;
+  margin: 0 !important;
+}
+
+h2 {
+  margin-block: 8px !important;
 }

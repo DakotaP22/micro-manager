@@ -1,18 +1,19 @@
 @use "@angular/material" as mat;
 @use "@angular/material-experimental" as matx;
-@use "app/features/workbuckets/pages/workbucket-page/components/work-item-table/work-item-table.component.scss" as workItemTableStyles;
+@use "app/features/workbuckets/pages/workbucket-page/components/work-item-table/work-item-table.component.scss"
+  as workItemTableStyles;
 
 @import "@angular/cdk/overlay-prebuilt.css";
+
+$my-typography: mat.define-typography-config(
+  $font-family: 'Comic Sans',
+);
 
 $light-theme: matx.define-theme(
   (
     color: (
       theme-type: light,
       primary: matx.$m3-cyan-palette,
-    ),
-    typography: (
-      brand-family: "Comic Sans",
-      bold-weight: 900,
     ),
     density: (
       scale: -1,
@@ -25,10 +26,6 @@ $dark-theme: matx.define-theme(
       theme-type: dark,
       primary: matx.$m3-cyan-palette,
     ),
-    typography: (
-      brand-family: "Comic Sans",
-      bold-weight: 900,
-    ),
     density: (
       scale: -1,
     ),
@@ -38,6 +35,7 @@ $dark-theme: matx.define-theme(
 html {
   @include mat.all-component-themes($light-theme);
   @include workItemTableStyles.color($light-theme);
+  @include mat.typography-hierarchy($my-typography);
 
   body,
   mat-sidenav-content {
@@ -62,7 +60,8 @@ html {
 @media (prefers-color-scheme: dark) {
   html {
     @include mat.all-component-colors($dark-theme);
-  @include workItemTableStyles.color($dark-theme);
+    @include workItemTableStyles.color($dark-theme);
+    @include mat.typography-hierarchy($my-typography);
 
     body,
     mat-sidenav-content {
