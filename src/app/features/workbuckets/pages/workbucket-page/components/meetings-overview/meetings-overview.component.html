@@ -1,5 +1,15 @@
 <section class="next-meeting-section">
-  <h2 class="mat-headline-4">Next Meeting</h2>
+  <span class="next-meeting-title">
+    <h2 class="mat-headline-4">Next Meeting</h2>
+
+    <button
+      mat-icon-button
+      aria-label="create new meeting for this workbucket"
+      (click)="newMeetingClicked.emit()"
+    >
+      <mat-icon>add_circle_outline</mat-icon>
+    </button>
+  </span>
 
   @if(!nextMeeting()) {
   <p class="no-upcoming-meetings">No upcoming meetings.</p>

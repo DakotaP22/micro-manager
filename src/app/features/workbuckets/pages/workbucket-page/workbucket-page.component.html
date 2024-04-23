@@ -10,6 +10,7 @@
 <workbucket-meetings-overview
   id="worbucket-meetings-overview"
   [meetings]="meetings.data()"
+  (newMeetingClicked)="onNewMeetingClicked()"
 />
 
 <section id="work-item-table">

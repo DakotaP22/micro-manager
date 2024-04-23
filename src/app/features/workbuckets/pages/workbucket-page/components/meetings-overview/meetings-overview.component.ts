@@ -1,16 +1,19 @@
-import { Component, Input, computed, effect, input } from '@angular/core';
+import { Component, Input, computed, effect, input, output } from '@angular/core';
 import { Meeting } from '../../../../models/Meeting';
 import { MeetingsOverviewCardComponent } from '../meetings-overview-card/meetings-overview-card.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'workbucket-meetings-overview',
   standalone: true,
-  imports: [MeetingsOverviewCardComponent],
+  imports: [MeetingsOverviewCardComponent, MatIconModule, MatButtonModule],
   templateUrl: './meetings-overview.component.html',
   styleUrl: './meetings-overview.component.scss',
 })
 export class MeetingsComponent {
   meetings = input<Meeting[]>([]);
+  newMeetingClicked = output<void>();
 
   nextMeeting = computed<Meeting | null>(() => {
     const sortedAndFiltered =
