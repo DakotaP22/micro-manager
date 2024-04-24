@@ -1,16 +1,17 @@
 @defer (when !workbuckets.isPending()) {
 <form [formGroup]="newMeetingForm">
-  <h1 class="mat-headline-2">Create a new meeting</h1>
+  <h1 class="mat-headline-2 fill">Create a new meeting</h1>
 
-  <mat-form-field>
+  <mat-form-field class="fill">
     <input
+      #titleInput
       matInput
       formControlName="title"
       placeholder="Enter meeting name..."
     />
   </mat-form-field>
 
-  <mat-form-field>
+  <mat-form-field class="fill">
     <mat-label>Select Workbucket</mat-label>
     <mat-select formControlName="workbucketId">
       @for(workbucket of workbuckets.data(); track workbucket.id) {
@@ -35,6 +36,8 @@
     <mat-datepicker #startDatepicket></mat-datepicker>
   </mat-form-field>
 
+    <app-timepicker formControlName="startTime" />
+
   <mat-form-field appearance="fill">
     <mat-label>Ends on</mat-label>
     <input matInput [matDatepicker]="endDatepicker" formControlName="endDate" />
@@ -45,12 +48,16 @@
     <mat-datepicker #endDatepicker></mat-datepicker>
   </mat-form-field>
 
-  <span class="actions">
-    <button mat-flat-button color="primary" [disabled]="newMeetingForm.invalid">
+    <app-timepicker formControlName="endTime"  />
+
+  <span class="actions fill">
+    <button mat-flat-button color="primary" [disabled]="newMeetingForm.invalid" (click)="onCreateClick()">
       Create
     </button>
 
-    <button mat-stroked-button color="accent" (click)="navigateBack()">Cancel</button>
+    <button mat-stroked-button color="accent" (click)="navigateBack()">
+      Cancel
+    </button>
   </span>
 </form>
 

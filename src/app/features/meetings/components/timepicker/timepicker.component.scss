@@ -1,0 +1,24 @@
+div {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+
+  .hours, .minutes{
+    width: 70px;
+  }
+  .period {
+    height: fit-content;
+    margin-left: 16px;
+  }
+
+  p {
+    margin: 0 !important;
+    margin-bottom: 10px !important;
+  }
+}
+
+mat-form-field {
+  margin-bottom: -20px;
+}
+

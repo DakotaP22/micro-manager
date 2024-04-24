@@ -1,0 +1,40 @@
+<div role="group" [formGroup]="timepickerForm">
+    
+  <mat-form-field class="hours" appearance="outline">
+    <mat-select formControlName="hours" >
+      <mat-option value="01">01</mat-option>
+      <mat-option value="02">02</mat-option>
+      <mat-option value="03">03</mat-option>
+      <mat-option value="04">04</mat-option>
+      <mat-option value="05">05</mat-option>
+      <mat-option value="06">06</mat-option>
+      <mat-option value="07">07</mat-option>
+      <mat-option value="08">08</mat-option>
+      <mat-option value="09">09</mat-option>
+      <mat-option value="10">10</mat-option>
+      <mat-option value="11">11</mat-option>
+      <mat-option value="12">12</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p class="mat-headline-3">:</p>
+
+  <mat-form-field class="minutes" appearance="outline">
+    <mat-select formControlName="minutes">
+      <mat-option value="00">00</mat-option>
+      <mat-option value="15">15</mat-option>
+      <mat-option value="30">30</mat-option>
+      <mat-option value="45">45</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-button-toggle-group
+    class="period"
+    name="period"
+    aria-label="Period"
+    formControlName="period"
+  >
+    <mat-button-toggle value="AM">AM</mat-button-toggle>
+    <mat-button-toggle value="PM">PM</mat-button-toggle>
+  </mat-button-toggle-group>
+</div>
