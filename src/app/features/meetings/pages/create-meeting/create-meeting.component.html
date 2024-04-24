@@ -1,1 +1,59 @@
-<p>create-meeting works!</p>
+@defer (when !workbuckets.isPending()) {
+<form [formGroup]="newMeetingForm">
+  <h1 class="mat-headline-2">Create a new meeting</h1>
+
+  <mat-form-field>
+    <input
+      matInput
+      formControlName="title"
+      placeholder="Enter meeting name..."
+    />
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Select Workbucket</mat-label>
+    <mat-select formControlName="workbucketId">
+      @for(workbucket of workbuckets.data(); track workbucket.id) {
+      <mat-option [value]="workbucket.id">{{ workbucket.name }}</mat-option>
+      } @empty {
+      <mat-option disabled>No workbuckets available</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Begins on</mat-label>
+    <input
+      matInput
+      [matDatepicker]="startDatepicket"
+      formControlName="startDate"
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="startDatepicket"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #startDatepicket></mat-datepicker>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Ends on</mat-label>
+    <input matInput [matDatepicker]="endDatepicker" formControlName="endDate" />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="endDatepicker"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #endDatepicker></mat-datepicker>
+  </mat-form-field>
+
+  <span class="actions">
+    <button mat-flat-button color="primary" [disabled]="newMeetingForm.invalid">
+      Create
+    </button>
+
+    <button mat-stroked-button color="accent" (click)="navigateBack()">Cancel</button>
+  </span>
+</form>
+
+} @loading(minimum 500ms) {
+<p class="mat-body-1">Loading...</p>
+}

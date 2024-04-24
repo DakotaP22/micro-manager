@@ -33,6 +33,7 @@ $dark-theme: matx.define-theme(
 );
 
 html {
+  @include mat.core();
   @include mat.all-component-themes($light-theme);
   @include workItemTableStyles.color($light-theme);
   @include mat.typography-hierarchy($my-typography);
@@ -59,6 +60,7 @@ html {
 // dark mode
 @media (prefers-color-scheme: dark) {
   html {
+    @include mat.core();
     @include mat.all-component-colors($dark-theme);
     @include workItemTableStyles.color($dark-theme);
     @include mat.typography-hierarchy($my-typography);

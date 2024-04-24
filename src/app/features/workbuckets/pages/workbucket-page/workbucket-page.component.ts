@@ -11,6 +11,8 @@ import { WorkItemTableComponent } from './components/work-item-table/work-item-t
 import { WorkItem } from '../../models/WorkItem';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-workbucket-page',
