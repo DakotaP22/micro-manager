@@ -1,5 +1,5 @@
 import { Component, Input, computed, effect, input, output } from '@angular/core';
-import { Meeting } from '../../../../models/Meeting';
+import { Meeting } from '../../../../../meetings/models/Meeting';
 import { MeetingsOverviewCardComponent } from '../meetings-overview-card/meetings-overview-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';

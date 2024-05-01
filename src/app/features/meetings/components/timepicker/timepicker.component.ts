@@ -39,6 +39,10 @@ export class TimepickerTime {
     this.minutes = minutes;
     this.period = period;
   }
+
+  getTimeString() {
+    return `${this.hours}:${this.minutes} ${this.period}`;
+  }
 }
 
 @Component({

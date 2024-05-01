@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { injectQuery } from '@tanstack/angular-query-experimental';
+import { injectMutation, injectQuery } from '@tanstack/angular-query-experimental';
 import { WorkbucketService } from '../../../workbuckets/services/workbucket.service';
 import { injectQueryParams } from 'ngxtension/inject-query-params';
 import { MatSelectModule } from '@angular/material/select';
@@ -22,6 +22,8 @@ import {
   TimepickerMinutes,
   TimepickerTime,
 } from '../../components/timepicker/timepicker.component';
+import { MeetingFirebaseDTO } from '../../models/Meeting';
+import { MeetingService } from '../../service/meeting.service';
 
 @Component({
   selector: 'app-create-meeting',
@@ -36,13 +38,15 @@ import {
     MatButtonModule,
     TimepickerComponent,
   ],
-  providers: [WorkbucketService, provideNativeDateAdapter()],
+  providers: [WorkbucketService, MeetingService, provideNativeDateAdapter()],
   templateUrl: './create-meeting.component.html',
   styleUrl: './create-meeting.component.scss',
 })
 export class CreateMeetingComponent {
   workbucketSvc = inject(WorkbucketService);
+  meetingSvc = inject(MeetingService);
   private location = inject(Location);
+  private router = inject(Router);
 
   titleInput = viewChild<ElementRef>('titleInput');
 
@@ -53,7 +57,20 @@ export class CreateMeetingComponent {
     queryFn: ({ queryKey }) => this.workbucketSvc.getWorkbuckets(queryKey[1]),
   }));
 
-  newMeetingForm = inject(FormBuilder).record({
+  addMeeting = injectMutation((client) => ({
+    mutationFn: (data: {
+      workbucket_id: string,
+      title: string,
+      startDate: Date,
+      endDate: Date
+    }) => this.meetingSvc.createMeetingForUserAndWorkbucketId('1', data.workbucket_id, data.title, data.startDate, data.endDate),
+    onSuccess: (_: any, variables: any) => {
+      client.invalidateQueries({ queryKey: ['meetings', '1', variables.workbucket_id] })
+      this.router.navigate(['workbucket', variables.workbucket_id])
+    }
+  }));
+
+  newMeetingForm = inject(FormBuilder).group({
     title: ['', [Validators.required]],
     workbucketId: ['', [Validators.required]],
     startDate: [new Date(), [Validators.required]],
@@ -88,9 +105,25 @@ export class CreateMeetingComponent {
   }
 
   onCreateClick() {
-    console.log(this.newMeetingForm.value);
-  }
+    const { title, startDate, startTime, endDate, endTime } = this.newMeetingForm.value;
 
+    const { workbucketId } = this.newMeetingForm.controls['workbucketId']?.disabled
+      ? {workbucketId: this.selectedWorkbucket()}
+      : this.newMeetingForm.value;
+    
+    if (title && startDate && startTime && endDate && endTime && workbucketId) {
+      const startDateTime = this.combineDateTime(startDate, startTime);
+      const endDateTime = this.combineDateTime(endDate, endTime);
+
+      this.addMeeting.mutate({
+        user_id: '1',
+        workbucket_id: workbucketId,
+        title,
+        startDate: startDateTime,
+        endDate: endDateTime,
+      })
+    }
+  }
 
   private getClosestStartTime() {
     const date = new Date();
@@ -157,5 +190,9 @@ export class CreateMeetingComponent {
     }
 
     return new TimepickerTime(hours, minutes, period);
+  }
+
+  private combineDateTime(date: Date, time: TimepickerTime): Date {
+    return new Date(date.toLocaleDateString() + ' ' + time.getTimeString());
   }
 }
