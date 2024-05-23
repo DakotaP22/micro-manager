@@ -17,10 +17,10 @@
 
   <button type="submit" mat-flat-button>Login</button>
 
-  <a class="forgot-password" [routerLink]="['/forgot-password']">Forgot Password?</a>
+  <a class="forgot-password" [routerLink]="['/auth/forgot-password']">Forgot Password?</a>
 
   <hr />
 
-  <a type="button" mat-flat-button class="create-account-btn">Create Account</a>
+  <a type="button" mat-flat-button class="create-account-btn" [routerLink]="['/auth/register']">Create Account</a>
 
 </form>
