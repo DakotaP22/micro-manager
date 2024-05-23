@@ -3,7 +3,7 @@
   <p class="subtitle">Track. Schedule. Report.</p>
 </span>
 
-<form class="login-card" [formGroup]="loginForm">
+<form class="login-card" [formGroup]="loginForm" (ngSubmit)="signIn()">
 
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
