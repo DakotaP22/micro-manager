@@ -7,6 +7,7 @@ export class AuthService {
   private auth = inject(Auth);
   user$ = user(this.auth);
   idToken$ = idToken(this.auth);
+  isLoading$ = this.idToken$.pipe(map(token => token == undefined))
   isAuthenticated$ = this.idToken$.pipe(map(token => !!token));
 
   signIn(email: string, password: string): Promise<UserCredential> {
