@@ -1,12 +1,11 @@
 import { Component, effect, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { toSignal } from '@angular/core/rxjs-interop';
-
 @Component({
   selector: 'register-login',
   standalone: true,
@@ -26,10 +25,11 @@ export class RegisterComponent {
   user = toSignal(this.authSvc.user$);
 
   registerForm = inject(FormBuilder).group({
-    username: [''],
-    email: [''],
-    password: [''],
-    confirmPassword: [''],
+    username: ['', [Validators.required]],
+    email: ['', [Validators.required]],
+    password: ['', [Validators.required]],
+    confirmPassword: ['', [Validators.required]],
+    betaAccessToken: ['', [Validators.required]],
   });
 
   constructor() {

@@ -25,7 +25,12 @@
     <input matInput type="password" placeholder="Confirm Password" formControlName="confirmPassword" required>
   </mat-form-field>
 
-  <button type="submit" mat-flat-button>Sign Up</button>
+  <mat-form-field appearance="outline">
+    <mat-label>Access Token</mat-label>
+    <input matInput type="password" placeholder="Access Token" formControlName="betaAccessToken" required>
+  </mat-form-field>
+
+  <button type="submit" mat-flat-button [class.disabled]="registerForm.invalid">Sign Up</button>
 
   <a class="sign-in-link" [routerLink]="['/auth/login']">Already have an account?</a>
 </form>
