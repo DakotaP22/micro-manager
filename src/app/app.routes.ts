@@ -3,15 +3,23 @@ import { workbucket_routes } from './features/workbuckets/pages/workbucket.route
 import { meeting_routes } from './features/meetings/pages/meetings.routes';
 import { auth_routes } from './features/auth/pages/auth.routes';
 import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
+import { AuthGuard, redirectLoggedInTo, redirectUnauthorizedTo,  } from '@angular/fire/auth-guard';
+
+const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['auth']);
+// const redirectLoggedInToItems = () => redirectLoggedInTo(['workbucket']);
 
 export const routes: Routes = [
   {
     path: 'workbucket',
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
     component: AppLayoutComponent,
     children: [...workbucket_routes],
   },
   {
     path: 'meetings',
+    canActivate: [AuthGuard],
+    data: { authGuardPipe: redirectUnauthorizedToLogin },
     component: AppLayoutComponent,
     children: [...meeting_routes],
   },
