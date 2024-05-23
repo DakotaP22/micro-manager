@@ -24,6 +24,8 @@ import {
 } from '../../components/timepicker/timepicker.component';
 import { MeetingFirebaseDTO } from '../../models/Meeting';
 import { MeetingService } from '../../service/meeting.service';
+import { AuthService } from '../../../auth/services/auth.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-create-meeting',
@@ -45,16 +47,17 @@ import { MeetingService } from '../../service/meeting.service';
 export class CreateMeetingComponent {
   workbucketSvc = inject(WorkbucketService);
   meetingSvc = inject(MeetingService);
+  authSvc = inject(AuthService);
   private location = inject(Location);
   private router = inject(Router);
 
   titleInput = viewChild<ElementRef>('titleInput');
-
+  userId = toSignal(this.authSvc.idToken$);
   selectedWorkbucket = injectQueryParams('workbucket');
 
   workbuckets = injectQuery(() => ({
-    queryKey: ['workbuckets', '1'],
-    queryFn: ({ queryKey }) => this.workbucketSvc.getWorkbuckets(queryKey[1]),
+    queryKey: ['workbuckets', this.userId()],
+    queryFn: ({ queryKey }) => this.workbucketSvc.getWorkbuckets(queryKey[1] ?? null),
   }));
 
   addMeeting = injectMutation((client) => ({
@@ -63,7 +66,7 @@ export class CreateMeetingComponent {
       title: string,
       startDate: Date,
       endDate: Date
-    }) => this.meetingSvc.createMeetingForUserAndWorkbucketId('1', data.workbucket_id, data.title, data.startDate, data.endDate),
+    }) => this.meetingSvc.createMeetingForUserAndWorkbucketId(this.userId() ?? null, data.workbucket_id, data.title, data.startDate, data.endDate),
     onSuccess: (_: any, variables: any) => {
       client.invalidateQueries({ queryKey: ['meetings', '1', variables.workbucket_id] })
       this.router.navigate(['workbucket', variables.workbucket_id])
@@ -110,7 +113,7 @@ export class CreateMeetingComponent {
     const { workbucketId } = this.newMeetingForm.controls['workbucketId']?.disabled
       ? {workbucketId: this.selectedWorkbucket()}
       : this.newMeetingForm.value;
-    
+
     if (title && startDate && startTime && endDate && endTime && workbucketId) {
       const startDateTime = this.combineDateTime(startDate, startTime);
       const endDateTime = this.combineDateTime(endDate, endTime);

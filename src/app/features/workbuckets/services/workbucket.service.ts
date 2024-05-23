@@ -15,6 +15,7 @@ export class WorkbucketService {
   firestore = inject(Firestore);
 
   async getWorkbuckets(user_id: string | null): Promise<Workbucket[]> {
+    console.log('user_id', user_id)
     if (!user_id) {
       return [];
     }

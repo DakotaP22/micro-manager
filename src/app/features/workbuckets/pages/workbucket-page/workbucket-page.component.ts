@@ -13,6 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { AuthService } from '../../../auth/services/auth.service';
 
 @Component({
   selector: 'app-workbucket-page',
@@ -31,25 +33,28 @@ import { MatSelectModule } from '@angular/material/select';
 })
 export class WorkbucketPageComponent {
   router = inject(Router);
+  authSvc = inject(AuthService);
   workbucketId = injectParams('id');
   workbucketSvc = inject(WorkbucketService);
   meetingSvc = inject(MeetingService);
+  userId = toSignal(this.authSvc.idToken$);
 
   workbucket = injectQuery(() => ({
-    queryKey: ['workbuckets', '1', this.workbucketId()],
-    queryFn: ({ queryKey }) => this.workbucketSvc.getWorkbucket(queryKey[2]),
+    queryKey: ['workbuckets', this.userId(), this.workbucketId()],
+    queryFn: ({ queryKey }) =>
+      this.workbucketSvc.getWorkbucket(queryKey[2]?? null),
     enabled: !!this.workbucketId(),
   }));
   workbuckets = injectQuery(() => ({
-    queryKey: ['workbuckets', '1'],
-    queryFn: ({ queryKey }) => this.workbucketSvc.getWorkbuckets(queryKey[1]),
+    queryKey: ['workbuckets', this.userId()],
+    queryFn: ({ queryKey }) => this.workbucketSvc.getWorkbuckets(queryKey[1] ?? null),
   }));
   meetings = injectQuery(() => ({
-    queryKey: ['meetings', '1', this.workbucketId()],
+    queryKey: ['meetings', this.userId(), this.workbucketId()],
     queryFn: ({ queryKey }) =>
       this.meetingSvc.getMeetingsForUserAndWorkbucketId(
-        queryKey[1],
-        queryKey[2]
+        queryKey[1] ?? null,
+        queryKey[2] ?? null
       ),
     enabled: !!this.workbucketId(),
   }));
@@ -89,7 +94,9 @@ export class WorkbucketPageComponent {
   }
 
   onNewMeetingClicked() {
-    console.log('navigating!')
-    this.router.navigate(['meetings', 'create'], { queryParams: { workbucket: this.workbucketId() } });
+    console.log('navigating!');
+    this.router.navigate(['meetings', 'create'], {
+      queryParams: { workbucket: this.workbucketId() },
+    });
   }
 }
