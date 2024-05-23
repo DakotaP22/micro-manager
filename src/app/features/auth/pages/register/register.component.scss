@@ -7,13 +7,14 @@
 
 .header {
   margin-block-start: 16px !important;
+  margin-block-end: 16px !important;
 }
 
 .login-card {
   border: 1px solid #C1C7CE;
   border-radius: 8px;
   padding: 16px 64px 32px 64px;
-  width: 500px;
+  width: 400px;
 
   .form-title {
     text-align: center;
