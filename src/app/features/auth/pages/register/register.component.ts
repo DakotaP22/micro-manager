@@ -4,8 +4,11 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { RegistrationService } from '../../services/registration.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'register-login',
   standalone: true,
@@ -21,6 +24,9 @@ import { AuthService } from '../../services/auth.service';
 })
 export class RegisterComponent {
   private authSvc = inject(AuthService);
+  private registrationSvc = inject(RegistrationService);
+  private snackbar = inject(MatSnackBar);
+  private router = inject(Router);
 
   user = toSignal(this.authSvc.user$);
 
@@ -38,5 +44,16 @@ export class RegisterComponent {
     });
   }
 
-  register() {}
+  register() {
+    const { username, email, password, betaAccessToken } = this.registerForm.value;
+    if (!!username && !!email && !!password && !!betaAccessToken) {
+      this.registrationSvc.register(username, email, password, betaAccessToken)
+      .then(() => {
+        this.authSvc
+          .signIn(email, password)
+          .then(() => this.router.navigate(['/workbuckets']));
+      })
+      .catch((err) => this.snackbar.open(err.message, 'Close'));
+    }
+  }
 }
