@@ -1,0 +1,26 @@
+<span class="header">
+  <p class="title">MicroManager.io</p>
+  <p class="subtitle">Track. Schedule. Report.</p>
+</span>
+
+<form class="login-card" [formGroup]="loginForm">
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" placeholder="Email" formControlName="email" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Password</mat-label>
+    <input matInput type="password" placeholder="Password" formControlName="password" required>
+  </mat-form-field>
+
+  <button type="submit" mat-flat-button>Login</button>
+
+  <a class="forgot-password" [routerLink]="['/forgot-password']">Forgot Password?</a>
+
+  <hr />
+
+  <a type="button" mat-flat-button class="create-account-btn">Create Account</a>
+
+</form>
