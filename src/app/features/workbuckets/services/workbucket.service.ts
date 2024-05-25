@@ -15,7 +15,6 @@ export class WorkbucketService {
   firestore = inject(Firestore);
 
   async getWorkbuckets(user_id: string | null): Promise<Workbucket[]> {
-    console.log('user_id', user_id)
     if (!user_id) {
       return [];
     }
@@ -30,7 +29,7 @@ export class WorkbucketService {
     return workbuckets;
   }
 
-  async getWorkbucket(bucket_id: string | null): Promise<Workbucket | null> {
+  async getWorkbucket(bucket_id: string | null | undefined): Promise<Workbucket | null> {
     if (!bucket_id) {
       return null;
     }

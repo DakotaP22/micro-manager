@@ -1,0 +1,15 @@
+@if(meetingQuery.isLoading()) {
+
+  <p>Loading...</p>
+
+} @else {
+
+  <p>{{meetingQuery.data()?.title}}</p>
+
+  @if(workbucketQuery.isLoading()) {
+    <p>Loading...</p>
+  } @else {
+    <p>{{workbucketQuery.data()?.name}}</p>
+  }
+
+}

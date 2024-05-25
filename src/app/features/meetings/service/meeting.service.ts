@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, Timestamp, addDoc, collection, getDocs, query, where } from '@angular/fire/firestore';
+import { Firestore, Timestamp, addDoc, collection, doc, getDoc, getDocs, query, where } from '@angular/fire/firestore';
 import { Meeting, MeetingAdapter, MeetingFirebaseDTO } from '../models/Meeting';
 
 @Injectable()
@@ -25,6 +25,23 @@ export class MeetingService {
 
 
     return meetings;
+  }
+
+  async getMeeting(meeting_id: string | null): Promise<Meeting | null> {
+    if (!meeting_id) {
+      return null;
+    }
+
+    const meetingCollection = collection(this.firestore, 'meetings');
+    const docRef = doc(meetingCollection, meeting_id);
+    const docSnapshot = await getDoc(docRef);
+
+    if (!docSnapshot.exists()) {
+      return null;
+    }
+
+    const meeting = MeetingAdapter.fromFirebaseDto(docSnapshot.id, docSnapshot.data() as MeetingFirebaseDTO);
+    return meeting;
   }
 
   async createMeetingForUserAndWorkbucketId(

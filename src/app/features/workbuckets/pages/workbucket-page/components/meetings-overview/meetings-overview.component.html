@@ -23,7 +23,9 @@
   <ul class="meeting-history-card-list">
     @for(meeting of meetingHistory(); track meeting.id) {
     <li>
-      <meetings-overview-card [meeting]="meeting"></meetings-overview-card>
+    <a [routerLink]="['/meetings', meeting.id]" class="meeting-link-card">
+        <meetings-overview-card [meeting]="meeting"></meetings-overview-card>
+      </a>
     </li>
     } @empty {
     <p class="no-meeting-history">No meeting history.</p>
