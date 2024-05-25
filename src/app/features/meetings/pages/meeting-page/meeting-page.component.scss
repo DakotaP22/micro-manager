@@ -1,0 +1,10 @@
+:host {
+  padding: 64px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+.heading {
+  p {margin: 0 !important; }
+}

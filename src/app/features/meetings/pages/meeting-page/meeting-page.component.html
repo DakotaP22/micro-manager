@@ -4,12 +4,19 @@
 
 } @else {
 
-  <p>{{meetingQuery.data()?.title}}</p>
+  <div class="heading">
+    <p class="mat-headline-2">{{meetingQuery.data()?.title}}</p>
 
-  @if(workbucketQuery.isLoading()) {
-    <p>Loading...</p>
-  } @else {
-    <p>{{workbucketQuery.data()?.name}}</p>
-  }
+    @if(workbucketQuery.isLoading()) {
+      <p>Loading...</p>
+    } @else {
+      <p class="mat-headline-4">{{workbucketQuery.data()?.name}}</p>
+    }
 
+    <p class="mat-headline-6">{{ meetingTimesWrapper() | meetingTimeDisplay}}</p>
+  </div>
+
+  <div class="content">
+    <p>Test</p>
+  </div>
 }
