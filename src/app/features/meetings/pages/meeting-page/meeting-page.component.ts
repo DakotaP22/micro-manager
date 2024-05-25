@@ -4,11 +4,12 @@ import { MeetingService } from '../../service/meeting.service';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { WorkbucketService } from '../../../workbuckets/services/workbucket.service';
 import { MeetingTimeDisplayPipe } from '../../../../shared/pipes/meeting-time.pipe';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-meeting-page',
   standalone: true,
-  imports: [MeetingTimeDisplayPipe],
+  imports: [MeetingTimeDisplayPipe, MatTabsModule],
   providers: [MeetingService, WorkbucketService],
   templateUrl: './meeting-page.component.html',
   styleUrl: './meeting-page.component.scss',

@@ -5,7 +5,7 @@
 } @else {
 
   <div class="heading">
-    <p class="mat-headline-2">{{meetingQuery.data()?.title}}</p>
+    <p class="mat-headline-3">{{meetingQuery.data()?.title}}</p>
 
     @if(workbucketQuery.isLoading()) {
       <p>Loading...</p>
@@ -17,6 +17,14 @@
   </div>
 
   <div class="content">
-    <p>Test</p>
+
+
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="Meeting Notes">Meeting Note Content</mat-tab>
+      <mat-tab label="Discussion Items">Discussion Items Content</mat-tab>
+      <mat-tab label="Follow Ups">Follow Ups Content</mat-tab>
+    </mat-tab-group>
+
+
   </div>
 }
