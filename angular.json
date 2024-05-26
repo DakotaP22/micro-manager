@@ -31,7 +31,8 @@
             ],
             "styles": [
               "src/styles/styles.scss",
-              "src/styles/theme.scss"
+              "src/styles/theme.scss",
+              "src/styles/component-theme-classes.scss"
             ],
             "scripts": []
           },
@@ -92,7 +93,8 @@
             ],
             "styles": [
               "src/styles/styles.scss",
-              "src/styles/theme.scss"
+              "src/styles/theme.scss",
+              "src/styles/component-theme-classes.scss"
             ],
             "scripts": []
           }

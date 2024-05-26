@@ -1,0 +1,27 @@
+
+@use '@angular/material' as mat;
+@use './theme.scss' as theme;
+
+
+@media (prefers-color-scheme: light) {
+  .secondary-btn {
+    @include mat.button-color(theme.$light-theme, $color-variant: secondary);
+  }
+
+  .tertiary-btn {
+    @include mat.button-color(theme.$light-theme, $color-variant: tertiary);
+  }
+
+}
+
+
+@media (prefers-color-scheme: dark) {
+  .secondary-btn {
+    @include mat.button-color(theme.$dark-theme, $color-variant: secondary);
+  }
+
+  .tertiary-btn {
+    @include mat.button-color(theme.$dark-theme, $color-variant: tertiary);
+  }
+
+}

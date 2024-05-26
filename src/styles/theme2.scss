@@ -4,7 +4,7 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
-// Note: Color palettes are generated from primary: #246488, secondary: #4F606E, tertiary: #63597C
+// Note: Color palettes are generated from primary: #146683, secondary: #7B580C, tertiary: #006A60
 $_palettes: (
   primary: (
     0: #000000,
@@ -126,7 +126,6 @@ $_palettes: (
   ),
 );
 
-
 $_rest: (
   secondary: map.get($_palettes, secondary),
   neutral: map.get($_palettes, neutral),
@@ -141,10 +140,6 @@ $light-theme: mat.define-theme((
     theme-type: light,
     primary: $_primary,
     tertiary: $_tertiary,
-    use-system-variables: false,
-  ),
-  typography: (
-    use-system-variables: false,
   ),
 ));
 $dark-theme: mat.define-theme((
@@ -152,27 +147,5 @@ $dark-theme: mat.define-theme((
     theme-type: dark,
     primary: $_primary,
     tertiary: $_tertiary,
-    use-system-variables: false,
-  ),
-  typography: (
-    use-system-variables: false,
   ),
 ));
-
-
-
-@include mat.core();
-
-html {
-  // Apply the light theme by default
-  @include mat.core-theme($light-theme);
-  @include mat.all-component-themes($light-theme);
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    @include mat.all-component-colors($dark-theme);
-  }
-}
-
-
