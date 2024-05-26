@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .heading {
@@ -10,6 +12,14 @@
 }
 
 .content {
+  height: 100%;
+
+  mat-tab-group {
+    height: 100%;
+    ::ng-deep .mat-mdc-tab-body-wrapper {
+      flex: 1 1 100%;
+    }
+  }
 
 
 
