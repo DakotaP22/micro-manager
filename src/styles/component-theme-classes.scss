@@ -4,6 +4,10 @@
 
 
 @media (prefers-color-scheme: light) {
+  html {
+    --mat-sidenav-container-background-color: #DCE3E9;
+  }
+
   .secondary-btn {
     @include mat.button-color(theme.$light-theme, $color-variant: secondary);
   }
@@ -12,10 +16,15 @@
     @include mat.button-color(theme.$light-theme, $color-variant: tertiary);
   }
 
+
 }
 
 
 @media (prefers-color-scheme: dark) {
+  html {
+    --mat-sidenav-container-background-color: #40484C;
+  }
+
   .secondary-btn {
     @include mat.button-color(theme.$dark-theme, $color-variant: secondary);
   }
