@@ -1,4 +1,5 @@
-<mat-form-field>
-  <!-- <mat-label>Meeting Notes</mat-label> -->
-  <textarea cdkTextareaAutosize="false" matInput ></textarea>
-</mat-form-field>
+<form [formGroup]="notesForm">
+  <mat-form-field>
+    <textarea cdkTextareaAutosize="false" matInput formControlName="notes"></textarea>
+  </mat-form-field>
+</form>

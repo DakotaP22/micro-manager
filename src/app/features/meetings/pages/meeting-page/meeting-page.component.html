@@ -21,7 +21,7 @@
 
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="mat-tab-fill-height">
       <mat-tab label="Meeting Notes">
-        <meeting-notes />
+        <meeting-notes [meetingId]="meetingId() ?? undefined"/>
       </mat-tab>
       <mat-tab label="Discussion Items">
         <discussion-items-list />

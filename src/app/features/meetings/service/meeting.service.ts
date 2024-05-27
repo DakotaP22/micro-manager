@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, Timestamp, addDoc, collection, doc, getDoc, getDocs, query, where } from '@angular/fire/firestore';
+import { Firestore, Timestamp, addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { Meeting, MeetingAdapter, MeetingFirebaseDTO } from '../models/Meeting';
 
 @Injectable()
@@ -66,5 +66,11 @@ export class MeetingService {
 
     const meetingCollection = collection(this.firestore, 'meetings');
     await addDoc(meetingCollection, newMeeting);
+  }
+
+  async updateMeetingNotes(meeting_id: string, notes: string): Promise<any> {
+    const meetingCollection = collection(this.firestore, 'meetings');
+    const docRef = doc(meetingCollection, meeting_id);
+    await updateDoc(docRef, { notes });
   }
 }
