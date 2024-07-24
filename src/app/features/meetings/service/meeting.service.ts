@@ -68,7 +68,7 @@ export class MeetingService {
     await addDoc(meetingCollection, newMeeting);
   }
 
-  async updateMeetingNotes(meeting_id: string, notes: string): Promise<any> {
+  async updateMeetingNotes(meeting_id: string, notes: string): Promise<void> {
     const meetingCollection = collection(this.firestore, 'meetings');
     const docRef = doc(meetingCollection, meeting_id);
     await updateDoc(docRef, { notes });
