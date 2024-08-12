@@ -1,1 +1,22 @@
-<p>discussion-items-list works!</p>
+<form (submit)="onSubmit($event)">
+  <mat-form-field>
+    <input matInput type="text" placeholder="Add discussion item..." [formControl]="addDiscussionItemInput" />
+  </mat-form-field>
+</form>
+
+<span class="discussion-list-section">
+  <ul>
+    @for (discussionItem of discussionItems(); track discussionItem.id ) {
+      <li>
+        <mat-checkbox
+          [checked]="discussionItem.discussed"
+          (change)="updateDiscussionStatus(discussionItem.id, $event.checked)"
+        >
+          {{discussionItem.title}}
+        </mat-checkbox>
+      </li>
+    } @empty {
+      <li>Nothing to discuss.</li>
+    }
+  </ul>
+</span>

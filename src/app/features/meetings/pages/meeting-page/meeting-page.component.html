@@ -24,7 +24,12 @@
         <meeting-notes [meetingId]="meetingId()"/>
       </mat-tab>
       <mat-tab label="Discussion Items">
-        <discussion-items-list />
+        <discussion-items-list
+          [discussionItems]="discussionItemQuery.data() ?? []"
+          (discussionItemAdded)="addDiscussionItemMutation.mutate($event)"
+          (itemDiscussed)="updateDiscussionItemStatus($event, true)"
+          (itemUndiscussed)="updateDiscussionItemStatus($event, false)"
+          />
       </mat-tab>
       <mat-tab label="Follow Ups">
         <follow-up-items-list />

@@ -1,0 +1,19 @@
+:host {
+  display: block;
+  height: 100%;
+  margin: 0;
+  box-sizing: border-box;
+
+  padding: 32px 0 0 0;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+.discussion-list-section {
+  ul {
+    list-style-type: none;
+    margin-top: 4px;
+  }
+}
