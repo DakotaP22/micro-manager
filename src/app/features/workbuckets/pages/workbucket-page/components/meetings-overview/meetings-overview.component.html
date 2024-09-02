@@ -2,11 +2,7 @@
   <span class="next-meeting-title">
     <h2 class="mat-headline-4">Next Meeting</h2>
 
-    <button
-      mat-icon-button
-      aria-label="create new meeting for this workbucket"
-      (click)="newMeetingClicked.emit()"
-    >
+    <button mat-icon-button aria-label="create new meeting for this workbucket" (click)="newMeetingClicked.emit()">
       <mat-icon>add_circle_outline</mat-icon>
     </button>
   </span>
@@ -14,7 +10,9 @@
   @if(!nextMeeting()) {
   <p class="no-upcoming-meetings">No upcoming meetings.</p>
   } @else {
-  <meetings-overview-card [meeting]="nextMeeting()"></meetings-overview-card>
+  <a [routerLink]="['/meetings', nextMeeting()?.id]" class="meeting-link-card">
+    <meetings-overview-card [meeting]="nextMeeting()"></meetings-overview-card>
+  </a>
   }
 </section>
 <section class="meeting-history-section">
@@ -23,7 +21,7 @@
   <ul class="meeting-history-card-list">
     @for(meeting of meetingHistory(); track meeting.id) {
     <li>
-    <a [routerLink]="['/meetings', meeting.id]" class="meeting-link-card">
+      <a [routerLink]="['/meetings', meeting.id]" class="meeting-link-card">
         <meetings-overview-card [meeting]="meeting"></meetings-overview-card>
       </a>
     </li>
