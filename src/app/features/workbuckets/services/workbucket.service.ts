@@ -45,4 +45,8 @@ export class WorkbucketService {
     } as Workbucket;
     return workbucket;
   }
+
+  async getDefaultWorkbucket(user_id: string): Promise<Workbucket | null> {
+    return null;
+  }
 }

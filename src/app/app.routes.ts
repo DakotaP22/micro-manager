@@ -6,7 +6,6 @@ import { AppLayoutComponent } from './layouts/app-layout/app-layout.component';
 import { AuthGuard, redirectLoggedInTo, redirectUnauthorizedTo,  } from '@angular/fire/auth-guard';
 
 const redirectUnauthorizedToLogin = () => redirectUnauthorizedTo(['auth']);
-// const redirectLoggedInToItems = () => redirectLoggedInTo(['workbucket']);
 
 export const routes: Routes = [
   {
@@ -27,4 +26,9 @@ export const routes: Routes = [
     path: 'auth',
     children: [...auth_routes],
   },
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'workbucket',
+  }
 ];
