@@ -25,6 +25,7 @@
   <mat-form-field appearance="fill">
     <mat-label>Begins on</mat-label>
     <input
+      aria-label="Begins on"
       matInput
       [matDatepicker]="startDatepicket"
       formControlName="startDate"
@@ -40,7 +41,7 @@
 
   <mat-form-field appearance="fill">
     <mat-label>Ends on</mat-label>
-    <input matInput [matDatepicker]="endDatepicker" formControlName="endDate" />
+    <input aria-label="Ends on" matInput [matDatepicker]="endDatepicker" formControlName="endDate" />
     <mat-datepicker-toggle
       matSuffix
       [for]="endDatepicker"
@@ -51,11 +52,11 @@
     <app-timepicker formControlName="endTime"  />
 
   <span class="actions fill">
-    <button mat-flat-button color="primary" [disabled]="newMeetingForm.invalid" (click)="onCreateClick()">
+    <button type="button" mat-flat-button color="primary" [disabled]="newMeetingForm.invalid" (click)="onCreateClick()">
       Create
     </button>
 
-    <button mat-stroked-button color="accent" (click)="navigateBack()">
+    <button type="button" mat-stroked-button color="accent" (click)="navigateBack()">
       Cancel
     </button>
   </span>
