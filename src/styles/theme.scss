@@ -3,6 +3,7 @@
 
 @use 'sass:map';
 @use '@angular/material' as mat;
+@use '../app/shared/components/back-nav/back-nav.component.scss' as back-nav;
 
 // Note: Color palettes are generated from primary: #246488, secondary: #4F606E, tertiary: #63597C
 $_palettes: (
@@ -184,11 +185,13 @@ html {
   @include mat.core-theme($light-theme);
   @include mat.typography-hierarchy($light-theme);
   @include mat.all-component-themes($light-theme);
+  @include back-nav.color($light-theme);
 }
 
 @media (prefers-color-scheme: dark) {
   html {
     @include mat.all-component-colors($dark-theme);
+    @include back-nav.color($dark-theme);
   }
 }
 

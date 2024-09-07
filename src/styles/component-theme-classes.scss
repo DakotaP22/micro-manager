@@ -20,17 +20,13 @@
     @include mat.button-color(theme.$light-theme, $color-variant: error);
   }
 
-  // .secondary-fab {
-  //   @include mat.fab-color(theme.$light-theme, $color-variant: secondary);
-  // }
+  .secondary-fab {
+    @include mat.fab-color(theme.$light-theme, $color-variant: secondary);
+  }
 
-  // .tertiary-fab {
-  //   @include mat.fab-color(theme.$light-theme, $color-variant: tertiary);
-  // }
-
-  // .error-fab {
-  //   @include mat.fab-color(theme.$light-theme, $color-variant: error);
-  // }
+  .tertiary-fab {
+    @include mat.fab-color(theme.$light-theme, $color-variant: tertiary);
+  }
 
 
 }

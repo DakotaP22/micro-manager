@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+.back-nav-wapper {
+  display: inline-flex;
+  width: min-content;
+  text-wrap: nowrap;
+  align-items: center;
+  column-gap: 16px;
+  padding: 8px 16px;
+  border-radius: 16px;
+  margin-left: -16px;
+  box-sizing: border-box;
+}
+
+.back-nav-wapper:hover {
+  cursor: pointer;
+}
+
+a, a:visited {
+  text-decoration: none;
+  color: var(--mat-app-text-color)
+}
+
+@mixin color($theme) {
+  .back-nav-wapper:hover {
+    background-color: mat.get-theme-color($theme, neutral, 20);
+  }
+}
