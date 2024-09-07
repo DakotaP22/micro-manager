@@ -5,7 +5,7 @@ import { injectParams } from 'ngxtension/inject-params';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { WorkbucketService } from '../../services/workbucket.service';
 import { WorkItemBreakdownComponent } from './components/work-item-breakdown/work-item-breakdown.component';
-import { MeetingService } from '../../../meetings/service/meeting.service';
+import { MeetingService } from '../../../meetings/services/meeting.service';
 import { MeetingsComponent } from './components/meetings-overview/meetings-overview.component';
 import { WorkItemTableComponent } from './components/work-item-table/work-item-table.component';
 import { WorkItem } from '../../models/WorkItem';

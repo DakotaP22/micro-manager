@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject } from '@angular/core';
 import { injectParams } from 'ngxtension/inject-params';
-import { MeetingService } from '../../service/meeting.service';
+import { MeetingService } from '../../services/meeting.service';
 import {
   injectMutation,
   injectQuery,
@@ -11,9 +11,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MeetingNotesComponent } from '../../components/meeting-notes/meeting-notes.component';
 import { DiscussionItemsListComponent } from '../../components/discussion-items-list/discussion-items-list.component';
 import { FollowUpItemsListComponent } from '../../components/follow-up-items-list/follow-up-items-list.component';
-import { MeetingNotesService } from '../../service/meeting-notes.service';
-import { MeetingDiscussionItemsService } from '../../service/meeting-discussion-items.service';
-import { MeetingFollowUpsService } from '../../service/meeting-follow-ups.service';
+import { MeetingNotesService } from '../../services/meeting-notes.service';
+import { MeetingDiscussionItemsService } from '../../services/meeting-discussion-items.service';
+import { MeetingFollowUpsService } from '../../services/meeting-follow-ups.service';
 
 @Component({
   selector: 'app-meeting-page',

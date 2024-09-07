@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { debounceTime, distinctUntilChanged, filter, map, skip } from 'rxjs';
-import { MeetingService } from '../../service/meeting.service';
+import { MeetingService } from '../../services/meeting.service';
 
 
 @Component({

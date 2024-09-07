@@ -23,7 +23,7 @@ import {
   TimepickerTime,
 } from '../../components/timepicker/timepicker.component';
 import { MeetingFirebaseDTO } from '../../models/Meeting';
-import { MeetingService } from '../../service/meeting.service';
+import { MeetingService } from '../../services/meeting.service';
 import { AuthService } from '../../../auth/services/auth.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
