@@ -5,23 +5,20 @@ export type FollowUpStatus = 'Needs Attention' | 'Task Assigned' | 'Work Item As
 export type FollowUp = {
   id: string;
   details: string;
-  requiredByDate?: Date;
-  status: FollowUpStatus;
+  workItemReference?: string;
 }
 
 
 export type FollowUpFirebaseDTO = {
   details: string;
-  requiredByDate?: Timestamp;
-  status: FollowUpStatus;
-}
+  workItemReference?: string;
+};
 
 export class FollowUpAdapter {
   static toFirebaseDTO(followUp: FollowUp): FollowUpFirebaseDTO {
     return {
       details: followUp.details,
-      requiredByDate: followUp.requiredByDate ? Timestamp.fromDate(followUp.requiredByDate) : undefined,
-      status: followUp.status,
+      workItemReference: followUp.workItemReference,
     }
   }
 
@@ -29,8 +26,7 @@ export class FollowUpAdapter {
     return {
       id,
       details: dto.details,
-      requiredByDate: dto.requiredByDate ? dto.requiredByDate.toDate() : undefined,
-      status: dto.status,
+      workItemReference: dto.workItemReference,
     }
   }
 }

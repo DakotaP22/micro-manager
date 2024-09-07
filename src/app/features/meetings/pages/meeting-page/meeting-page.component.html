@@ -27,12 +27,16 @@
         <discussion-items-list
           [discussionItems]="discussionItemQuery.data() ?? []"
           (discussionItemAdded)="addDiscussionItemMutation.mutate($event)"
-          (itemDiscussed)="updateDiscussionItemStatus($event, true)"
-          (itemUndiscussed)="updateDiscussionItemStatus($event, false)"
+          (itemDiscussed)="updateDiscussionItemMutation.mutate({discussion_item_id: $event, discussed: false})"
+          (itemUndiscussed)="updateDiscussionItemMutation.mutate({discussion_item_id: $event, discussed: false})"
           />
       </mat-tab>
       <mat-tab label="Follow Ups">
-        <follow-up-items-list />
+        <follow-up-items-list
+          [followUpItems]="followUpItemQuery.data() ?? []"
+          (followUpAdded)="addFollowUpItemMutation.mutate($event)"
+          (deleteFollowUpItem)="deleteFollowUpItemMutation.mutate($event)"
+        />
       </mat-tab>
     </mat-tab-group>
 

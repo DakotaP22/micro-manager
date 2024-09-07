@@ -1,1 +1,25 @@
-<p>follow-up-items-list works!</p>
+<form (submit)="onSubmit($event)">
+  <mat-form-field>
+    <input matInput type="text" placeholder="Add follow up..." [formControl]="addFollowUpInput" />
+  </mat-form-field>
+</form>
+
+<span class="follow-up-list-section">
+  <ul>
+    @for (followUpItem of followUpItems(); track followUpItem.id ) {
+    <li class="follow-up-item">
+      <p class="follow-up-item-text mat-display-large">{{followUpItem.details}}</p>
+      <button mat-stroked-button class="convert-btn">Convert</button>
+      <button
+        mat-fab
+        class="tertiary-fab delete-btn"
+        (click)="deleteFollowUp(followUpItem.id)"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </li>
+    } @empty {
+    <li>Nothing to discuss.</li>
+    }
+  </ul>
+</span>

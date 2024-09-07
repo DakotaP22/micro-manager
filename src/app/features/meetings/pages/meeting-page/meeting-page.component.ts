@@ -43,7 +43,43 @@ export class MeetingPageComponent {
 
   discussionItemQuery = injectQuery(() => ({
     queryKey: ['meeting', this.meetingId(), 'discussion-items'],
+    enabled: !!this.meetingId(),
     queryFn: () => this.meetingSvc.getDiscussionItems(this.meetingId()),
+  }));
+
+  followUpItemQuery = injectQuery(() => ({
+    queryKey: ['meeting', this.meetingId(), 'follow-up-items'],
+    enabled: !!this.meetingId(),
+    queryFn: () => {
+      console.log('getting follow up items');
+      return this.meetingSvc.getFollowUpItems(this.meetingId());
+    },
+  }))
+
+  addFollowUpItemMutation = injectMutation((client) => ({
+    mutationFn: (details: string) => this.meetingSvc.createFollowUpItem(this.meetingId(), details),
+    onError: (error) => {
+      console.error('Error creating follow up item', error);
+    },
+    onSuccess: () => {
+      console.log('Follow up item created');
+      client.invalidateQueries({
+        queryKey: ['meeting', this.meetingId(), 'follow-up-items'],
+      });
+    }
+  }));
+
+  deleteFollowUpItemMutation = injectMutation((client) => ({
+    mutationFn: (follow_up_id: string | null) => this.meetingSvc.deleteFollowUpItem(this.meetingId(), follow_up_id),
+    onError: (error) => {
+      console.error('Error deleting follow up item', error);
+    },
+    onSuccess: () => {
+      console.log('Follow up item deleted');
+      client.invalidateQueries({
+        queryKey: ['meeting', this.meetingId(), 'follow-up-items'],
+      });
+    }
   }));
 
   addDiscussionItemMutation = injectMutation((client) => ({
@@ -76,10 +112,6 @@ export class MeetingPageComponent {
       });
     },
   }));
-
-  updateDiscussionItemStatus(discussion_item_id: string, discussed: boolean) {
-    this.updateDiscussionItemMutation.mutate({discussion_item_id, discussed});
-  }
 
   meetingTimesWrapper = computed(() => {
     const meeting = this.meetingQuery.data();
