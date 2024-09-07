@@ -24,7 +24,6 @@ export class FollowUpItemsListComponent {
     event.preventDefault();
 
     const value = this.addFollowUpInput.value;
-    console.log('Adding follow up item:', value);
     if (!!value) {
       this.followUpAdded.emit(value);
     }
@@ -33,7 +32,6 @@ export class FollowUpItemsListComponent {
   }
 
   deleteFollowUp(id: string) {
-    console.log('Deleting follow up item:', id);
     this.deleteFollowUpItem.emit(id);
   }
 

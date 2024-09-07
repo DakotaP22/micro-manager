@@ -38,12 +38,6 @@ export class RegisterComponent {
     betaAccessToken: ['', [Validators.required]],
   });
 
-  constructor() {
-    effect(() => {
-      console.log('User:', this.user());
-    });
-  }
-
   register() {
     const { username, email, password, betaAccessToken } = this.registerForm.value;
     if (!!username && !!email && !!password && !!betaAccessToken) {

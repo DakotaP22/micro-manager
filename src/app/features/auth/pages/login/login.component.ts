@@ -25,11 +25,7 @@ export class LoginComponent {
     password: ['']
   })
 
-  constructor() {
-    effect(() => {
-      console.log('User:', this.user());
-    });
-  }
+
 
 
   signIn() {

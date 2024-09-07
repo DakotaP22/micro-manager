@@ -14,6 +14,7 @@ import { FollowUpItemsListComponent } from '../../components/follow-up-items-lis
 import { MeetingNotesService } from '../../services/meeting-notes.service';
 import { MeetingDiscussionItemsService } from '../../services/meeting-discussion-items.service';
 import { MeetingFollowUpsService } from '../../services/meeting-follow-ups.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-meeting-page',
@@ -41,8 +42,19 @@ export class MeetingPageComponent {
   private discussionItemsSvc = inject(MeetingDiscussionItemsService);
   private followUpsSvc = inject(MeetingFollowUpsService);
   private workbucketSvc = inject(WorkbucketService);
-  meetingId = injectParams('id');
+  private snackbarSvc = inject(MatSnackBar);
 
+  meetingId = injectParams('id');
+  meetingTimesWrapper = computed(() => {
+    const meeting = this.meetingQuery.data();
+
+    return {
+      start: meeting?.startTime,
+      end: meeting?.endTime,
+    };
+  });
+
+  // #region Queries
   meetingQuery = injectQuery(() => ({
     queryKey: ['meeting', this.meetingId()],
     enabled: !!this.meetingId(),
@@ -62,20 +74,6 @@ export class MeetingPageComponent {
     queryFn: () => this.notesSvc.getMeetingNotes(this.meetingId()),
   }));
 
-  updateNotesMutation = injectMutation((client) => ({
-    mutationFn: (notes: string) =>
-      this.notesSvc.updateMeetingNotes(this.meetingId(), notes),
-    onError: (error) => {
-      console.error('Error updating notes', error);
-    },
-    onSuccess: () => {
-      console.log('Notes updated');
-      client.invalidateQueries({
-        queryKey: ['meeting', this.meetingId(), 'notes'],
-      });
-    },
-  }));
-
   discussionItemQuery = injectQuery(() => ({
     queryKey: ['meeting', this.meetingId(), 'discussion-items'],
     enabled: !!this.meetingId(),
@@ -89,15 +87,35 @@ export class MeetingPageComponent {
       return this.followUpsSvc.getFollowUpItems(this.meetingId());
     },
   }));
+  // #endregion
+
+  // #region Mutations
+  updateNotesMutation = injectMutation((client) => ({
+    mutationFn: (notes: string) =>
+      this.notesSvc.updateMeetingNotes(this.meetingId(), notes),
+    onError: (error) =>
+      this.snackbarSvc.open('Error updating notes.', 'Dismiss', {
+        duration: 5000,
+      }),
+    onSuccess: () => {
+      this.snackbarSvc.open('Notes updated.', 'Dismiss', { duration: 3000 });
+      client.invalidateQueries({
+        queryKey: ['meeting', this.meetingId(), 'notes'],
+      });
+    },
+  }));
 
   addFollowUpItemMutation = injectMutation((client) => ({
     mutationFn: (details: string) =>
       this.followUpsSvc.createFollowUpItem(this.meetingId(), details),
-    onError: (error) => {
-      console.error('Error creating follow up item', error);
-    },
+    onError: (error) =>
+      this.snackbarSvc.open('Error creating follow up item.', 'Dismiss', {
+        duration: 5000,
+      }),
     onSuccess: () => {
-      console.log('Follow up item created');
+      this.snackbarSvc.open('Follow up item created.', 'Dismiss', {
+        duration: 3000,
+      });
       client.invalidateQueries({
         queryKey: ['meeting', this.meetingId(), 'follow-up-items'],
       });
@@ -107,11 +125,14 @@ export class MeetingPageComponent {
   deleteFollowUpItemMutation = injectMutation((client) => ({
     mutationFn: (follow_up_id: string | null) =>
       this.followUpsSvc.deleteFollowUpItem(this.meetingId(), follow_up_id),
-    onError: (error) => {
-      console.error('Error deleting follow up item', error);
-    },
+    onError: (error) =>
+      this.snackbarSvc.open('Error deleting follow up item.', 'Dismiss', {
+        duration: 5000,
+      }),
     onSuccess: () => {
-      console.log('Follow up item deleted');
+      this.snackbarSvc.open('Follow up item deleted.', 'Dismiss', {
+        duration: 3000,
+      });
       client.invalidateQueries({
         queryKey: ['meeting', this.meetingId(), 'follow-up-items'],
       });
@@ -125,11 +146,14 @@ export class MeetingPageComponent {
         title
       );
     },
-    onError: (error) => {
-      console.error('Error creating discussion item', error);
-    },
+    onError: (error) =>
+      this.snackbarSvc.open('Error creating discussion item.', 'Dismiss', {
+        duration: 5000,
+      }),
     onSuccess: () => {
-      console.log('Discussion item created');
+      this.snackbarSvc.open('Discussion item created.', 'Dismiss', {
+        duration: 3000,
+      });
       client.invalidateQueries({
         queryKey: ['meeting', this.meetingId(), 'discussion-items'],
       });
@@ -147,23 +171,18 @@ export class MeetingPageComponent {
         value.discussed
       );
     },
-    onError: (error) => {
-      console.error('Error updating discussion item', error);
-    },
+    onError: (error) =>
+      this.snackbarSvc.open('Error updating discussion item.', 'Dismiss', {
+        duration: 5000,
+      }),
     onSuccess: () => {
-      console.log('Discussion item updated');
+      this.snackbarSvc.open('Discussion item updated.', 'Dismiss', {
+        duration: 3000,
+      });
       client.invalidateQueries({
         queryKey: ['meeting', this.meetingId(), 'discussion-items'],
       });
     },
   }));
-
-  meetingTimesWrapper = computed(() => {
-    const meeting = this.meetingQuery.data();
-
-    return {
-      start: meeting?.startTime,
-      end: meeting?.endTime,
-    };
-  });
+  // #endregion
 }

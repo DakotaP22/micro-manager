@@ -94,7 +94,6 @@ export class WorkbucketPageComponent {
   }
 
   onNewMeetingClicked() {
-    console.log('navigating!');
     this.router.navigate(['meetings', 'create'], {
       queryParams: { workbucket: this.workbucketId() },
     });
