@@ -41,6 +41,25 @@ export class MeetingPageComponent {
       this.workbucketSvc.getWorkbucket(this.meetingQuery.data()?.workbucket_id),
   }));
 
+  notesQuery = injectQuery(() => ({
+    queryKey: ['meeting', this.meetingId(), 'notes'],
+    enabled: !!this.meetingId(),
+    queryFn: () => this.meetingSvc.getMeetingNotes(this.meetingId()),
+  }))
+
+  updateNotesMutation= injectMutation((client) => ({
+    mutationFn: (notes: string) => this.meetingSvc.updateMeetingNotes(this.meetingId(), notes),
+    onError: (error) => {
+      console.error('Error updating notes', error);
+    },
+    onSuccess: () => {
+      console.log('Notes updated');
+      client.invalidateQueries({
+        queryKey: ['meeting', this.meetingId(), 'notes'],
+      });
+    },
+  }));
+
   discussionItemQuery = injectQuery(() => ({
     queryKey: ['meeting', this.meetingId(), 'discussion-items'],
     enabled: !!this.meetingId(),
@@ -51,7 +70,6 @@ export class MeetingPageComponent {
     queryKey: ['meeting', this.meetingId(), 'follow-up-items'],
     enabled: !!this.meetingId(),
     queryFn: () => {
-      console.log('getting follow up items');
       return this.meetingSvc.getFollowUpItems(this.meetingId());
     },
   }))

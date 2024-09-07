@@ -21,7 +21,9 @@
 
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start" class="mat-tab-fill-height">
       <mat-tab label="Meeting Notes">
-        <meeting-notes [meetingId]="meetingId()"/>
+        <meeting-notes
+          [notes]="notesQuery.data() ?? ''"
+          (notesUpdated)="updateNotesMutation.mutate($event)"/>
       </mat-tab>
       <mat-tab label="Discussion Items">
         <discussion-items-list

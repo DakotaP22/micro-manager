@@ -70,7 +70,28 @@ export class MeetingService {
     await addDoc(meetingCollection, newMeeting);
   }
 
-  async updateMeetingNotes(meeting_id: string, notes: string): Promise<void> {
+  async getMeetingNotes(meeting_id: string | null): Promise<string> {
+    if (!meeting_id) {
+      throw new Error('Meeting ID is required to get meeting notes');
+    }
+
+    const meetingCollection = collection(this.firestore, 'meetings');
+    const docRef = doc(meetingCollection, meeting_id);
+    const docSnapshot = await getDoc(docRef);
+
+    if (!docSnapshot.exists()) {
+      return '';
+    }
+
+    const meeting = MeetingAdapter.fromFirebaseDto(docSnapshot.id, docSnapshot.data() as MeetingFirebaseDTO);
+    return meeting.notes;
+  }
+
+  async updateMeetingNotes(meeting_id: string | null, notes: string): Promise<void> {
+    if(!meeting_id) {
+      throw new Error('Meeting ID is required to update meeting notes');
+    }
+
     const meetingCollection = collection(this.firestore, 'meetings');
     const docRef = doc(meetingCollection, meeting_id);
     await updateDoc(docRef, { notes });
