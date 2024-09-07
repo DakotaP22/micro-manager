@@ -5,15 +5,15 @@
 } @else {
 
   <div class="heading">
-    <p class="mat-headline-3">{{meetingQuery.data()?.title}}</p>
+    <p class="mat-display-medium">{{meetingQuery.data()?.title}}</p>
 
     @if(workbucketQuery.isLoading()) {
       <p>Loading...</p>
     } @else {
-      <p class="mat-headline-4">{{workbucketQuery.data()?.name}}</p>
+      <p class="mat-title-large">{{workbucketQuery.data()?.name}}</p>
     }
 
-    <p class="mat-headline-6">{{ meetingTimesWrapper() | meetingTimeDisplay}}</p>
+    <p class="mat-title-medium">{{ meetingTimesWrapper() | meetingTimeDisplay}}</p>
   </div>
 
   <div class="content">
