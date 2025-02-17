@@ -1,0 +1,22 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/java-postgres
+{
+	"name": "Angular 18, Firebase Emulators, and Nginx",
+	"dockerFile": "Dockerfile",
+	"context": ".",
+	"workspaceFolder": "/angular-19",
+	"mounts": [
+		"source=angular_node_modules,target=/angular-19/node_modules,type=volume",
+		"source=${localWorkspaceFolder},target=/angular-19,type=bind"
+	],
+	"forwardPorts": [4200, 3000, 9099, 8080],
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"johnpapa.angular-essentials",
+				"infinity1207.angular2-switcher",
+				"formulahendry.auto-close-tag"
+			]
+		}
+	}
+}
