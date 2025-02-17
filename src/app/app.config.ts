@@ -1,10 +1,22 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  provideAppInitializer,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
-import { connectFirestoreEmulator, getFirestore, provideFirestore } from '@angular/fire/firestore';
+import {
+  connectFirestoreEmulator,
+  getFirestore,
+  provideFirestore,
+} from '@angular/fire/firestore';
+import { AuthService } from './feature/auth/auth.service';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { filter, firstValueFrom } from 'rxjs';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +41,13 @@ export const appConfig: ApplicationConfig = {
       const firestore = getFirestore();
       connectFirestoreEmulator(firestore, 'localhost', 8080);
       return firestore;
+    }),
+    provideAppInitializer(async () => {
+      //ensure auth state is settled before app is initialized
+      const authSvc = inject(AuthService);
+      return firstValueFrom(
+        toObservable(authSvc.user).pipe(filter((user) => user !== undefined))
+      );
     }),
   ],
 };
