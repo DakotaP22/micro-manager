@@ -1,13 +1,15 @@
 import { Component, input } from '@angular/core';
 import { WorkItem } from '../../models/WorkItem';
 import { MatTableModule } from '@angular/material/table';
+import { Timestamp } from '@angular/fire/firestore';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'work-item-table',
-  imports: [MatTableModule],
+  imports: [MatTableModule, DatePipe],
   template: `
     <table mat-table [dataSource]="workItems()">
-      <ng-container matColumnDef="Task Name">
+      <ng-container matColumnDef="Work Item Name">
         <th mat-header-cell *matHeaderCellDef>Task Name</th>
         <td mat-cell *matCellDef="let workItem">{{ workItem.name }}</td>
       </ng-container>
@@ -18,6 +20,10 @@ import { MatTableModule } from '@angular/material/table';
       <ng-container matColumnDef="Priority">
         <th mat-header-cell *matHeaderCellDef>Priority</th>
         <td mat-cell *matCellDef="let workItem">{{ workItem.priority }}</td>
+      </ng-container>
+      <ng-container matColumnDef="Due Date">
+        <th mat-header-cell *matHeaderCellDef>Due Date</th>
+        <td mat-cell *matCellDef="let workItem">{{ workItem.dueDate.toDate() | date:'shortDate' }}</td>
       </ng-container>
       <ng-container matColumnDef="Status">
         <th mat-header-cell *matHeaderCellDef>Status</th>
@@ -31,7 +37,7 @@ import { MatTableModule } from '@angular/material/table';
   styles: ``,
 })
 export class WorkItemTableComponent {
-  displayColumns = ['Task Name', 'Complexity', 'Priority', 'Status'];
+  displayColumns = ['Work Item Name', 'Complexity', 'Priority', 'Due Date', 'Status'];
 
   workItems = input.required<WorkItem[]>();
 }
