@@ -4,5 +4,5 @@ import { AuthService } from './auth.service';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const user = inject(AuthService).user;  
-  return !user();
+  return !!user();
 };
