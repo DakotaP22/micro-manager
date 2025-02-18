@@ -4,7 +4,7 @@ import {
   provideAppInitializer,
   provideZoneChangeDetection,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -17,11 +17,13 @@ import {
 import { AuthService } from './feature/auth/auth.service';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, firstValueFrom } from 'rxjs';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
+    provideAnimations(),
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'micro-manager-dp01',
