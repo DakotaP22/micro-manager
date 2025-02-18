@@ -1,11 +1,9 @@
-import { Component, effect, inject, input } from '@angular/core';
-import { rxResource } from '@angular/core/rxjs-interop';
-import { collection, collectionData, Firestore } from '@angular/fire/firestore';
-import { Observable, of } from 'rxjs';
-import { AuthService } from '../../../auth/auth.service';
-import { Workbucket } from '../../models/Workbucket';
-import { WorkbucketDropdownComponent } from '../../components/workbucket-dropdown/workbucket-dropdown.component';
+import { Component, computed, inject, input } from '@angular/core';
+import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../auth/auth.service';
+import { WorkbucketDropdownComponent } from '../../components/workbucket-dropdown/workbucket-dropdown.component';
+import { workbucketsResource } from '../../utils/workbucket.resource';
 
 @Component({
   selector: 'workbucket-page',
@@ -19,20 +17,14 @@ import { Router } from '@angular/router';
   styles: ``
 })
 export class WorkbucketPageComponent {
-  private firestore = inject(Firestore);
-  private router = inject(Router);
-  private user = inject(AuthService).user;
+  private readonly firestore = inject(Firestore);
+  private readonly router = inject(Router);
+  private readonly user = inject(AuthService).user;
+  private readonly userId = computed(() => this.user()?.uid);
+  
   workbucketId = input.required<string>();
   
-  workbuckets = rxResource({
-    request: () => ({ userId: this.user()?.uid }),
-    loader: ({ request }) => {
-      if (!request.userId) return of([]);
-
-      const workbucketCollection = collection(this.firestore, 'USER_DATA', request.userId, 'WORKBUCKETS');
-      return collectionData(workbucketCollection, { idField: 'id' }) as Observable<Workbucket[]>;
-    }
-  })
+  workbuckets = workbucketsResource(this.firestore, this.userId);
 
   onWorkbucketSelect(workbucketId: string) {
     this.router.navigate(['/app', 'workbucket', workbucketId]);
