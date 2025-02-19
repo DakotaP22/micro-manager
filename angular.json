@@ -10,7 +10,8 @@
           "style": "scss",
           "skipTests": true,
           "inlineStyle": true,
-          "inlineTemplate": true
+          "inlineTemplate": true,
+          "prefix": ""
         }
       },
       "root": "",
