@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
   template: `
     <table mat-table [dataSource]="workItems()">
       <ng-container matColumnDef="Work Item Name">
-        <th mat-header-cell *matHeaderCellDef>Task Name</th>
+        <th mat-header-cell *matHeaderCellDef>Work&nbsp;Item&nbsp;Name</th>
         <td mat-cell *matCellDef="let workItem">{{ workItem.name }}</td>
       </ng-container>
       <ng-container matColumnDef="Complexity">
@@ -22,12 +22,12 @@ import { DatePipe } from '@angular/common';
         <td mat-cell *matCellDef="let workItem">{{ workItem.priority }}</td>
       </ng-container>
       <ng-container matColumnDef="Due Date">
-        <th mat-header-cell *matHeaderCellDef>Due Date</th>
+        <th mat-header-cell *matHeaderCellDef>Due&nbsp;Date</th>
         <td mat-cell *matCellDef="let workItem">{{ workItem.dueDate.toDate() | date:'shortDate' }}</td>
       </ng-container>
       <ng-container matColumnDef="Status">
         <th mat-header-cell *matHeaderCellDef>Status</th>
-        <td mat-cell *matCellDef="let workItem">{{ workItem.completed ? 'Complete' : 'Open' }}</td>
+        <td mat-cell *matCellDef="let workItem">{{ workItem.status }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>

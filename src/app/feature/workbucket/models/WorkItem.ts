@@ -7,5 +7,5 @@ export type WorkItemFirebaseDto = {
     complexity: 'High' | 'Medium' | 'Low',
     priority: 'Critical' | 'High' | 'Medium' | 'Low',
     dueDate: Timestamp,
-    completed: boolean,
+    status: 'Complete' | 'Open' | 'In Progress' | 'Backlogged',
 }
