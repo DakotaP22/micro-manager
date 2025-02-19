@@ -1,15 +1,17 @@
-import { Signal } from "@angular/core";
+import { assertInInjectionContext, inject, Signal } from "@angular/core";
 import { rxResource } from "@angular/core/rxjs-interop";
 import { collection, collectionData, Firestore } from "@angular/fire/firestore";
 import { Observable, of } from "rxjs";
 import { WorkItem } from "../models/WorkItem";
 
-export function workItemsResource(
-    firestore: Firestore,
+export function injectWorkItemsResource(
     userIdSignal: Signal<string | undefined>,
     workbucketIdSignal: Signal<string | undefined>
 ) {
-    return rxResource({
+    assertInInjectionContext(injectWorkItemsResource);
+    const firestore = inject(Firestore);
+
+    const resource = rxResource({
         request: () => ({
             userId: userIdSignal(),
             workbucketId: workbucketIdSignal()
@@ -23,4 +25,9 @@ export function workItemsResource(
             return collectionData(workItemCollection, { idField: 'id' }) as Observable<WorkItem[]>;
         }
     })
+
+
+    return {
+        resource,
+    }
 }

@@ -2,12 +2,12 @@ import { Component, computed, inject, input } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
+import { MeetingsOverviewComponent } from '../../components/meetings-overview/meetings-overview.component';
 import { WorkItemTableComponent } from '../../components/work-item-table/work-item-table.component';
 import { WorkbucketDropdownComponent } from '../../components/workbucket-dropdown/workbucket-dropdown.component';
-import { workItemsResource } from '../../utils/work-item.resource';
-import { workbucketsResource } from '../../utils/workbucket.resource';
-import { MeetingsOverviewComponent } from '../../components/meetings-overview/meetings-overview.component';
 import { WorkbucketStatisticsComponent } from '../../components/workbucket-statistics/workbucket-statistics.component';
+import { injectWorkItemsResource } from '../../utils/work-item.resource';
+import { injectWorkbucketsResource } from '../../utils/workbucket.resource';
 
 @Component({
   selector: 'workbucket-page',
@@ -43,14 +43,14 @@ import { WorkbucketStatisticsComponent } from '../../components/workbucket-stati
   template: `
     <workbucket-dropdown
       id="workbucket-dropdown"
-      [workbuckets]="workbuckets.value() ?? []"
+      [workbuckets]="workbuckets.resource.value() ?? []"
       [selectedWorkbucketId]="workbucketId()"
       (workbucketSelect)="onWorkbucketSelect($event)"
     />
 
     <workbucket-statistics
       id="workbucket-statistics"
-      [workItems]="workItems.value() ?? []"
+      [workItems]="workItems.resource.value() ?? []"
     />
 
     <meetings-overview
@@ -60,7 +60,7 @@ import { WorkbucketStatisticsComponent } from '../../components/workbucket-stati
 
     <work-item-table
       id="work-item-table"
-      [workItems]="workItems.value() ?? []"
+      [workItems]="workItems.resource.value() ?? []"
     />
   `,
 })
@@ -72,8 +72,8 @@ export class WorkbucketPageComponent {
 
   workbucketId = input.required<string>();
 
-  workbuckets = workbucketsResource(this.firestore, this.userId);
-  workItems = workItemsResource(this.firestore, this.userId, this.workbucketId);
+  workbuckets = injectWorkbucketsResource(this.userId);
+  workItems = injectWorkItemsResource(this.userId, this.workbucketId);
 
   onWorkbucketSelect(workbucketId: string) {
     this.router.navigate(['/app', 'workbucket', workbucketId]);
