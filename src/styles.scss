@@ -11,12 +11,6 @@
   )
 );
 
-@include mat.select-overrides(
-  (
-    panel-background-color: transparent,
-  )
-);
-
 html,
 body {
   height: 100%;

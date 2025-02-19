@@ -16,7 +16,9 @@ import { Workbucket } from '../../models/Workbucket';
       </mat-select>
     </mat-form-field>
   `,
-  styles: ``,
+  styles: `
+    mat-form-field { width: 100%; }
+  `,
 })
 export class WorkbucketDropdownComponent {
   workbuckets = input.required<Workbucket[]>();
