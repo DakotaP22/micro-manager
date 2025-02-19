@@ -7,10 +7,16 @@ import { WorkbucketDropdownComponent } from '../../components/workbucket-dropdow
 import { workItemsResource } from '../../utils/work-item.resource';
 import { workbucketsResource } from '../../utils/workbucket.resource';
 import { MeetingsOverviewComponent } from '../../components/meetings-overview/meetings-overview.component';
+import { WorkbucketStatisticsComponent } from '../../components/workbucket-statistics/workbucket-statistics.component';
 
 @Component({
   selector: 'workbucket-page',
-  imports: [WorkbucketDropdownComponent, WorkItemTableComponent, MeetingsOverviewComponent],
+  imports: [
+    WorkbucketDropdownComponent,
+    WorkItemTableComponent,
+    MeetingsOverviewComponent,
+    WorkbucketStatisticsComponent,
+  ],
   template: `
     <workbucket-dropdown
       [workbuckets]="workbuckets.value() ?? []"
@@ -18,7 +24,9 @@ import { MeetingsOverviewComponent } from '../../components/meetings-overview/me
       (workbucketSelect)="onWorkbucketSelect($event)"
     />
 
-    <meetings-overview [meetings]="[]"/>
+    <workbucket-statistics [workItems]="workItems.value() ?? []" />
+
+    <meetings-overview [meetings]="[]" />
 
     <work-item-table [workItems]="workItems.value() ?? []" />
   `,
