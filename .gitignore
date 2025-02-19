@@ -45,3 +45,9 @@ Thumbs.db
 .firebase
 *-debug.log
 .runtimeconfig.json
+.firebase-data/firebase-export-metadata.json
+.firebase-data/auth_export/accounts.json
+.firebase-data/auth_export/config.json
+.firebase-data/firestore_export/firestore_export.overall_export_metadata
+.firebase-data/firestore_export/all_namespaces/all_kinds/all_namespaces_all_kinds.export_metadata
+.firebase-data/firestore_export/all_namespaces/all_kinds/output-0
