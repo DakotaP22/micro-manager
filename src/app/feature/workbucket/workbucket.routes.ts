@@ -19,7 +19,7 @@ export const routes: Routes = [
 
             if (!userId) return false;
 
-            const workbucketsCollection = collection(firestore, 'USER_DATA', userId, 'WORKBUCKETS_');
+            const workbucketsCollection = collection(firestore, 'USER_DATA', userId, 'WORKBUCKETS');
             const docsRef = await getDocs(workbucketsCollection);
             
             console.log(docsRef.docs);
