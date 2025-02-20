@@ -29,7 +29,7 @@ export function injectWorkbucketsResource(
 
   return {
     resource,
-    createWorkbucket: (dto: WorkbucketFirebaseDto) => {
+    createWorkbucket: async (dto: WorkbucketFirebaseDto) => {
       const userId = userIdSignal();
       if (!userId) return;
 
@@ -40,8 +40,10 @@ export function injectWorkbucketsResource(
         'WORKBUCKETS'
       );
 
-      addDoc(workbucketCollection, dto);
+      const doc = await addDoc(workbucketCollection, dto);
       resource.reload();
+
+      return doc.id;
     },
   };
 }

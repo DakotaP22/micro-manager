@@ -8,6 +8,8 @@ import { WorkbucketDropdownComponent } from '../../components/workbucket-dropdow
 import { WorkbucketStatisticsComponent } from '../../components/workbucket-statistics/workbucket-statistics.component';
 import { injectWorkItemsResource } from '../../utils/work-item.resource';
 import { injectWorkbucketsResource } from '../../utils/workbucket.resource';
+import { NewWorkbucketDialogComponent } from '../../components/new-workbucket-dialog/new-workbucket-dialog.component';
+import { NewWorkbucketDialogService } from '../../components/new-workbucket-dialog/new-workbucket-dialog.service';
 
 @Component({
   selector: 'workbucket-page',
@@ -17,6 +19,7 @@ import { injectWorkbucketsResource } from '../../utils/workbucket.resource';
     MeetingsOverviewComponent,
     WorkbucketStatisticsComponent,
   ],
+  providers: [NewWorkbucketDialogService],
   styles: `
   :host {
     display: grid;
@@ -46,6 +49,7 @@ import { injectWorkbucketsResource } from '../../utils/workbucket.resource';
       [workbuckets]="workbuckets.resource.value() ?? []"
       [selectedWorkbucketId]="workbucketId()"
       (workbucketSelect)="onWorkbucketSelect($event)"
+      (newWorkbucketTrigger)="onNewWorkbucketTrigger()"
     />
 
     <workbucket-statistics
@@ -65,8 +69,8 @@ import { injectWorkbucketsResource } from '../../utils/workbucket.resource';
   `,
 })
 export class WorkbucketPageComponent {
-  private readonly firestore = inject(Firestore);
   private readonly router = inject(Router);
+  private readonly newWorkbucketDialogSvc = inject(NewWorkbucketDialogService);
   private readonly user = inject(AuthService).user;
   private readonly userId = computed(() => this.user()?.uid);
 
@@ -77,5 +81,11 @@ export class WorkbucketPageComponent {
 
   onWorkbucketSelect(workbucketId: string) {
     this.router.navigate(['/app', 'workbucket', workbucketId]);
+  }
+
+  onNewWorkbucketTrigger() {
+    this.newWorkbucketDialogSvc.openDialog(this.workbuckets.resource.value() ?? [])
+      .then((name: string) => this.workbuckets.createWorkbucket({name}))
+      .then((id) => this.router.navigate(['/app', 'workbucket', id]));
   }
 }
