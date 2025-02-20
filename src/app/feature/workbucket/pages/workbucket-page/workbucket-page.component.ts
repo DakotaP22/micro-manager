@@ -57,10 +57,7 @@ import { NewWorkbucketDialogService } from '../../components/new-workbucket-dial
       [workItems]="workItems.resource.value() ?? []"
     />
 
-    <meetings-overview
-      id="meetings-overview"
-      [meetings]="[]"
-    />
+    <meetings-overview id="meetings-overview" [meetings]="[]" />
 
     <work-item-table
       id="work-item-table"
@@ -82,18 +79,25 @@ export class WorkbucketPageComponent {
   workItems = injectWorkItemsResource(this.userId, this.workbucketId);
 
   onWorkbucketSelect(workbucketId: string) {
-    this.router.navigate(['/app', 'workbucket', workbucketId]);
+    this.router.navigate([workbucketId], {
+      relativeTo: this.activatedRoute,
+    });
   }
 
   onNewWorkbucketTrigger() {
-    this.newWorkbucketDialogSvc.openDialog(this.workbuckets.resource.value() ?? [])
-      .then((name: string) => this.workbuckets.createWorkbucket({name}))
-      .then((id) => this.router.navigate(['/app', 'workbucket', id]));
+    this.newWorkbucketDialogSvc
+      .openDialog(this.workbuckets.resource.value() ?? [])
+      .then((name: string) => this.workbuckets.createWorkbucket({ name }))
+      .then((workbucketId) =>
+        this.router.navigate([workbucketId], {
+          relativeTo: this.activatedRoute,
+        })
+      );
   }
 
   onNewWorkItemTrigger() {
     this.router.navigate(['work-item', 'new'], {
-      relativeTo: this.activatedRoute
-    })
+      relativeTo: this.activatedRoute,
+    });
   }
 }
