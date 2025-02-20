@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable } from '@angular/core';
+import { computed, effect, inject, Injectable, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Auth, signInWithPopup, user, GoogleAuthProvider, browserLocalPersistence } from '@angular/fire/auth';
 
@@ -6,7 +6,8 @@ import { Auth, signInWithPopup, user, GoogleAuthProvider, browserLocalPersistenc
 export class AuthService {
 
     private readonly auth = inject(Auth);
-    user = toSignal(user(this.auth), {initialValue: undefined});
+    user = toSignal(user(this.auth), { initialValue: undefined });
+    userId = computed(() => this.user()?.uid);
     authenticated = computed(() => !!this.user());
 
     authenticateWithGoogle() {
