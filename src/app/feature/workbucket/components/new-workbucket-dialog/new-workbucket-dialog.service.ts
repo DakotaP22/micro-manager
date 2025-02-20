@@ -6,14 +6,16 @@ import { NewWorkbucketDialogComponent } from './new-workbucket-dialog.component'
 
 @Injectable()
 export class NewWorkbucketDialogService {
-    dialog = inject(MatDialog);
+  dialog = inject(MatDialog);
 
-    async openDialog(workbuckets: Workbucket[]) {
-        const dialogRef = this.dialog.open(NewWorkbucketDialogComponent, {
-            data: { workbuckets },
-        });
+  async openDialog(workbuckets: Workbucket[]) {
+    const dialogRef = this.dialog.open(NewWorkbucketDialogComponent, {
+      data: { workbuckets },
+    });
 
-        return lastValueFrom(dialogRef.afterClosed().pipe());
-    }
-    
+    return lastValueFrom(dialogRef.afterClosed().pipe()).then((name) => {
+        if (!name?.length) throw new Error('Dialog Cancelled');
+        else return name;
+    });
+  }
 }
