@@ -1,6 +1,6 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../auth/auth.service';
 import { MeetingsOverviewComponent } from '../../components/meetings-overview/meetings-overview.component';
 import { WorkItemTableComponent } from '../../components/work-item-table/work-item-table.component';
@@ -65,11 +65,13 @@ import { NewWorkbucketDialogService } from '../../components/new-workbucket-dial
     <work-item-table
       id="work-item-table"
       [workItems]="workItems.resource.value() ?? []"
+      (newWorkItemTrigger)="onNewWorkItemTrigger()"
     />
   `,
 })
 export class WorkbucketPageComponent {
   private readonly router = inject(Router);
+  private readonly activatedRoute = inject(ActivatedRoute);
   private readonly newWorkbucketDialogSvc = inject(NewWorkbucketDialogService);
   private readonly user = inject(AuthService).user;
   private readonly userId = computed(() => this.user()?.uid);
@@ -87,5 +89,11 @@ export class WorkbucketPageComponent {
     this.newWorkbucketDialogSvc.openDialog(this.workbuckets.resource.value() ?? [])
       .then((name: string) => this.workbuckets.createWorkbucket({name}))
       .then((id) => this.router.navigate(['/app', 'workbucket', id]));
+  }
+
+  onNewWorkItemTrigger() {
+    this.router.navigate(['work-item', 'new'], {
+      relativeTo: this.activatedRoute
+    })
   }
 }

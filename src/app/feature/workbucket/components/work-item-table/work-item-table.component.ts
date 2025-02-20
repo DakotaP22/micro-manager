@@ -1,13 +1,15 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { WorkItem } from '../../models/WorkItem';
 import { MatTableModule } from '@angular/material/table';
 import { Timestamp } from '@angular/fire/firestore';
 import { DatePipe } from '@angular/common';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'work-item-table',
-  imports: [MatTableModule, DatePipe],
+  imports: [MatTableModule, MatButtonModule, DatePipe],
   template: `
+    <button mat-stroked-button (click)="newWorkItemTrigger.emit()">New Work Item</button>
     <table mat-table [dataSource]="workItems()">
       <ng-container matColumnDef="Work Item Name">
         <th mat-header-cell *matHeaderCellDef>Work&nbsp;Item&nbsp;Name</th>
@@ -38,6 +40,7 @@ import { DatePipe } from '@angular/common';
 })
 export class WorkItemTableComponent {
   displayColumns = ['Work Item Name', 'Complexity', 'Priority', 'Due Date', 'Status'];
-
+  
   workItems = input.required<WorkItem[]>();
+  newWorkItemTrigger = output<void>();
 }

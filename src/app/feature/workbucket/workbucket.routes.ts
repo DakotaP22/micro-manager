@@ -1,13 +1,16 @@
 import { inject } from "@angular/core";
 import { collection, Firestore, getDocs } from "@angular/fire/firestore";
 import { Router, Routes } from "@angular/router";
-import { AppComponent } from "../../app.component";
 import { AuthService } from "../auth/auth.service";
 
 export const routes: Routes = [
     {
         path: ':workbucketId',
         loadComponent: () => import("./pages/workbucket-page/workbucket-page.component").then(m => m.WorkbucketPageComponent)
+    },
+    {
+        path: ':workbucketId/work-item/new',
+        loadComponent: () => import("./pages/new-work-item-page/new-work-item-page.component").then(m => m.NewWorkItemPageComponent)
     },
     {
         path: '',
