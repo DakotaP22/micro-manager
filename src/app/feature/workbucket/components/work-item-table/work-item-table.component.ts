@@ -25,7 +25,7 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
       </ng-container>
       <ng-container matColumnDef="Due Date">
         <th mat-header-cell *matHeaderCellDef>Due&nbsp;Date</th>
-        <td mat-cell *matCellDef="let workItem">{{ workItem.dueDate.toDate() | date:'shortDate' }}</td>
+        <td mat-cell *matCellDef="let workItem">{{ workItem.dateDue.toDate() | date:'shortDate' }}</td>
       </ng-container>
       <ng-container matColumnDef="Status">
         <th mat-header-cell *matHeaderCellDef>Status</th>

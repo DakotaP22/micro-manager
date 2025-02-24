@@ -6,6 +6,9 @@ export type WorkItemFirebaseDto = {
     name: string;
     complexity: 'High' | 'Medium' | 'Low',
     priority: 'Critical' | 'High' | 'Medium' | 'Low',
-    dueDate: Timestamp,
+    hourEstimatedEffort: number;
+    hoursActualEffort: number;
+    dateDue: Timestamp,
+    dateCompleted: Timestamp,
     status: 'Complete' | 'Open' | 'In Progress' | 'Backlogged' | 'Blocked',
 }

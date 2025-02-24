@@ -53,11 +53,11 @@ export class WorkbucketStatisticsComponent {
   openWorkItems = computed(() => this.workItems().filter((workItem: WorkItem) => workItem.status === 'Open').length);
   blockedWorkItems = computed(() => this.workItems().filter((workItem: WorkItem) => workItem.status === 'Blocked').length);
   backloggedWorkItems = computed(() => this.workItems().filter((workItem: WorkItem) => workItem.status === 'Backlogged').length);
-  pastDueWorkItems = computed(() => this.workItems().filter((workItem: WorkItem) => workItem.dueDate.toDate() < new Date()).length);
+  pastDueWorkItems = computed(() => this.workItems().filter((workItem: WorkItem) => workItem.dateDue.toDate() < new Date()).length);
   dueSoonWorkItems = computed(() => this.workItems().filter((workItem: WorkItem) => {
-    const dueDate = workItem.dueDate.toDate();
+    const dateDue = workItem.dateDue.toDate();
     const dueSoonDate = new Date();
     dueSoonDate.setDate(dueSoonDate.getDate() + this.dueSoonOffsetDays);
-    return dueDate >= new Date() && dueDate <= dueSoonDate;
+    return dateDue >= new Date() && dateDue <= dueSoonDate;
   }).length);
 }
