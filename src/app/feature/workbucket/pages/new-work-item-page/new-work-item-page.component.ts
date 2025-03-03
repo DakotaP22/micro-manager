@@ -15,6 +15,10 @@ import { WorkItem } from '../../models/WorkItem';
 export class NewWorkItemPageComponent {
 
   workItem = signal({
+    priority: 'Medium',
+    complexity: 'Medium',
+    hoursEstimatedEffort: 0,
+    hoursActualEffort: 0,
   } as WorkItem);
 
   constructor() {

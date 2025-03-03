@@ -13,7 +13,7 @@ export type WorkItemFirebaseDto = {
     name: string;
     complexity: WorkItemComplexity,
     priority: WorkItemPriority,
-    hourEstimatedEffort: number;
+    hoursEstimatedEffort: number;
     hoursActualEffort: number;
     dateDue: Timestamp,
     dateCompleted?: Timestamp,

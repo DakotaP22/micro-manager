@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   effect,
+  input,
   model,
   signal,
   viewChild,
@@ -75,7 +76,12 @@ export type WorkItemDetailsFormUpdate = {
 
       <mat-form-field appearance="outline">
         <mat-label>Priority</mat-label>
-        <mat-select>
+        <mat-select
+          #priority="ngModel"
+          name="priority"
+          [(ngModel)]="workItem().priority"
+          required  
+        >
           @for(priority of priorities; track priority) {
           <mat-option [value]="priority">{{ priority }}</mat-option>
           }
@@ -84,7 +90,12 @@ export type WorkItemDetailsFormUpdate = {
 
       <mat-form-field appearance="outline">
         <mat-label>Complexity</mat-label>
-        <mat-select>
+        <mat-select
+          #complexity="ngModel"
+          name="complexity"
+          [(ngModel)]="workItem().complexity"
+          required
+        >
           @for(complexity of complexities; track complexity) {
           <mat-option [value]="complexity">{{ complexity }}</mat-option>
           }
@@ -93,17 +104,40 @@ export type WorkItemDetailsFormUpdate = {
 
       <mat-form-field appearance="outline">
         <mat-label>Estimated Effort (hrs)</mat-label>
-        <input matInput type="number" />
+        <input
+          matInput
+          type="number"
+          #hoursEstimatedEffort="ngModel"
+          name="hoursEstimatedEffort"
+          [(ngModel)]="workItem().hoursEstimatedEffort"
+          required
+          min="0"
+        />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Actual Effort (hrs)</mat-label>
-        <input matInput type="number" />
+        <input 
+        matInput 
+        type="number"
+        #hoursActualEffort="ngModel"
+        name="hoursActualEffort"
+        [(ngModel)]="workItem().hoursActualEffort"
+        [required]="requireActualEffort()"
+      />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Due Date</mat-label>
-        <input matInput [matDatepicker]="dueDatePicker" />
+        <input 
+          matInput 
+          [matDatepicker]="dueDatePicker" 
+          #dateDue="ngModel"
+          name="dateDue"
+          [(ngModel)]="workItem().dateDue"
+          required
+          [min]="today"
+        />
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
@@ -114,7 +148,14 @@ export type WorkItemDetailsFormUpdate = {
 
       <mat-form-field appearance="outline">
         <mat-label>Completed On</mat-label>
-        <input matInput [matDatepicker]="completedOnPicker" />
+        <input 
+          matInput 
+          [matDatepicker]="completedOnPicker" 
+          #dateCompleted="ngModel"
+          name="dateCompleted"
+          [(ngModel)]="workItem().dateCompleted"
+          [required]="requireCompletedOnDate()"
+        />
         <mat-hint>MM/DD/YYYY</mat-hint>
         <mat-datepicker-toggle
           matIconSuffix
@@ -130,9 +171,14 @@ export class WorkItemDetailsFormComponent {
   complexities = WORK_ITEM_COMPLEXITIES;
   statuses = WORK_ITEM_STATUSES;
 
+  requireActualEffort = input<boolean>(false);
+  requireCompletedOnDate = input<boolean>(false);
+
   workItem = model.required<WorkItem>();
   workItemForm = viewChild.required<NgForm>('workItemForm');
   valid = model(false);
+
+  today = new Date();
 
   constructor() {
     afterNextRender(() => {
