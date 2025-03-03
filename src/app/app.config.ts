@@ -18,12 +18,14 @@ import { AuthService } from './feature/auth/auth.service';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { filter, firstValueFrom } from 'rxjs';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
     provideAnimations(),
+    provideNativeDateAdapter(),
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'micro-manager-dp01',
