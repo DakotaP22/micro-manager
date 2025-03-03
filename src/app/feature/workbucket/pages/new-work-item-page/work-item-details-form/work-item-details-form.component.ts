@@ -1,12 +1,9 @@
 import {
   afterNextRender,
   Component,
-  computed,
-  effect,
   input,
   model,
-  signal,
-  viewChild,
+  viewChild
 } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -24,9 +21,7 @@ import {
 
 import { Timestamp } from '@angular/fire/firestore';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { toSignal } from '@angular/core/rxjs-interop';
-import { debounceTime, distinctUntilChanged, filter, map, skip } from 'rxjs';
-import { state } from '@angular/animations';
+import { debounceTime, filter, skip } from 'rxjs';
 
 export type WorkItemDetailsFormMode = 'create' | 'edit';
 export type WorkItemDetailsFormUpdate = {
@@ -50,7 +45,8 @@ export type WorkItemDetailsFormUpdate = {
     MatDatepickerModule,
   ],
   styles: `
-    .full-width-field { grid-column: 1 / -1; }
+    .title { grid-column: 1 / 5; }
+    .status { grid-column: 5 / 7; }
     form {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -62,7 +58,7 @@ export type WorkItemDetailsFormUpdate = {
   `,
   template: `
     <form #workItemForm="ngForm">
-      <mat-form-field appearance="outline" class="full-width-field">
+      <mat-form-field appearance="outline" class="title">
         <input
           matInput
           placeholder="Work Item Title..."
@@ -72,6 +68,20 @@ export type WorkItemDetailsFormUpdate = {
           name="name"
           [(ngModel)]="workItem().name"
         />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="status">
+        <mat-label>Status</mat-label>
+        <mat-select
+          #status="ngModel"
+          name="status"
+          [(ngModel)]="workItem().status"
+          required
+        >
+          @for(status of statuses; track status) {
+          <mat-option [value]="status">{{ status }}</mat-option>
+          }
+        </mat-select>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
