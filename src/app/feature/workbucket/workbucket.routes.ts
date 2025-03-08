@@ -25,8 +25,6 @@ export const routes: Routes = [
             const workbucketsCollection = collection(firestore, 'USER_DATA', userId, 'WORKBUCKETS');
             const docsRef = await getDocs(workbucketsCollection);
             
-            console.log(docsRef.docs);
-
             if (docsRef.docs.length === 0) return true;
             else return router.createUrlTree(['/app', 'workbucket', docsRef.docs[0].id]);
         }],

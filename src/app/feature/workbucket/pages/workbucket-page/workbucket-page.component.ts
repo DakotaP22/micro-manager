@@ -79,7 +79,7 @@ export class WorkbucketPageComponent {
   workItems = injectWorkItemsResource(this.userId, this.workbucketId);
 
   onWorkbucketSelect(workbucketId: string) {
-    this.router.navigate([workbucketId], {
+    this.router.navigate(['../', workbucketId], {
       relativeTo: this.activatedRoute,
     });
   }
